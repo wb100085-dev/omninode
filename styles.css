@@ -518,6 +518,7 @@ img { max-width: 100%; }
   background: var(--gradient-glow);
   opacity: 0;
   transition: opacity var(--transition);
+  pointer-events: none;
 }
 
 .service-card:hover {
@@ -594,6 +595,10 @@ img { max-width: 100%; }
 }
 
 .service-card__link {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--indigo);
