@@ -199,24 +199,50 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// ── CONTACT FORM ────────────────────────────
+// ── CONTACT FORM (Formspree) ─────────────────
 const contactForm = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
 
-contactForm.addEventListener('submit', e => {
-  e.preventDefault();
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const action = contactForm.getAttribute('action') || '';
+    if (action.includes('REPLACE_WITH_YOUR_ID')) {
+      alert('문의 전송을 켜려면 Formspree에서 폼을 만든 뒤, index.html의 form action을 발급받은 URL(…/f/xxxx)으로 바꿔주세요.');
+      return;
+    }
 
-  const btn = contactForm.querySelector('button[type="submit"]');
-  btn.textContent = '전송 중...';
-  btn.disabled = true;
+    const btn = contactForm.querySelector('button[type="submit"]');
+    const prevText = btn.textContent;
+    btn.textContent = '전송 중...';
+    btn.disabled = true;
 
-  setTimeout(() => {
-    btn.textContent = '문의 보내기';
-    btn.disabled = false;
-    contactForm.reset();
-    showToast();
-  }, 1200);
-});
+    try {
+      const res = await fetch(action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { Accept: 'application/json' },
+      });
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (_) {}
+
+      if (res.ok) {
+        contactForm.reset();
+        showToast();
+      } else {
+        const msg = (data && data.error) || '전송에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+        alert(msg);
+      }
+    } catch (_) {
+      alert('네트워크 오류로 전송하지 못했습니다.');
+    } finally {
+      btn.textContent = prevText;
+      btn.disabled = false;
+    }
+  });
+}
 
 function showToast() {
   toast.classList.add('show');

@@ -300,36 +300,20 @@
               <rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2.5"/>
               <path d="M10 14H22M10 19H18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
               <path d="M16 8V6M12 8V6M20 8V6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M8 24h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 24v4M20 24v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
           </div>
-          <div class="service-card__tag">Corporate · AI 진단</div>
-          <h3>AI 기업진단</h3>
-          <p>AI 기반 재무·기술 역량 분석으로 기업 현황을 정밀 진단하고 성장 전략을 제언합니다.</p>
+          <div class="service-card__tag">Corporate · B2G</div>
+          <h3>AI 기업진단 · 창업보육기관 성과관리</h3>
+          <p>AI로 기업·입주사 역량을 진단하고, 보육기관 단위 시장성 검증·성과 관리까지 한 흐름으로 제공합니다.</p>
           <ul class="service-card__features">
-            <li>재무 건전성 AI 자동 분석</li>
-            <li>기술 역량 및 사업화 가능성 평가</li>
-            <li>리스크 요인 식별 및 대응 전략</li>
+            <li>재무·기술 역량 AI 진단 및 성장 전략 제언</li>
+            <li>입주기업 일괄 시장성 분석·PoC 연계</li>
+            <li>성과 지표 자동 리포팅 및 컨설팅</li>
+            <li>기관 계약·레퍼런스 구축</li>
           </ul>
-          <a href="service-coming-soon.html?service=ai" class="service-card__link" target="_blank" rel="noopener noreferrer">자세히 알아보기 →</a>
-        </div>
-
-        <div class="service-card">
-          <div class="service-card__icon">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <rect x="4" y="8" width="24" height="18" rx="2" stroke="currentColor" stroke-width="2.5"/>
-              <path d="M10 14H22M10 19H18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-              <path d="M16 8V6M12 8V6M20 8V6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="service-card__tag">B2G · 시장확장기</div>
-          <h3>창업보육기관 성과관리</h3>
-          <p>입주 기업 대상 시장성 검증 컨설팅 및 성과 관리를 기관 단위 계약으로 수행합니다.</p>
-          <ul class="service-card__features">
-            <li>입주기업 일괄 시장성 분석</li>
-            <li>PoC 지원 및 레퍼런스 구축</li>
-            <li>성과 지표 자동 리포팅</li>
-          </ul>
-          <a href="service-coming-soon.html?service=incubator" class="service-card__link" target="_blank" rel="noopener noreferrer">자세히 알아보기 →</a>
+          <a href="service-coming-soon.html?service=corp" class="service-card__link" target="_blank" rel="noopener noreferrer">자세히 알아보기 →</a>
         </div>
 
         <div class="service-card">
@@ -660,6 +644,7 @@
                   <path d="M1.5 6.5l7.5 4.5 7.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
               </span>
+              <span>hys@omninode.kr,</span>
               <span>cwb@omninode.kr</span>
             </div>
             <div class="contact__detail">
@@ -670,7 +655,7 @@
                   <path d="M2 9h14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                 </svg>
               </span>
-              <span>omninode.kr · socialtwin.site</span>
+              <span>socialtwin.site</span>
             </div>
             <div class="contact__detail">
               <span class="detail-icon">
@@ -683,36 +668,36 @@
             </div>
           </div>
         </div>
-        <form class="contact__form" id="contactForm">
+        <form class="contact__form" id="contactForm" action="https://formspree.io/f/REPLACE_WITH_YOUR_ID" method="POST">
+          <input type="hidden" name="_subject" value="㈜옴니노드 홈페이지 문의" />
+          <input type="text" name="_gotcha" class="form__hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="form__row">
             <div class="form__group">
-              <label>이름 *</label>
-              <input type="text" placeholder="홍길동" required />
+              <label for="contactName">이름 *</label>
+              <input id="contactName" name="name" type="text" placeholder="홍길동" required />
             </div>
             <div class="form__group">
-              <label>회사명 *</label>
-              <input type="text" placeholder="회사명" required />
+              <label for="contactCompany">회사명 *</label>
+              <input id="contactCompany" name="company" type="text" placeholder="회사명" required />
             </div>
           </div>
           <div class="form__group">
-            <label>이메일 *</label>
-            <input type="email" placeholder="hello@company.com" required />
+            <label for="contactEmail">이메일 *</label>
+            <input id="contactEmail" name="email" type="email" placeholder="hello@company.com" required />
           </div>
           <div class="form__group">
-            <label>관심 서비스</label>
-            <select>
-              <option value="">서비스를 선택해주세요</option>
-              <option>스타트업 시장성 검증 (B2B)</option>
-              <option>AI 기업진단</option>
-              <option>창업보육기관 성과관리 (B2G)</option>
-              <option>정책 타당성 시뮬레이션 (B2G)</option>
-              <option>선거·정치 여론 분석 (B2P)</option>
-              <option>SocialTwin 데모 신청</option>
+            <label for="contactService">관심 서비스 *</label>
+            <select id="contactService" name="service" required>
+              <option value="">4가지 서비스 중 선택해주세요</option>
+              <option value="스타트업 시장성 검증">스타트업 시장성 검증</option>
+              <option value="AI 기업진단 · 창업보육기관 성과관리">AI 기업진단 · 창업보육기관 성과관리</option>
+              <option value="정책 타당성 시뮬레이션">정책 타당성 시뮬레이션</option>
+              <option value="선거 · 정치 여론 분석">선거 · 정치 여론 분석</option>
             </select>
           </div>
           <div class="form__group">
-            <label>문의 내용 *</label>
-            <textarea rows="4" placeholder="문의 내용을 자유롭게 작성해주세요." required></textarea>
+            <label for="contactMessage">문의 내용 *</label>
+            <textarea id="contactMessage" name="message" rows="4" placeholder="문의 내용을 자유롭게 작성해주세요." required></textarea>
           </div>
           <button type="submit" class="btn btn--primary btn--full">문의 보내기</button>
         </form>
@@ -745,7 +730,7 @@
             <ul>
               <li><a href="#product">SocialTwin</a></li>
               <li><a href="#services">스타트업 시장성 검증</a></li>
-              <li><a href="#services">AI 기업진단</a></li>
+              <li><a href="#services">AI 기업진단 · 창업보육기관 성과관리</a></li>
               <li><a href="#services">정책 여론 시뮬레이션</a></li>
             </ul>
           </div>

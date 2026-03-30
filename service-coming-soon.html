@@ -103,13 +103,9 @@
   </div>
   <script>
     const services = {
-      ai: {
-        title: 'AI 기업진단',
-        desc: 'AI 기반 재무·기술 역량 분석으로 기업 현황을 정밀 진단하고 성장 전략을 제언하는 서비스입니다. 입주·지원 심사와 IR 전 진단 등에 활용할 수 있습니다.'
-      },
-      incubator: {
-        title: '창업보육기관 성과관리',
-        desc: '입주 기업을 대상으로 시장성 검증 컨설팅과 성과 관리를 기관 단위 계약으로 수행합니다. PoC 지원과 성과 지표 리포팅까지 한 번에 다룹니다.'
+      corp: {
+        title: 'AI 기업진단 · 창업보육기관 성과관리',
+        desc: '기업 단위 AI 진단(재무·기술 역량, 성장 전략)과 창업보육기관의 입주기업 시장성 분석·성과 관리·PoC 연계·리포팅을 묶은 통합 서비스입니다. 출시에 맞춰 상세 범위와 과금을 안내할 예정입니다.'
       },
       policy: {
         title: '정책 타당성 시뮬레이션',
@@ -122,7 +118,9 @@
     };
 
     const params = new URLSearchParams(window.location.search);
-    const key = params.get('service') || '';
+    let key = params.get('service') || '';
+    const alias = { ai: 'corp', incubator: 'corp' };
+    if (alias[key]) key = alias[key];
     const info = services[key];
 
     if (info) {
