@@ -4,33 +4,38 @@
 
 // ── NAV SCROLL ──────────────────────────────
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-});
+if (nav) {
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+}
 
 // ── MOBILE MENU ─────────────────────────────
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 
-hamburger.addEventListener('click', () => {
-  const open = mobileMenu.style.display === 'block';
-  mobileMenu.style.display = open ? 'none' : 'block';
-});
-
-mobileMenu.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    mobileMenu.style.display = 'none';
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.style.display === 'block';
+    mobileMenu.style.display = open ? 'none' : 'block';
   });
-});
 
-// ── NETWORK CANVAS ──────────────────────────
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.style.display = 'none';
+    });
+  });
+}
+
+// ── NETWORK CANVAS (메인 히어로에만 존재) ───
 const canvas = document.getElementById('networkCanvas');
-const ctx = canvas.getContext('2d');
+const ctx = canvas ? canvas.getContext('2d') : null;
 
 let nodes = [];
 let animFrameId;
 
 function resizeCanvas() {
+  if (!canvas) return;
   canvas.width  = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
 }
@@ -40,6 +45,7 @@ function randomBetween(min, max) {
 }
 
 function initNodes() {
+  if (!canvas) return;
   const count = Math.floor((canvas.width * canvas.height) / 18000);
   nodes = [];
   for (let i = 0; i < count; i++) {
@@ -54,6 +60,7 @@ function initNodes() {
 }
 
 function drawNetwork() {
+  if (!canvas || !ctx) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw connections
@@ -98,6 +105,7 @@ function drawNetwork() {
 }
 
 function updateNodes() {
+  if (!canvas) return;
   nodes.forEach(n => {
     n.x += n.vx;
     n.y += n.vy;
@@ -112,14 +120,16 @@ function loop() {
   animFrameId = requestAnimationFrame(loop);
 }
 
-window.addEventListener('resize', () => {
+if (canvas && ctx) {
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    initNodes();
+  });
+
   resizeCanvas();
   initNodes();
-});
-
-resizeCanvas();
-initNodes();
-loop();
+  loop();
+}
 
 // ── COUNTER ANIMATION ───────────────────────
 function animateCounter(el) {
@@ -245,6 +255,7 @@ if (contactForm) {
 }
 
 function showToast() {
+  if (!toast) return;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3500);
 }
@@ -253,20 +264,23 @@ function showToast() {
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav__links a');
 
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(sec => {
-    if (window.scrollY >= sec.offsetTop - 120) {
-      current = sec.id;
-    }
-  });
-  navLinks.forEach(link => {
-    link.style.color = '';
-    if (link.getAttribute('href') === `#${current}`) {
-      link.style.color = 'var(--text-primary)';
-    }
-  });
-}, { passive: true });
+if (sections.length && navLinks.length) {
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) {
+        current = sec.id;
+      }
+    });
+    navLinks.forEach(link => {
+      link.style.color = '';
+      const href = link.getAttribute('href') || '';
+      if (href === `#${current}` || href.endsWith(`#${current}`)) {
+        link.style.color = 'var(--text-primary)';
+      }
+    });
+  }, { passive: true });
+}
 
 // ── CURSOR GLOW (desktop only) ───────────────
 if (window.innerWidth > 768) {
