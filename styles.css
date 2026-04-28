@@ -2241,9 +2241,10 @@ body.theme-ssyenc {
   height: calc(100vh - 150px);
 }
 .ss-mp-left h2 {
-  font-size: 4rem;
+  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
   font-weight: 800;
-  margin-bottom: 30px;
+  line-height: 1.25;
+  margin-bottom: 24px;
   color: #fff;
 }
 .ss-mp-left p {
