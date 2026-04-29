@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Post | SocialTwin — ㈜옴니노드</title>
+  <link rel="stylesheet" href="styles.css?v=b1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+
+<body class="theme-ssyenc">
+
+  <!-- NAV -->
+  <nav class="nav ss-nav" id="nav">
+    <div class="nav__inner ss-nav-inner">
+      <a href="index.html" class="nav__logo">
+        <img src="socialtwin_icon.png" class="logo-img" alt="SocialTwin" style="width:30px;height:auto;flex-shrink:0;" />
+        <div class="logo-texts">
+          <span class="logo-product" style="color:var(--indigo);">SocialTwin</span>
+        </div>
+      </a>
+      <ul class="nav__links ss-nav-links">
+        <li><a href="index.html#ss-vision">VISION</a></li>
+        <li><a href="index.html#ss-business">OUR BUSINESS</a></li>
+        <li><a href="index.html#ss-masterpiece">MASTERPIECE</a></li>
+        <li><a href="index.html#ss-news">INSIGHTS</a></li>
+        <li><a href="blog.html" style="color:var(--indigo);">BLOG</a></li>
+      </ul>
+      <a href="index.html#ss-footer" class="ss-nav-btn">CONTACT US</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="mobileMenu" class="nav__mobile" style="display:none;">
+      <ul>
+        <li><a href="index.html#ss-vision">VISION</a></li>
+        <li><a href="index.html#ss-business">OUR BUSINESS</a></li>
+        <li><a href="index.html#ss-masterpiece">MASTERPIECE</a></li>
+        <li><a href="index.html#ss-news">INSIGHTS</a></li>
+        <li><a href="blog.html" style="color:var(--indigo);">BLOG</a></li>
+        <li><a href="index.html#ss-footer">CONTACT US</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Post Hero (filled by JS) -->
+  <section class="blog-post-hero" id="postHero">
+    <div class="container">
+      <a href="blog.html" class="blog-post-back">
+        ← Back to Blog
+      </a>
+      <div id="postHeroContent">
+        <!-- JS fills this -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Post Body -->
+  <section class="blog-post-body">
+    <div class="container">
+      <div class="blog-post-content" id="postContent">
+        <!-- JS fills this -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Prev / Next nav -->
+  <section class="blog-post-nav">
+    <div class="container">
+      <div class="blog-post-nav-inner" id="postNav"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="ss-footer" id="ss-footer">
+    <div class="container">
+      <div class="ss-footer-contact">
+        <div class="ss-fc-left">
+          <h2>PARTNERSHIP<br />&amp; CONTACT</h2>
+          <p>혁신적인 AI 가상 패널 도입, 지금 바로 옴니노드와 상의하십시오.</p>
+          <div class="ss-fc-address">
+            <span>대구광역시 북구 호암로 51 대구창조경제혁신센터 4F</span>
+            <span>E. hys@omninode.kr / cwb@omninode.kr</span>
+          </div>
+        </div>
+        <div class="ss-fc-right">
+          <form class="ss-contact-form" id="contactForm" action="https://formspree.io/f/xwvwokke" method="POST">
+            <input type="text" name="name" placeholder="이름 (Name)" required />
+            <input type="text" name="company" placeholder="소속 (Company/Org)" required />
+            <input type="email" name="email" placeholder="이메일 (Email)" required />
+            <textarea name="message" placeholder="문의 내용 (Message)" rows="3" required></textarea>
+            <button type="submit" class="ss-submit">SEND INQUIRY</button>
+          </form>
+        </div>
+      </div>
+      <div class="ss-footer-bottom">
+        <div class="ss-brand">
+          <img src="이미지/omninode.png" alt="OmniNode" style="height:35px;width:auto;" />
+          <p>Copyright © OmniNode. All rights reserved.</p>
+        </div>
+        <div class="ss-f-links">
+          <a href="#">개인정보처리방침</a>
+          <a href="#">이용약관</a>
+          <div class="ss-social">
+            <a href="#">YT</a>
+            <a href="#">IG</a>
+            <a href="#">FB</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="blog-posts.js"></script>
+  <script>
+    // ── NAV ──────────────────────────────────────
+    const nav = document.getElementById('nav');
+    if (nav) window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mobileMenu.style.display = 'none'; }));
+    }
+
+    // ── GET POSTS ────────────────────────────────
+    function getAllPosts() {
+      const override = localStorage.getItem('omninode_blog_override');
+      if (override) {
+        try {
+          const parsed = JSON.parse(override);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch (e) {}
+      }
+      return window.BLOG_POSTS || [];
+    }
+
+    // ── MARKDOWN → HTML ──────────────────────────
+    function parseMarkdown(md) {
+      if (!md) return '';
+      // Protect code blocks first
+      const codeBlocks = [];
+      let html = md.replace(/```[\s\S]*?```/g, (match) => {
+        codeBlocks.push(match);
+        return `__CODEBLOCK_${codeBlocks.length - 1}__`;
+      });
+
+      // Inline transforms
+      html = html
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        // Restore placeholders check (re-escape needed inside code blocks later)
+        .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
+        .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+        .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+        .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+        .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
+        .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+        .replace(/^\> (.+)$/gm, '<blockquote>$1</blockquote>')
+        .replace(/^---+$/gm, '<hr />')
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;margin:16px 0;display:block;" />')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+      // Lists
+      html = html.replace(/^(- .+)(\n- .+)*/gm, (block) => {
+        const items = block.split('\n').map(line => `<li>${line.replace(/^- /, '')}</li>`).join('');
+        return `<ul>${items}</ul>`;
+      });
+      html = html.replace(/^(\d+\. .+)(\n\d+\. .+)*/gm, (block) => {
+        const items = block.split('\n').map(line => `<li>${line.replace(/^\d+\. /, '')}</li>`).join('');
+        return `<ol>${items}</ol>`;
+      });
+
+      // Paragraphs
+      const blocks = html.split(/\n{2,}/);
+      html = blocks.map(block => {
+        block = block.trim();
+        if (!block) return '';
+        if (/^<(h[1-6]|ul|ol|blockquote|hr|__CODEBLOCK)/.test(block)) return block;
+        return `<p>${block.replace(/\n/g, ' ')}</p>`;
+      }).join('\n');
+
+      // Restore code blocks
+      html = html.replace(/__CODEBLOCK_(\d+)__/g, (_, i) => {
+        const raw = codeBlocks[+i];
+        const inner = raw.replace(/^```[^\n]*\n?/, '').replace(/```$/, '');
+        const escaped = inner.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return `<pre><code>${escaped}</code></pre>`;
+      });
+
+      return html;
+    }
+
+    // ── FORMAT DATE ──────────────────────────────
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // ── RENDER POST ──────────────────────────────
+    function init() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const allPosts = getAllPosts();
+      const post = allPosts.find(p => p.id === id);
+
+      if (!post) {
+        document.getElementById('postHeroContent').innerHTML = `
+          <h1 style="color:#fff; font-size:2rem; margin-bottom:16px;">포스트를 찾을 수 없습니다</h1>
+          <a href="blog.html" style="color:var(--indigo);">← 블로그 목록으로 돌아가기</a>`;
+        return;
+      }
+
+      // Update page title
+      document.title = `${post.title} | SocialTwin Blog`;
+
+      // Hero
+      const tags = (post.tags || []).map(t => `<span class="blog-post-tag">${t.toUpperCase()}</span>`).join('');
+      document.getElementById('postHeroContent').innerHTML = `
+        <div class="blog-post-tags">${tags}</div>
+        <h1 class="blog-post-title">${post.title}</h1>
+        <div class="blog-post-meta">
+          <span>${formatDate(post.date)}</span>
+          ${post.author ? `<span class="blog-post-meta-sep">·</span><span>${post.author}</span>` : ''}
+        </div>`;
+
+      // Content
+      document.getElementById('postContent').innerHTML = post.contentType === 'html'
+        ? (post.content || '')
+        : parseMarkdown(post.content || '');
+
+      // Prev / Next
+      const idx = allPosts.indexOf(post);
+      const prev = allPosts[idx + 1];
+      const next = allPosts[idx - 1];
+      let navHtml = '';
+      if (prev) {
+        navHtml += `<a class="blog-nav-link prev" href="blog-post.html?id=${encodeURIComponent(prev.id)}">
+          <span class="blog-nav-link-label">← Previous</span>
+          <span class="blog-nav-link-title">${prev.title}</span>
+        </a>`;
+      }
+      if (next) {
+        navHtml += `<a class="blog-nav-link next" href="blog-post.html?id=${encodeURIComponent(next.id)}">
+          <span class="blog-nav-link-label">Next →</span>
+          <span class="blog-nav-link-title">${next.title}</span>
+        </a>`;
+      }
+      document.getElementById('postNav').innerHTML = navHtml || `<a href="blog.html" style="color:var(--indigo); font-weight:600;">← 블로그 목록으로</a>`;
+    }
+
+    // ── CONTACT FORM ──────────────────────────────
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = contactForm.querySelector('button[type="submit"]');
+        const prev = btn.textContent;
+        btn.textContent = '전송 중...'; btn.disabled = true;
+        try {
+          const res = await fetch(contactForm.action, { method: 'POST', body: new FormData(contactForm), headers: { Accept: 'application/json' } });
+          if (res.ok) { contactForm.reset(); alert('문의가 전송되었습니다.'); }
+          else alert('전송에 실패했습니다.');
+        } catch { alert('네트워크 오류가 발생했습니다.'); }
+        finally { btn.textContent = prev; btn.disabled = false; }
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>

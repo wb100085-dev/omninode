@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | SocialTwin — ㈜옴니노드</title>
+  <link rel="stylesheet" href="styles.css?v=b1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+
+<body class="theme-ssyenc">
+
+  <!-- NAV -->
+  <nav class="nav ss-nav" id="nav">
+    <div class="nav__inner ss-nav-inner">
+      <a href="index.html" class="nav__logo">
+        <img src="socialtwin_icon.png" class="logo-img" alt="SocialTwin" style="width:30px;height:auto;flex-shrink:0;" />
+        <div class="logo-texts">
+          <span class="logo-product" style="color:var(--indigo);">SocialTwin</span>
+        </div>
+      </a>
+      <ul class="nav__links ss-nav-links">
+        <li><a href="index.html#ss-vision">VISION</a></li>
+        <li><a href="index.html#ss-business">OUR BUSINESS</a></li>
+        <li><a href="index.html#ss-masterpiece">MASTERPIECE</a></li>
+        <li><a href="index.html#ss-news">INSIGHTS</a></li>
+        <li><a href="blog.html" style="color:var(--indigo);">BLOG</a></li>
+      </ul>
+      <a href="index.html#ss-footer" class="ss-nav-btn">CONTACT US</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nav__mobile" style="display:none;">
+      <ul>
+        <li><a href="index.html#ss-vision">VISION</a></li>
+        <li><a href="index.html#ss-business">OUR BUSINESS</a></li>
+        <li><a href="index.html#ss-masterpiece">MASTERPIECE</a></li>
+        <li><a href="index.html#ss-news">INSIGHTS</a></li>
+        <li><a href="blog.html" style="color:var(--indigo);">BLOG</a></li>
+        <li><a href="index.html#ss-footer">CONTACT US</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Blog Hero -->
+  <section class="blog-hero">
+    <div class="container">
+      <p class="blog-hero-eye">OmniNode</p>
+      <h1 class="blog-hero-title">BLOG</h1>
+      <p class="blog-hero-desc">AI 가상 패널 기술, 시장 조사 인사이트, 그리고 OmniNode 팀의 최신 소식을 전합니다.</p>
+    </div>
+  </section>
+
+  <!-- Search & Filter Bar -->
+  <div class="blog-controls">
+    <div class="container">
+      <div class="blog-search-wrap">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="search" id="blogSearch" placeholder="검색..." autocomplete="off" />
+      </div>
+      <div class="blog-tags" id="blogTagsBar">
+        <button class="blog-tag active" data-tag="all">ALL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blog Content -->
+  <section class="blog-section">
+    <div class="container">
+      <div id="blogFeaturedWrap"></div>
+      <div id="blogGrid" class="blog-grid"></div>
+      <div id="blogEmpty" class="blog-empty" style="display:none;">
+        <p>게시물을 찾을 수 없습니다.</p>
+        <span>검색어 또는 태그를 변경해보세요.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="ss-footer" id="ss-footer">
+    <div class="container">
+      <div class="ss-footer-contact">
+        <div class="ss-fc-left">
+          <h2>PARTNERSHIP<br />&amp; CONTACT</h2>
+          <p>혁신적인 AI 가상 패널 도입, 지금 바로 옴니노드와 상의하십시오.</p>
+          <div class="ss-fc-address">
+            <span>대구광역시 북구 호암로 51 대구창조경제혁신센터 4F</span>
+            <span>E. hys@omninode.kr / cwb@omninode.kr</span>
+          </div>
+        </div>
+        <div class="ss-fc-right">
+          <form class="ss-contact-form" id="contactForm" action="https://formspree.io/f/xwvwokke" method="POST">
+            <input type="text" name="name" placeholder="이름 (Name)" required />
+            <input type="text" name="company" placeholder="소속 (Company/Org)" required />
+            <input type="email" name="email" placeholder="이메일 (Email)" required />
+            <textarea name="message" placeholder="문의 내용 (Message)" rows="3" required></textarea>
+            <button type="submit" class="ss-submit">SEND INQUIRY</button>
+          </form>
+        </div>
+      </div>
+      <div class="ss-footer-bottom">
+        <div class="ss-brand">
+          <img src="이미지/omninode.png" alt="OmniNode" style="height:35px;width:auto;" />
+          <p>Copyright © OmniNode. All rights reserved.</p>
+        </div>
+        <div class="ss-f-links">
+          <a href="#">개인정보처리방침</a>
+          <a href="#">이용약관</a>
+          <div class="ss-social">
+            <a href="#">YT</a>
+            <a href="#">IG</a>
+            <a href="#">FB</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><span>✓</span> 문의가 성공적으로 전송되었습니다!</div>
+
+  <script src="blog-posts.js"></script>
+  <script>
+    // ── NAV SCROLL ──────────────────────────────
+    const nav = document.getElementById('nav');
+    if (nav) window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    // ── MOBILE MENU ─────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mobileMenu.style.display = 'none'; }));
+    }
+
+    // ── GET POSTS ────────────────────────────────
+    function getAllPosts() {
+      // Admin override (for preview on admin's device)
+      const override = localStorage.getItem('omninode_blog_override');
+      if (override) {
+        try {
+          const parsed = JSON.parse(override);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch (e) {}
+      }
+      return window.BLOG_POSTS || [];
+    }
+
+    // ── FORMAT DATE ──────────────────────────────
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    // ── RENDER POSTS ────────────────────────────
+    let allPosts = getAllPosts();
+    let activeTag = 'all';
+    let searchQuery = '';
+
+    function buildTags() {
+      const tagsBar = document.getElementById('blogTagsBar');
+      const tagSet = new Set();
+      allPosts.forEach(p => (p.tags || []).forEach(t => tagSet.add(t)));
+      tagSet.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'blog-tag';
+        btn.dataset.tag = tag;
+        btn.textContent = tag.toUpperCase();
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.blog-tag').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeTag = tag;
+          renderPosts();
+        });
+        tagsBar.appendChild(btn);
+      });
+
+      tagsBar.querySelector('[data-tag="all"]').addEventListener('click', function () {
+        document.querySelectorAll('.blog-tag').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        activeTag = 'all';
+        renderPosts();
+      });
+    }
+
+    function filterPosts() {
+      return allPosts.filter(post => {
+        const matchTag = activeTag === 'all' || (post.tags || []).includes(activeTag);
+        const q = searchQuery.trim().toLowerCase();
+        const matchSearch = !q ||
+          (post.title || '').toLowerCase().includes(q) ||
+          (post.excerpt || '').toLowerCase().includes(q) ||
+          (post.tags || []).some(t => t.toLowerCase().includes(q));
+        return matchTag && matchSearch;
+      });
+    }
+
+    function renderPosts() {
+      const filtered = filterPosts();
+      const featuredWrap = document.getElementById('blogFeaturedWrap');
+      const grid = document.getElementById('blogGrid');
+      const empty = document.getElementById('blogEmpty');
+
+      featuredWrap.innerHTML = '';
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+
+      const showFeaturedBig = activeTag === 'all' && !searchQuery;
+      const featured = showFeaturedBig ? filtered.find(p => p.featured) : null;
+
+      if (featured) {
+        featuredWrap.innerHTML = buildFeaturedCard(featured);
+      }
+
+      const gridPosts = featured ? filtered.filter(p => p !== featured) : filtered;
+      gridPosts.forEach(post => {
+        const div = document.createElement('div');
+        div.className = 'blog-card';
+        div.innerHTML = buildCard(post);
+        div.addEventListener('click', () => {
+          window.location.href = `blog-post.html?id=${encodeURIComponent(post.id)}`;
+        });
+        grid.appendChild(div);
+      });
+    }
+
+    function buildFeaturedCard(post) {
+      const tag = (post.tags || [])[0] || '';
+      const imgContent = post.imageUrl
+        ? `<img src="${post.imageUrl}" alt="${post.title}" />`
+        : `<span class="blog-featured-img-placeholder">BLOG</span>`;
+      return `
+        <a class="blog-featured" href="blog-post.html?id=${encodeURIComponent(post.id)}">
+          <div class="blog-featured-img">${imgContent}</div>
+          <div class="blog-featured-body">
+            <div>
+              <div class="blog-featured-label">Featured Post</div>
+              ${tag ? `<span class="blog-featured-tag">${tag.toUpperCase()}</span>` : ''}
+            </div>
+            <h2 class="blog-featured-title">${post.title}</h2>
+            <p class="blog-featured-excerpt">${post.excerpt}</p>
+            <div class="blog-featured-meta">
+              <span>${formatDate(post.date)}</span>
+              ${post.author ? `<span>· ${post.author}</span>` : ''}
+            </div>
+            <span class="blog-featured-read">Read Post →</span>
+          </div>
+        </a>`;
+    }
+
+    function buildCard(post) {
+      const tag = (post.tags || [])[0] || '';
+      const imgContent = post.imageUrl
+        ? `<img src="${post.imageUrl}" alt="${post.title}" />`
+        : `<span class="blog-card-img-placeholder">${(post.title || 'B')[0]}</span>`;
+      return `
+        <div class="blog-card-img">${imgContent}</div>
+        <div class="blog-card-body">
+          ${tag ? `<span class="blog-card-tag">${tag.toUpperCase()}</span>` : ''}
+          <h3 class="blog-card-title">${post.title}</h3>
+          <p class="blog-card-excerpt">${post.excerpt}</p>
+          <div class="blog-card-meta">
+            <span>${formatDate(post.date)}</span>
+            <span class="blog-card-read">Read →</span>
+          </div>
+        </div>`;
+    }
+
+    // ── SEARCH ───────────────────────────────────
+    const searchInput = document.getElementById('blogSearch');
+    let searchTimer;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        searchQuery = searchInput.value;
+        renderPosts();
+      }, 250);
+    });
+
+    // ── CONTACT FORM ──────────────────────────────
+    const contactForm = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = contactForm.querySelector('button[type="submit"]');
+        const prev = btn.textContent;
+        btn.textContent = '전송 중...'; btn.disabled = true;
+        try {
+          const res = await fetch(contactForm.action, { method: 'POST', body: new FormData(contactForm), headers: { Accept: 'application/json' } });
+          if (res.ok) { contactForm.reset(); toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3500); }
+          else alert('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+        } catch { alert('네트워크 오류로 전송하지 못했습니다.'); }
+        finally { btn.textContent = prev; btn.disabled = false; }
+      });
+    }
+
+    // ── INIT ──────────────────────────────────────
+    buildTags();
+    renderPosts();
+  </script>
+</body>
+</html>

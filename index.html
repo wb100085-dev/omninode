@@ -30,11 +30,23 @@
         <li><a href="#ss-business">OUR BUSINESS</a></li>
         <li><a href="#ss-masterpiece">MASTERPIECE</a></li>
         <li><a href="#ss-news">INSIGHTS</a></li>
+        <li><a href="blog.html">BLOG</a></li>
       </ul>
       <a href="#ss-footer" class="ss-nav-btn">CONTACT US</a>
       <button class="nav__hamburger" id="hamburger" aria-label="메뉴 열기">
         <span></span><span></span><span></span>
       </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="nav__mobile" style="display:none;">
+      <ul>
+        <li><a href="#ss-vision">VISION</a></li>
+        <li><a href="#ss-business">OUR BUSINESS</a></li>
+        <li><a href="#ss-masterpiece">MASTERPIECE</a></li>
+        <li><a href="#ss-news">INSIGHTS</a></li>
+        <li><a href="blog.html">BLOG</a></li>
+        <li><a href="#ss-footer">CONTACT US</a></li>
+      </ul>
     </div>
   </nav>
 
@@ -248,7 +260,73 @@
     <span>✓</span> 문의가 성공적으로 전송되었습니다!
   </div>
 
+  <!-- LATEST BLOG POPUP -->
+  <div class="blog-popup-overlay" id="blogPopupOverlay"></div>
+  <div class="blog-popup" id="blogPopup">
+    <div class="blog-popup-header">
+      <div class="blog-popup-header-left">
+        <div>
+          <div class="blog-popup-label">OmniNode Blog</div>
+          <div class="blog-popup-title">최신 포스트</div>
+        </div>
+      </div>
+      <button class="blog-popup-close" id="blogPopupClose" aria-label="닫기">✕</button>
+    </div>
+    <div class="blog-popup-list" id="blogPopupList"></div>
+    <div class="blog-popup-footer">
+      <a href="blog.html" class="blog-popup-cta">블로그 전체 보기 →</a>
+    </div>
+  </div>
+
+  <script src="blog-posts.js"></script>
   <script src="main.js"></script>
+  <script>
+    // ── BLOG POPUP ───────────────────────────────
+    (function () {
+      const SESSION_KEY = 'blog_popup_seen';
+      if (sessionStorage.getItem(SESSION_KEY)) return;
+
+      const overlay = document.getElementById('blogPopupOverlay');
+      const popup = document.getElementById('blogPopup');
+      const list = document.getElementById('blogPopupList');
+
+      function formatDate(dateStr) {
+        if (!dateStr) return '';
+        return new Date(dateStr).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      function buildList() {
+        const posts = (window.BLOG_POSTS || []).slice(0, 3);
+        if (!posts.length) return;
+        list.innerHTML = posts.map(post => {
+          const tag = (post.tags || [])[0] || '';
+          return `
+            <a class="blog-popup-item" href="blog-post.html?id=${encodeURIComponent(post.id)}">
+              ${tag ? `<span class="blog-popup-item-tag">${tag.toUpperCase()}</span>` : ''}
+              <div class="blog-popup-item-title">${post.title}</div>
+              <div class="blog-popup-item-meta">${formatDate(post.date)}${post.author ? ' · ' + post.author : ''}</div>
+            </a>`;
+        }).join('');
+      }
+
+      function openPopup() {
+        buildList();
+        overlay.classList.add('active');
+        popup.classList.add('active');
+      }
+
+      function closePopup() {
+        overlay.classList.remove('active');
+        popup.classList.remove('active');
+        sessionStorage.setItem(SESSION_KEY, '1');
+      }
+
+      document.getElementById('blogPopupClose').addEventListener('click', closePopup);
+      overlay.addEventListener('click', closePopup);
+
+      setTimeout(openPopup, 1800);
+    })();
+  </script>
 </body>
 
 </html>
