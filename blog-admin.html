@@ -54,9 +54,9 @@
         <span class="blog-admin-badge">관리자</span>
       </div>
       <div class="blog-admin-header-right">
-        <span id="fileStatus" style="font-size:0.78rem;color:var(--text-muted);">● 파일 미연결</span>
+        <span id="supabaseStatus" style="font-size:0.78rem;color:var(--text-muted);">● 연결 중...</span>
         <a href="blog.html" target="_blank" class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm">블로그 보기 ↗</a>
-        <button class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" id="exportBtn" title="File System API 미지원 시 수동 다운로드">↓ 다운로드</button>
+        <button class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" id="exportBtn" title="현재 포스트 목록 백업 다운로드">↓ 백업</button>
         <button class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" id="logoutBtn">로그아웃</button>
       </div>
     </div>
@@ -66,9 +66,8 @@
 
       <!-- Info Banner -->
       <div class="blog-admin-export-info">
-        <strong>💾 자동 저장 안내</strong>: <strong>"저장"</strong> 버튼을 누르면 <code style="color:var(--indigo)">blog-posts.js</code> 파일이 자동으로 수정됩니다.
-        처음 한 번만 파일 위치를 지정하면 이후에는 클릭 한 번으로 자동 저장됩니다.
-        브라우저가 지원하지 않으면 <strong>"↓ 다운로드"</strong> 버튼으로 직접 교체하세요.
+        <strong>☁ Supabase 연동</strong>: <strong>"저장"</strong> 버튼을 누르면 <strong>즉시 온라인에 반영</strong>됩니다.
+        파일 교체나 Git push 없이 모든 방문자에게 바로 보입니다. <strong>"↓ 백업"</strong> 버튼으로 로컬 백업 파일을 다운로드할 수 있습니다.
       </div>
 
       <!-- Stats -->
@@ -177,15 +176,14 @@
   <!-- Toast notification -->
   <div id="adminToast" style="position:fixed;bottom:32px;right:32px;background:var(--bg-card);border:1px solid var(--border-soft);border-radius:12px;padding:14px 22px;font-size:0.88rem;font-weight:600;color:var(--text-primary);box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;transform:translateY(20px);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);z-index:9999;max-width:420px;pointer-events:none;"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="blog-posts.js"></script>
   <script>
     // ============================================================
     //  CONFIG — 비밀번호를 변경하려면 아래 값을 수정하세요
     // ============================================================
     const ADMIN_PASSWORD = 'omninode8285'; // ← 이 값을 원하는 비밀번호로 변경
-
-    // File System API handle (세션 내 유지)
-    let blogFileHandle = null;
 
     // 현재 에디터 모드: 'markdown' | 'html'
     let currentContentType = 'markdown';
@@ -200,10 +198,10 @@
       document.getElementById('adminGate').style.display = 'flex';
       document.getElementById('adminDashboard').style.display = 'none';
     }
-    function showDashboard() {
+    async function showDashboard() {
       document.getElementById('adminGate').style.display = 'none';
       document.getElementById('adminDashboard').style.display = 'block';
-      renderDashboard();
+      await renderDashboard();
       setupPasteHandler();
       setupImageInsert();
     }
@@ -226,26 +224,13 @@
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
       setAuth(false);
-      blogFileHandle = null;
-      updateFileStatus(false);
       showGate();
     });
 
     // ============================================================
-    //  DATA
+    //  DATA — Supabase 기반
     // ============================================================
     const STORAGE_KEY = 'omninode_blog_override';
-
-    function loadPosts() {
-      const s = localStorage.getItem(STORAGE_KEY);
-      if (s) { try { const p = JSON.parse(s); if (Array.isArray(p)) return p; } catch(e) {} }
-      return JSON.parse(JSON.stringify(window.BLOG_POSTS || []));
-    }
-
-    function savePosts(posts) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-      updateStats(posts);
-    }
 
     function generateId() {
       const now = new Date();
@@ -253,58 +238,75 @@
       return `post-${d}-${Math.random().toString(36).slice(2,6)}`;
     }
 
-    function generateFileContent(posts) {
-      return `// SocialTwin Blog Posts Data\n// ===========================================\n// 이 파일은 blog-admin.html에서 자동 생성되었습니다.\n// 마지막 업데이트: ${new Date().toLocaleString('ko-KR')}\n\nwindow.BLOG_POSTS = ${JSON.stringify(posts, null, 2)};\n`;
+    // JS post → Supabase DB row
+    function toDB(post) {
+      return {
+        id: post.id,
+        title: post.title || '',
+        excerpt: post.excerpt || '',
+        content: post.content || '',
+        content_type: post.contentType === 'html' ? 'html' : 'markdown',
+        author: post.author || 'OmniNode',
+        date: post.date || null,
+        tags: post.tags || [],
+        image_url: post.imageUrl || '',
+        featured: !!post.featured,
+        updated_at: new Date().toISOString()
+      };
     }
 
-    // ============================================================
-    //  FILE SYSTEM API — 자동 저장
-    // ============================================================
-    function updateFileStatus(connected, name) {
-      const el = document.getElementById('fileStatus');
+    function setSupabaseStatus(state) {
+      const el = document.getElementById('supabaseStatus');
       if (!el) return;
-      el.innerHTML = connected
-        ? `<span style="color:#22c55e;">● ${name} 연결됨</span>`
-        : `<span style="color:var(--text-muted);">● 파일 미연결</span>`;
+      const map = {
+        loading: '<span style="color:var(--text-muted);">● 연결 중...</span>',
+        ok:      '<span style="color:#22c55e;">● Supabase 연결됨</span>',
+        error:   '<span style="color:#ef4444;">● 연결 오류 (로컬 캐시 사용)</span>'
+      };
+      el.innerHTML = map[state] || map.loading;
     }
 
-    async function autoSaveToFile(posts) {
-      if (!window.showSaveFilePicker) {
-        // 브라우저 미지원 → 다운로드 fallback
-        triggerDownload(generateFileContent(posts));
-        return 'downloaded';
-      }
+    async function loadPosts() {
+      setSupabaseStatus('loading');
       try {
-        if (!blogFileHandle) {
-          blogFileHandle = await window.showSaveFilePicker({
-            suggestedName: 'blog-posts.js',
-            types: [{ description: 'JavaScript', accept: { 'text/javascript': ['.js'] } }]
-          });
-        }
-        // 쓰기 권한 확인
-        let perm = await blogFileHandle.queryPermission({ mode: 'readwrite' });
-        if (perm !== 'granted') perm = await blogFileHandle.requestPermission({ mode: 'readwrite' });
-        if (perm !== 'granted') throw new Error('쓰기 권한 없음');
-
-        const w = await blogFileHandle.createWritable();
-        await w.write(generateFileContent(posts));
-        await w.close();
-        updateFileStatus(true, blogFileHandle.name);
-        return 'saved';
+        const { data, error } = await window.getSupabaseClient()
+          .from('blog_posts')
+          .select('*')
+          .order('date', { ascending: false });
+        if (error) throw error;
+        const posts = (data || []).map(window.postFromDB);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+        setSupabaseStatus('ok');
+        return posts;
       } catch (e) {
-        if (e.name === 'AbortError') return 'cancelled';
-        console.error(e);
-        blogFileHandle = null;
-        updateFileStatus(false);
-        return 'error';
+        console.error('loadPosts 실패:', e);
+        setSupabaseStatus('error');
+        const s = localStorage.getItem(STORAGE_KEY);
+        if (s) { try { const p = JSON.parse(s); if (Array.isArray(p)) return p; } catch(e2) {} }
+        return JSON.parse(JSON.stringify(window.BLOG_POSTS || []));
       }
     }
 
-    function triggerDownload(content) {
+    async function upsertPost(post) {
+      const { error } = await window.getSupabaseClient()
+        .from('blog_posts')
+        .upsert(toDB(post), { onConflict: 'id' });
+      if (error) throw error;
+    }
+
+    async function removePost(id) {
+      const { error } = await window.getSupabaseClient()
+        .from('blog_posts')
+        .delete()
+        .eq('id', id);
+      if (error) throw error;
+    }
+
+    function triggerBackupDownload(posts) {
+      const content = `// SocialTwin Blog Posts 백업\n// ${new Date().toLocaleString('ko-KR')}\n\nwindow.BLOG_POSTS = ${JSON.stringify(posts, null, 2)};\n`;
       const blob = new Blob([content], { type: 'application/javascript' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'blog-posts.js'; a.click();
+      const a = document.createElement('a'); a.href = url; a.download = 'blog-posts-backup.js'; a.click();
       URL.revokeObjectURL(url);
     }
 
@@ -314,14 +316,14 @@
     function updateStats(posts) {
       document.getElementById('statTotal').textContent = posts.length;
       document.getElementById('statFeatured').textContent = posts.filter(p => p.featured).length;
-      const isDiff = localStorage.getItem(STORAGE_KEY) !== JSON.stringify(window.BLOG_POSTS || []);
-      const el = document.getElementById('statDraft');
-      el.textContent = isDiff ? '있음' : '없음';
-      el.style.color = isDiff ? 'var(--indigo)' : 'var(--text-muted)';
+      document.getElementById('statDraft').textContent = posts.filter(p => p.contentType === 'html').length || '-';
+      document.getElementById('statDraft').style.color = 'var(--text-muted)';
     }
 
-    function renderDashboard() {
-      const posts = loadPosts();
+    async function renderDashboard() {
+      document.getElementById('postList').innerHTML =
+        `<div style="text-align:center;padding:40px;color:var(--text-muted);">불러오는 중...</div>`;
+      const posts = await loadPosts();
       updateStats(posts);
       renderPostList(posts);
     }
@@ -407,51 +409,47 @@
       if (!excerpt) { alert('요약을 입력해주세요.'); return; }
       if (!content) { alert('본문 내용을 입력해주세요.'); return; }
 
-      const contentType = currentContentType === 'html' ? 'html' : undefined;
-      const posts = loadPosts();
-      if (editId) {
-        const idx = posts.findIndex(p => p.id === editId);
-        if (idx !== -1) {
-          const updated = { ...posts[idx], title, excerpt, content, author, date, tags, imageUrl, featured };
-          if (contentType) updated.contentType = contentType;
-          else delete updated.contentType;
-          posts[idx] = updated;
-        }
-      } else {
-        const newPost = { id: generateId(), title, excerpt, content, author, date, tags, imageUrl, featured };
-        if (contentType) newPost.contentType = contentType;
-        posts.unshift(newPost);
-      }
+      const post = {
+        id: editId || generateId(),
+        title, excerpt, content, author, date, tags, imageUrl, featured
+      };
+      if (currentContentType === 'html') post.contentType = 'html';
 
-      savePosts(posts);
-      renderPostList(posts);
-      closeForm();
-
-      // Auto-save to file
       const btn = document.getElementById('savePostBtn');
       btn.textContent = '저장 중...'; btn.disabled = true;
-      const result = await autoSaveToFile(posts);
-      btn.textContent = '저장'; btn.disabled = false;
-
-      if (result === 'saved') showToast('✅ 저장 완료! blog-posts.js가 자동으로 업데이트되었습니다.');
-      else if (result === 'downloaded') showToast('📥 blog-posts.js 다운로드됨. 기존 파일과 교체해주세요.');
-      else if (result === 'cancelled') showToast('⚠ 파일 지정 취소. localStorage에는 저장되었습니다.');
-      else showToast('⚠ 파일 저장 실패. localStorage에는 저장되었습니다. "↓ 다운로드"를 이용하세요.');
+      try {
+        await upsertPost(post);
+        closeForm();
+        const posts = await loadPosts();
+        renderPostList(posts);
+        updateStats(posts);
+        showToast('✅ 저장 완료! Supabase에 즉시 반영되었습니다.');
+      } catch (e) {
+        showToast('⚠ 저장 실패: ' + (e.message || e));
+      } finally {
+        btn.textContent = '저장'; btn.disabled = false;
+      }
     }
 
     function editPost(id) {
-      const post = loadPosts().find(p => p.id === id);
+      const s = localStorage.getItem(STORAGE_KEY);
+      let posts = [];
+      if (s) { try { posts = JSON.parse(s); } catch(e) {} }
+      const post = posts.find(p => p.id === id);
       if (post) openForm(post);
     }
 
     async function deletePost(id) {
       if (!confirm('이 게시물을 삭제하시겠습니까?')) return;
-      let posts = loadPosts().filter(p => p.id !== id);
-      savePosts(posts);
-      renderPostList(posts);
-      const result = await autoSaveToFile(posts);
-      if (result === 'saved') showToast('✅ 삭제 완료! blog-posts.js가 업데이트되었습니다.');
-      else if (result === 'downloaded') showToast('📥 blog-posts.js 다운로드됨. 기존 파일과 교체해주세요.');
+      try {
+        await removePost(id);
+        const posts = await loadPosts();
+        renderPostList(posts);
+        updateStats(posts);
+        showToast('✅ 삭제 완료! Supabase에서 제거되었습니다.');
+      } catch (e) {
+        showToast('⚠ 삭제 실패: ' + (e.message || e));
+      }
     }
 
     // Toast
@@ -465,11 +463,12 @@
     }
 
     // ============================================================
-    //  EXPORT FALLBACK (header button)
+    //  BACKUP DOWNLOAD (header button)
     // ============================================================
-    document.getElementById('exportBtn').addEventListener('click', () => {
-      triggerDownload(generateFileContent(loadPosts()));
-      showToast('📥 blog-posts.js 다운로드됨. 기존 파일과 교체해주세요.');
+    document.getElementById('exportBtn').addEventListener('click', async () => {
+      const posts = await loadPosts();
+      triggerBackupDownload(posts);
+      showToast('📥 백업 파일이 다운로드되었습니다.');
     });
 
     // ============================================================
@@ -762,12 +761,14 @@
     // ============================================================
     //  INIT
     // ============================================================
-    if (isAuthed()) {
-      showDashboard();
-    } else {
-      showGate();
-      setTimeout(() => document.getElementById('adminPassInput').focus(), 100);
-    }
+    (async function () {
+      if (isAuthed()) {
+        await showDashboard();
+      } else {
+        showGate();
+        setTimeout(() => document.getElementById('adminPassInput').focus(), 100);
+      }
+    })();
   </script>
 </body>
 </html>

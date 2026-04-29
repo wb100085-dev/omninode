@@ -278,11 +278,13 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="blog-posts.js"></script>
   <script src="main.js"></script>
   <script>
     // ── BLOG POPUP ───────────────────────────────
-    (function () {
+    (async function () {
       const SESSION_KEY = 'blog_popup_seen';
       if (sessionStorage.getItem(SESSION_KEY)) return;
 
@@ -295,8 +297,13 @@
         return new Date(dateStr).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
       }
 
-      function buildList() {
-        const posts = (window.BLOG_POSTS || []).slice(0, 3);
+      async function getPosts() {
+        const remote = await window.fetchBlogPosts();
+        if (remote !== null) return remote.slice(0, 3);
+        return (window.BLOG_POSTS || []).slice(0, 3);
+      }
+
+      function buildList(posts) {
         if (!posts.length) return;
         list.innerHTML = posts.map(post => {
           const tag = (post.tags || [])[0] || '';
@@ -310,7 +317,6 @@
       }
 
       function openPopup() {
-        buildList();
         overlay.classList.add('active');
         popup.classList.add('active');
       }
@@ -324,7 +330,10 @@
       document.getElementById('blogPopupClose').addEventListener('click', closePopup);
       overlay.addEventListener('click', closePopup);
 
-      setTimeout(openPopup, 1800);
+      await new Promise(r => setTimeout(r, 1800));
+      const posts = await getPosts();
+      buildList(posts);
+      if (posts.length) openPopup();
     })();
   </script>
 </body>

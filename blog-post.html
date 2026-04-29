@@ -114,6 +114,8 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="blog-posts.js"></script>
   <script>
     // ── NAV ──────────────────────────────────────
@@ -130,7 +132,9 @@
     }
 
     // ── GET POSTS ────────────────────────────────
-    function getAllPosts() {
+    async function getAllPosts() {
+      const remote = await window.fetchBlogPosts();
+      if (remote !== null) return remote;
       const override = localStorage.getItem('omninode_blog_override');
       if (override) {
         try {
@@ -205,10 +209,10 @@
     }
 
     // ── RENDER POST ──────────────────────────────
-    function init() {
+    async function init() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
-      const allPosts = getAllPosts();
+      const allPosts = await getAllPosts();
       const post = allPosts.find(p => p.id === id);
 
       if (!post) {

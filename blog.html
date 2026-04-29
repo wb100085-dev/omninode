@@ -125,6 +125,8 @@
 
   <div class="toast" id="toast"><span>✓</span> 문의가 성공적으로 전송되었습니다!</div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script src="blog-posts.js"></script>
   <script>
     // ── NAV SCROLL ──────────────────────────────
@@ -142,8 +144,11 @@
     }
 
     // ── GET POSTS ────────────────────────────────
-    function getAllPosts() {
-      // Admin override (for preview on admin's device)
+    async function getAllPosts() {
+      // Supabase 우선 조회
+      const remote = await window.fetchBlogPosts();
+      if (remote !== null) return remote;
+      // fallback: localStorage 캐시 → blog-posts.js
       const override = localStorage.getItem('omninode_blog_override');
       if (override) {
         try {
@@ -162,7 +167,7 @@
     }
 
     // ── RENDER POSTS ────────────────────────────
-    let allPosts = getAllPosts();
+    let allPosts = [];
     let activeTag = 'all';
     let searchQuery = '';
 
@@ -310,8 +315,11 @@
     }
 
     // ── INIT ──────────────────────────────────────
-    buildTags();
-    renderPosts();
+    (async function () {
+      allPosts = await getAllPosts();
+      buildTags();
+      renderPosts();
+    })();
   </script>
 </body>
 </html>
