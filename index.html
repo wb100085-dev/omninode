@@ -1,341 +1,524 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html lang="ko" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SocialTwin | ㈜옴니노드 — AI 가상패널 솔루션</title>
-  <link rel="stylesheet" href="styles.css?v=s1" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SocialTwin | ㈜옴니노드 — AI 가상패널 솔루션</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
 </head>
+<body>
 
-<body class="theme-ssyenc">
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+<div class="scroll-prog" id="scrollProg"></div>
 
-  <!-- NAV -->
-  <nav class="nav ss-nav" id="nav">
-    <div class="nav__inner ss-nav-inner">
-      <a href="index.html" class="nav__logo">
-        <img src="socialtwin_icon.png" class="logo-img" alt="SocialTwin"
-          style="width:30px;height:auto;flex-shrink:0;" />
-        <div class="logo-texts">
-          <span class="logo-product" style="color:var(--indigo);">SocialTwin</span>
-        </div>
-      </a>
-      <ul class="nav__links ss-nav-links">
-        <li><a href="#ss-vision">VISION</a></li>
-        <li><a href="#ss-business">OUR BUSINESS</a></li>
-        <li><a href="#ss-masterpiece">MASTERPIECE</a></li>
-        <li><a href="#ss-news">INSIGHTS</a></li>
-        <li><a href="blog.html">BLOG</a></li>
-      </ul>
-      <a href="#ss-footer" class="ss-nav-btn">CONTACT US</a>
-      <button class="nav__hamburger" id="hamburger" aria-label="메뉴 열기">
-        <span></span><span></span><span></span>
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html">
+      <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#ss-vision">VISION</a>
+      <a href="#ss-business">OUR BUSINESS</a>
+      <a href="#ss-masterpiece">MASTERPIECE</a>
+      <a href="#ss-news">INSIGHTS</a>
+      <a href="blog.html">BLOG</a>
+    </div>
+    <div class="nav-cta">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
       </button>
+      <button class="icon-btn mob-btn" id="hamburger" aria-label="메뉴">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="btn btn-primary" href="#ss-footer">문의하기 <span class="arrow">→</span></a>
     </div>
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="nav__mobile" style="display:none;">
-      <ul>
-        <li><a href="#ss-vision">VISION</a></li>
-        <li><a href="#ss-business">OUR BUSINESS</a></li>
-        <li><a href="#ss-masterpiece">MASTERPIECE</a></li>
-        <li><a href="#ss-news">INSIGHTS</a></li>
-        <li><a href="blog.html">BLOG</a></li>
-        <li><a href="#ss-footer">CONTACT US</a></li>
-      </ul>
-    </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- SSYENC HERO -->
-  <section class="ss-hero" id="hero">
-    <div class="ss-hero-bg">
-      <canvas id="networkCanvas"></canvas>
-      <div class="ss-hero-overlay"></div>
-    </div>
-    <div class="ss-hero-content container">
-      <p class="ss-hero-subtitle">FOR THE BEST SIMULATION</p>
-      <h1 class="ss-hero-title">
-        SOCIAL<br />TWIN
-      </h1>
-      <div class="ss-hero-news">
-        <div class="ss-news-item">
-          <strong>현실은 단 한 번, 시뮬레이션은 수만 번</strong>
-          <p>AI 가상 패널이 이끄는 완벽한 시장성 검증 프로세스</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Mobile Drawer -->
+<div class="mob-drawer" id="mobDrawer">
+  <a href="#ss-vision">VISION</a>
+  <a href="#ss-business">OUR BUSINESS</a>
+  <a href="#ss-masterpiece">MASTERPIECE</a>
+  <a href="#ss-news">INSIGHTS</a>
+  <a href="blog.html">BLOG</a>
+  <a href="#ss-footer" class="mob-cta-link">문의하기 →</a>
+</div>
 
-  <!-- BEYOND PROUD -> VIRTUAL SOCIETY -->
-  <section class="ss-vision" id="ss-vision">
-    <div class="container">
-      <div class="ss-section-header">
-        <h2 class="ss-big-title">VIRTUAL SOCIETY</h2>
-        <div class="ss-title-line"></div>
-      </div>
-      <div class="ss-vision-grid">
-        <div class="ss-vision-card">
-          <div class="ss-vision-text">
-            <h3>통계 인구 구조 완벽 복제<br />디지털 트윈 사회</h3>
-            <p>CA-IPF, PGM모집단 설계 기술로 실제와 동일한 대한민국을 가상 공간에 세웁니다.</p>
-          </div>
-          <div class="ss-vision-stat">
-            <span class="ss-stat-num gradient-text">전국 52만명(1/100)</span>
-            <span class="ss-stat-label">시뮬레이션 인구</span>
-          </div>
-        </div>
-        <div class="ss-vision-card">
-          <div class="ss-vision-text">
-            <h3>의식적 편향 없는<br />진정한 시장의 소리</h3>
-            <p>원하는 타겟 페르소나를 무한정 생성하여 정량, 정성 조사를 실시간 실행합니다.</p>
-          </div>
-          <div class="ss-vision-stat">
-            <span class="ss-stat-num gradient-text">90%</span>
-            <span class="ss-stat-label">통계 정합성</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Keyboard hint -->
+<div class="kbd-hint" id="kbdHint">
+  <kbd>T</kbd> 테마 전환 · <kbd>B</kbd> 블로그
+</div>
 
-  <!-- OUR BUSINESS -> 4대 서비스 (Vertical Layout) -->
-  <section class="ss-business" id="ss-business">
-    <div class="ss-business-header container">
-      <h2>OUR BUSINESS</h2>
-    </div>
-    <div class="ss-business-panels">
-      <div class="ss-b-panel">
-        <div class="ss-b-bg" style="background: linear-gradient(to top, rgba(8,12,20,1) 0%, rgba(8,12,20,0.55) 100%), url('이미지/1. B2B.png') center/cover no-repeat;"></div>
-        <div class="ss-b-content">
-          <h3>B2B 스타트업</h3>
-          <p>예산 집행 전 시장 반응 분석<br />PMF (Product-Market Fit) 검증</p>
-          <a href="socialtwin-detail.html#technology" class="ss-b-link" target="_blank" rel="noopener noreferrer">View
-            More</a>
+<!-- ============== HERO ============== -->
+<section class="hero hero-split" id="hero" data-screen-label="01 Hero">
+  <div class="hero-bg">
+    <div class="grid-bg"></div>
+    <div class="particles" id="particles"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <!-- LEFT: Text -->
+      <div class="hero-left">
+        <div class="hero-tag reveal"><span class="dot"></span><span>OMNINODE · AI Virtual Panel Solution</span></div>
+        <h1 class="hero-title reveal d1">
+          <span class="rotating"><ul><li>더 빠르고,</li><li>더 정확하고,</li><li>더 저렴하게</li></ul></span><br/>
+          <span class="highlight-pen">소비자 시뮬레이션</span>의<br/>
+          새로운 기준 <span class="accent">SocialTwin</span>
+        </h1>
+        <p class="hero-sub reveal d2">
+          AI 가상 패널이 수만 명의 응답자를 시뮬레이션합니다.<br/>
+          현실은 단 한 번, 시뮬레이션은 수만 번 — 완벽한 시장성 검증 프로세스.
+        </p>
+        <div class="hero-ctas reveal d3">
+          <a class="btn btn-primary" href="#ss-footer">무료 데모 신청 <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="#ss-masterpiece">핵심 기술 보기</a>
+        </div>
+        <div class="hero-stats reveal d4">
+          <div class="hero-stat"><div class="num"><span data-count="520000">52</span><span class="sym">만명</span></div><div class="lbl">시뮬레이션 가상 인구</div></div>
+          <div class="hero-stat"><div class="num"><span data-count="90">95</span><span class="sym">%</span></div><div class="lbl">통계 정합성 (Spearman)</div></div>
+          <div class="hero-stat"><div class="num"><span data-count="95">90</span><span class="sym">%</span></div><div class="lbl">인간 응답 일치율 (SSR)</div></div>
         </div>
       </div>
-      <div class="ss-b-panel">
-        <div class="ss-b-bg" style="background: linear-gradient(to top, rgba(13,22,40,1) 0%, rgba(13,22,40,0.55) 100%), url('이미지/2. B2G.png') center/cover no-repeat;"></div>
-        <div class="ss-b-content">
-          <h3 style="display:flex; align-items:center; word-break:keep-all;">B2G 창업보육 <span style="background:var(--indigo); color:#fff; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-left:8px; font-weight:600; letter-spacing:1px; white-space:nowrap; flex-shrink:0;">출시예정</span></h3>
-          <p>AI 기반 기술·재무 기업 진단<br />전체 입주사 성과 자동 관리</p>
-          <a href="service-coming-soon.html?service=corp" class="ss-b-link" target="_blank"
-            rel="noopener noreferrer">View More</a>
-        </div>
-      </div>
-      <div class="ss-b-panel">
-        <div class="ss-b-bg" style="background: linear-gradient(to top, rgba(29,48,96,1) 0%, rgba(29,48,96,0.55) 100%), url('이미지/3. B2G.png') center/cover no-repeat;"></div>
-        <div class="ss-b-content">
-          <h3 style="display:flex; align-items:center; word-break:keep-all;">B2G 지자체·정부 <span style="background:var(--indigo); color:#fff; padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-left:8px; font-weight:600; letter-spacing:1px; white-space:nowrap; flex-shrink:0;">출시예정</span></h3>
-          <p>정책 타당성 사전 시뮬레이션<br />지역별 코호트 분석 및 리포팅</p>
-          <a href="service-coming-soon.html?service=policy" class="ss-b-link" target="_blank"
-            rel="noopener noreferrer">View More</a>
-        </div>
-      </div>
-      <div class="ss-b-panel">
-        <div class="ss-b-bg" style="background: linear-gradient(to top, rgba(232,105,42,1) 0%, rgba(232,105,42,0.65) 100%), url('이미지/4. B2P.png') center/cover no-repeat;"></div>
-        <div class="ss-b-content" style="color:#fff;">
-          <h3 style="color:#fff; display:flex; align-items:center; word-break:keep-all;">B2P 선거·정치 <span style="background:#fff; color:var(--indigo); padding:2px 6px; border-radius:4px; font-size:0.65rem; margin-left:8px; font-weight:800; letter-spacing:1px; white-space:nowrap; flex-shrink:0;">출시예정</span></h3>
-          <p style="color:rgba(255,255,255,0.8);">가상 투표 확률 시뮬레이션<br />투표자 계층별 감성 심층 분석</p>
-          <a href="service-coming-soon.html?service=election" class="ss-b-link" style="border-color:#fff; color:#fff;"
-            target="_blank" rel="noopener noreferrer">View More</a>
+      <!-- RIGHT: Visual -->
+      <div class="hero-right reveal d2">
+        <div class="hero-visual-wrap">
+          <div class="hero-glow"></div>
+          <div class="hero-mockup" id="heroMockup">
+            <img src="이미지/main.png" alt="SocialTwin 대시보드" loading="eager" />
+          </div>
+          <div class="hero-float-badge">
+            <span class="dot"></span>실시간 분석 중
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <span class="line"></span>
+  </div>
+</section>
 
-  <!-- 3대 핵심 기술 -> CORE SOLUTIONS -->
-  <section class="ss-masterpiece" id="ss-masterpiece">
-    <div class="container ss-masterpiece-container">
-      <div class="ss-mp-left">
-        <h2 style="font-size:3rem; word-break:keep-all;">3대 핵심 기술</h2>
-        <p>전 세계를 무대로, 시뮬레이션 그 이상의 가치를 실현해갑니다</p>
-      </div>
-      <div class="ss-mp-right">
+<!-- ============== VIRTUAL SOCIETY ============== -->
+<section class="vision-section" id="ss-vision">
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">01 · Virtual Society</span></div>
+    <h2 class="h-section reveal d1">살아있는 가상 사회를<br/>구축합니다.</h2>
+    <p class="lead reveal d2">CA-IPF, PGM 모집단 설계 기술로 실제와 동일한 대한민국을 가상 공간에 세웁니다.<br/>원하는 타겟 페르소나를 무한정 생성해 정량·정성 조사를 실시간 실행합니다.</p>
 
-        <div class="ss-mp-item">
-          <div class="ss-mp-info">
-            <h4>01. Digital Twin Society [현실성]</h4>
-            <p>IPF(반복 비례 가중법), PGM(확률 그래프 모델)로 대한민국 인구 구조를 완벽히 복제. 통계청 데이터 실시간 연동으로 특정 지역·코호트 패널을 즉시 생성합니다.</p>
-            <span style="color:var(--indigo); font-weight:700;">#IPF 확률 행렬 #통계청 연동</span>
-          </div>
+    <div class="vision-grid">
+      <div class="vision-card reveal d1" data-cursor>
+        <div class="v-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><circle cx="5" cy="15" r="2.5"/><path d="M1 20c0-2.5 1.8-4 4-4"/><circle cx="19" cy="15" r="2.5"/><path d="M23 20c0-2.5-1.8-4-4-4"/></svg>
         </div>
-
-        <div class="ss-mp-item">
-          <div class="ss-mp-info">
-            <h4>02. Memory Stream AI [유사성]</h4>
-            <p>메모리스트림 기술로 가상 패널이 맥락 기반의 일관된 반응을 보이도록 구현. 인간의 무의식적 '느낌'을 AI로 정밀 추론합니다.</p>
-            <span style="color:var(--cyan); font-weight:700;">#Memory Stream #SSE 방법론</span>
-          </div>
+        <div class="feat-num">DIGITAL TWIN SOCIETY</div>
+        <h3>통계 인구 구조 완벽 복제<br/>디지털 트윈 사회</h3>
+        <p>IPF(반복 비례 가중법), PGM(확률 그래프 모델)로 대한민국 인구 구조를 완벽히 복제. 통계청 데이터 실시간 연동으로 특정 지역·코호트 패널을 즉시 생성합니다.</p>
+        <div class="vision-stat">
+          <div class="v">전국 52만명</div>
+          <div class="l">시뮬레이션 인구 (1/100 축척)</div>
         </div>
+      </div>
 
-        <div class="ss-mp-item">
-          <div class="ss-mp-info">
-            <h4>03. Statistical Certainty [재현성]</h4>
-            <p>수만 번의 반복 시뮬레이션으로 통계적 확실성 확보. RSS 방법론으로 Spearman Similarity 90% 이상의 정합성을 목표합니다.</p>
-            <span style="color:var(--indigo); font-weight:700;">#RSS 방법론 #Spearman 90%+</span>
-          </div>
+      <div class="vision-card reveal d2" data-cursor>
+        <div class="v-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- NEWS -> INSIGHTS & STRATEGY -->
-  <section class="ss-news" id="ss-news">
-    <div class="container">
-      <div class="ss-section-header">
-        <h2 class="ss-big-title" style="font-size:3rem;">CHALLENGES & STRATEGY</h2>
-      </div>
-      <div class="ss-news-grid">
-        <a href="#" class="ss-news-card">
-          <div class="ss-nc-tag">Pain Point Solution</div>
-          <h4>비용과 시간의 획기적 단축</h4>
-          <p>월등히 낮은 비용으로 수만 명 대상 조사를 즉시 실행하여 '고비용·장기간' 문제 해소</p>
-          <span class="ss-nc-date">SocialTwin Insight</span>
-        </a>
-        <a href="#" class="ss-news-card">
-          <div class="ss-nc-tag">Data Reliability</div>
-          <h4>의식적 편향이 배제된 진실한 데이터</h4>
-          <p>조사 시 가짜 답변을 하려는 사람의 심리를 AI 알고리즘으로 회피해 정확한 응답 수집</p>
-          <span class="ss-nc-date">SocialTwin Insight</span>
-        </a>
-        <a href="#" class="ss-news-card">
-          <div class="ss-nc-tag">Market Strategy</div>
-          <h4>시장 확장 마일스톤 공개</h4>
-          <p>기업 B2B 시장부터 공공 B2G, 최종적으로 선거/정치 시장(B2P)까지 순차적 점유 라인업</p>
-          <span class="ss-nc-date">OmniNode Corp</span>
-        </a>
+        <div class="feat-num">UNBIASED RESPONSES</div>
+        <h3>의식적 편향 없는<br/>진정한 시장의 소리</h3>
+        <p>원하는 타겟 페르소나를 무한정 생성하여 정량·정성 조사를 실시간 실행합니다. 조사자의 사전 편향 없이 순수한 소비자 인사이트를 수집합니다.</p>
+        <div class="vision-stat">
+          <div class="v">90%</div>
+          <div class="l">통계 정합성 (Spearman Similarity)</div>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER & CONTACT -->
-  <footer class="ss-footer" id="ss-footer">
-    <div class="container">
-      <div class="ss-footer-contact">
-        <div class="ss-fc-left">
-          <h2>PARTNERSHIP<br />& CONTACT</h2>
-          <p>혁신적인 AI 가상 패널 도입, 지금 바로 옴니노드와 상의하십시오.</p>
-          <div class="ss-fc-address">
-            <span>대구광역시 북구 호암로 51 대구창조경제혁신센터 4F</span>
-            <span>E. hys@omninode.kr / cwb@omninode.kr</span>
-          </div>
-        </div>
-        <div class="ss-fc-right">
-          <form class="ss-contact-form" id="contactForm" action="https://formspree.io/f/xwvwokke" method="POST">
-            <input type="text" name="name" placeholder="이름 (Name)" required />
-            <input type="text" name="company" placeholder="소속 (Company/Org)" required />
-            <input type="email" name="email" placeholder="이메일 (Email)" required />
-            <textarea name="message" placeholder="문의 내용 (Message)" rows="3" required></textarea>
-            <button type="submit" class="ss-submit">SEND INQUIRY</button>
-          </form>
+<!-- ============== OUR BUSINESS ============== -->
+<section class="biz-section" id="ss-business">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="reveal eyebrow-w"><span class="eyebrow">02 · Our Business</span></div>
+    <h2 class="h-section reveal d1">시장을 검증하는<br/>4가지 방법.</h2>
+    <p class="lead reveal d2">스타트업부터 정부기관까지, 모든 의사결정 현장에 최적화된 시뮬레이션 솔루션을 제공합니다.</p>
+
+    <div class="biz-grid">
+      <div class="biz-card reveal d1" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(8,12,20,0.72) 0%,rgba(8,12,20,0.08) 100%),url('이미지/1. B2B.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">01 · B2B</div>
+          <div class="biz-title">스타트업 · 중소기업</div>
+          <p class="biz-desc">예산 집행 전 시장 반응 분석<br/>PMF (Product-Market Fit) 검증</p>
+          <a href="socialtwin-detail.html#technology" class="biz-link" target="_blank" rel="noopener">View More →</a>
         </div>
       </div>
 
-      <div class="ss-footer-bottom">
-        <div class="ss-brand">
-          <img src="이미지/omninode.png" alt="OmniNode" style="height:35px; width:auto;" />
-          <p>Copyright © OmniNode. All rights reserved.</p>
+      <div class="biz-card reveal d2" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(13,22,40,0.72) 0%,rgba(13,22,40,0.08) 100%),url('이미지/2. B2G.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">02 · B2G</div>
+          <div class="biz-title">창업보육 <span class="biz-badge">출시예정</span></div>
+          <p class="biz-desc">AI 기반 기술·재무 기업 진단<br/>전체 입주사 성과 자동 관리</p>
+          <a href="service-coming-soon.html?service=corp" class="biz-link" target="_blank" rel="noopener">View More →</a>
         </div>
-        <div class="ss-f-links">
-          <a href="#">개인정보처리방침</a>
-          <a href="#">이용약관</a>
-          <a href="#">사이버 감사실</a>
-          <div class="ss-social">
-            <a href="#">YT</a>
-            <a href="#">IG</a>
-            <a href="#">FB</a>
+      </div>
+
+      <div class="biz-card reveal d3" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(29,48,96,0.72) 0%,rgba(29,48,96,0.08) 100%),url('이미지/3. B2G.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">03 · B2G</div>
+          <div class="biz-title">지자체 · 정부 <span class="biz-badge">출시예정</span></div>
+          <p class="biz-desc">정책 타당성 사전 시뮬레이션<br/>지역별 코호트 분석 및 리포팅</p>
+          <a href="service-coming-soon.html?service=policy" class="biz-link" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+
+      <div class="biz-card reveal d4" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(180,70,20,0.45) 0%,rgba(220,109,38,0.0) 100%),url('이미지/4. B2P.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">04 · B2P</div>
+          <div class="biz-title">선거 · 정치 <span class="biz-badge wh">출시예정</span></div>
+          <p class="biz-desc">가상 투표 확률 시뮬레이션<br/>투표자 계층별 감성 심층 분석</p>
+          <a href="service-coming-soon.html?service=election" class="biz-link" style="border-color:rgba(255,255,255,.3);" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 3대 핵심 기술 ============== -->
+<section class="tech" id="ss-masterpiece">
+  <div class="wrap">
+    <div class="tech-head">
+      <div>
+        <div class="reveal eyebrow-w"><span class="eyebrow">03 · Core Technology</span></div>
+        <h2 class="h-section reveal d1">리서치 산업의 세 가지 난제를<br/>동시에 해결합니다.</h2>
+      </div>
+      <p class="lead reveal d2">전 세계를 무대로, 시뮬레이션 그 이상의 가치를 실현해갑니다.<br> 국제 학회 논문에서 검증된 방법론 기반으로<br> <strong style="color:var(--orange);">현실성·유사성·재현성</strong>을 달성합니다.</p>
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-card reveal d1" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <circle cx="32" cy="32" r="28"/>
+          <circle cx="32" cy="32" r="20"/>
+          <circle cx="32" cy="32" r="12"/>
+          <circle cx="32" cy="32" r="4" fill="currentColor"/>
+        </svg>
+        <div class="num">TECHNOLOGY · 01</div>
+        <div class="ko">현실성</div>
+        <div class="en">Digital Twin Society</div>
+        <div class="quote">"살아있는 가상 사회를 구축한다"</div>
+        <p class="body">IPF(반복 비례 가중법), PGM(확률 그래프 모델)로 대한민국 인구 구조를 완벽히 복제. 통계청 데이터 실시간 연동으로 특정 지역·코호트 패널을 즉시 생성합니다.</p>
+        <div class="badge"><span class="dot"></span>#CA-IPF 확률 행렬 #PGM 확률 모델 #통계청 연동</div>
+      </div>
+
+      <div class="tech-card reveal d2" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <path d="M8 32c0-8 4-16 12-16M56 32c0-8-4-16-12-16M8 32c0 8 4 16 12 16M56 32c0 8-4 16-12 16"/>
+          <circle cx="20" cy="16" r="3" fill="currentColor"/>
+          <circle cx="44" cy="16" r="3" fill="currentColor"/>
+          <circle cx="20" cy="48" r="3" fill="currentColor"/>
+          <circle cx="44" cy="48" r="3" fill="currentColor"/>
+          <path d="M20 16L44 48M44 16L20 48" stroke-dasharray="2 2" opacity=".5"/>
+        </svg>
+        <div class="num">TECHNOLOGY · 02</div>
+        <div class="ko">유사성</div>
+        <div class="en">Memory Stream AI</div>
+        <div class="quote">"인간 무의식의 정밀 추론"</div>
+        <p class="body">메모리스트림 기술로 가상 패널이 맥락 기반의 일관된 반응을 보이도록 구현. <strong style="color:#fff;">SSR(Semantic Similarity Rating)</strong> 방법론으로 인간 응답과 95% 이상 일치하는 답변을 생성합니다.</p>
+        <div class="badge"><span class="dot"></span>#Memory Stream #SSR 방법론</div>
+      </div>
+
+      <div class="tech-card reveal d3" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <path d="M16 16h32v32H16z"/>
+          <path d="M22 22h20v20H22z" opacity=".7"/>
+          <path d="M28 28h8v8h-8z" opacity=".5"/>
+          <path d="M16 16l-6-6M48 16l6-6M16 48l-6 6M48 48l6 6"/>
+        </svg>
+        <div class="num">TECHNOLOGY · 03</div>
+        <div class="ko">재현성</div>
+        <div class="en">Statistical Certainty</div>
+        <div class="quote">"통계적 확실성을 보장한다"</div>
+        <p class="body">수만 번의 반복 시뮬레이션으로 통계적 확실성 확보. <strong style="color:#fff;">RSS 방법론</strong>으로 Spearman Similarity 90% 이상의 정합성을 목표하며, 동일 조건에서 결과 편차를 최소화합니다.</p>
+        <div class="badge"><span class="dot"></span>#RSS 방법론 #Spearman 90%+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== INSIGHTS ============== -->
+<section class="insight-section" id="ss-news">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">04 · Insights & Strategy</span></div>
+    <h2 class="h-section reveal d1">시장이 직면한 도전,<br/>옴니노드의 해답.</h2>
+    <p class="lead reveal d2">비용·속도·신뢰도. 기존 리서치가 해결하지 못한 세 가지 문제를 AI 가상패널로 돌파합니다.</p>
+
+    <div class="papers" style="margin-top:72px;">
+      <article class="paper reveal d1" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">PAIN POINT SOLUTION · 01</div>
+        <h4>비용과 시간의<br/>획기적 단축</h4>
+        <p class="desc">월등히 낮은 비용으로 수만 명 대상 조사를 즉시 실행. 기존 수백만원, 수 주의 프로세스를 수만원·15분으로 단축합니다.</p>
+        <span class="tag">COST &amp; SPEED</span>
+      </article>
+
+      <article class="paper reveal d2" data-cursor style="background:rgba(220,109,38,.08);border-color:rgba(220,109,38,.3);">
+        <div class="stars">▲ ▲</div>
+        <div class="ref">DATA RELIABILITY · 02 · CORE</div>
+        <h4>의식적 편향이 배제된<br/>진실한 데이터</h4>
+        <p class="desc">조사 시 가짜 답변을 하려는 심리를 AI 알고리즘으로 회피해 정확한 응답을 수집합니다. <strong style="color:var(--orange);">95% 인간 응답 일치율</strong>이 이를 증명합니다.</p>
+        <span class="tag">DATA QUALITY</span>
+      </article>
+
+      <article class="paper reveal d3" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">MARKET STRATEGY · 03</div>
+        <h4>시장 확장<br/>마일스톤</h4>
+        <p class="desc">기업 B2B 시장부터 공공 B2G, 최종적으로 선거/정치 시장(B2P)까지 순차적 점유 라인업. 단계별로 검증된 성장 전략을 실행합니다.</p>
+        <span class="tag">STRATEGY</span>
+      </article>
+    </div>
+
+    <div class="credentials reveal" style="margin-top:64px;">
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        상표 출원 완료 · <strong style="color:var(--navy);margin-left:4px;">SocialTwin</strong>
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        특허 출원
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+        대구창조경제혁신센터 입주기업
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7L9 18l-5-5"/></svg>
+        여성기업 공공 수의계약 인증
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CONTACT CTA ============== -->
+<section class="idx-cta" id="ss-footer">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <div class="cta-grid">
+        <div>
+          <h2>지금 바로 옴니노드와<br/><span class="accent">파트너십을 시작하세요.</span></h2>
+          <p>혁신적인 AI 가상 패널 도입, 옴니노드 팀이 직접 데모를 진행하고 귀사 도메인에 맞는 활용 시나리오를 함께 설계해 드립니다.</p>
+          <div class="cta-meta">
+            <div class="item"><span class="l">ADDRESS</span><span class="v">대구창조경제혁신센터 4F</span></div>
+            <div class="item"><span class="l">EMAIL</span><span class="v">hys@omninode.kr</span></div>
+            <div class="item"><span class="l">RESPONSE</span><span class="v">영업일 24시간 이내</span></div>
           </div>
         </div>
+        <form class="form" id="contactForm" action="https://formspree.io/f/xwvwokke" method="POST" style="position:relative;">
+          <div class="form-row">
+            <div class="field"><label for="f-name">이름</label><input id="f-name" type="text" name="name" placeholder="홍길동" required /></div>
+            <div class="field"><label for="f-company">소속 / 회사</label><input id="f-company" type="text" name="company" placeholder="옴니노드" required /></div>
+          </div>
+          <div class="field"><label for="f-email">이메일</label><input id="f-email" type="email" name="email" placeholder="you@company.com" required /></div>
+          <div class="field"><label for="f-msg">문의 내용</label>
+            <textarea id="f-msg" name="message" placeholder="진행 중이신 프로젝트나 검증하고자 하는 가설을 알려주세요." rows="4"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit" id="contactSubmit" style="width:100%;justify-content:center;padding:14px;font-size:15px;" data-cursor>
+            문의 보내기 <span class="arrow">→</span>
+          </button>
+          <p class="form-note">제출 시 개인정보 처리방침에 동의한 것으로 간주됩니다.</p>
+          <div class="form-success" id="formSuccess">
+            <div style="text-align:center;">
+              <div class="check">✓</div>
+              <div style="margin-top:18px;font-weight:700;font-size:18px;color:var(--navy);">문의가 접수되었습니다</div>
+              <div style="margin-top:8px;font-size:14px;color:var(--ink-soft);">영업일 24시간 이내 답변드릴게요.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="index.html">
+            <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
+          </a>
+          <p class="desc">통계기반 AI 가상패널로 더 빠르고 정확하고 저렴하게 소비자 인사이트를 발굴합니다.</p>
+          <p class="desc" style="margin-top:8px;">대구광역시 북구 호암로 51 대구창조경제혁신센터 4F<br/>E. hys@omninode.kr / cwb@omninode.kr</p>
+        </div>
+        <div>
+          <h5>PRODUCT</h5>
+          <ul>
+            <li><a href="#ss-vision">Virtual Society</a></li>
+            <li><a href="#ss-masterpiece">핵심 기술</a></li>
+            <li><a href="#ss-business">Our Business</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>SOLUTIONS</h5>
+          <ul>
+            <li><a href="#ss-business">B2B 스타트업</a></li>
+            <li><a href="#ss-business">B2G 지자체</a></li>
+            <li><a href="#ss-business">B2P 선거·정치</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>COMPANY</h5>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="#ss-footer">문의하기</a></li>
+            <li><a href="#">개인정보 처리방침</a></li>
+            <li><a href="#">이용약관</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 OMNINODE Inc. All rights reserved.</div>
+        <div>Made with statistical rigor in Seoul.</div>
       </div>
     </div>
   </footer>
+</section>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">
-    <span>✓</span> 문의가 성공적으로 전송되었습니다!
-  </div>
-
-  <!-- LATEST BLOG POPUP -->
-  <div class="blog-popup-overlay" id="blogPopupOverlay"></div>
-  <div class="blog-popup" id="blogPopup">
-    <div class="blog-popup-header">
-      <div class="blog-popup-header-left">
-        <div>
-          <div class="blog-popup-label">OmniNode Blog</div>
-          <div class="blog-popup-title">최신 포스트</div>
-        </div>
-      </div>
-      <button class="blog-popup-close" id="blogPopupClose" aria-label="닫기">✕</button>
+<!-- Blog popup -->
+<div class="blog-popup-overlay" id="blogPopupOverlay"></div>
+<div class="blog-popup" id="blogPopup">
+  <div class="blog-popup-header">
+    <div>
+      <div class="blog-popup-label">OmniNode Blog</div>
+      <div class="blog-popup-title">최신 포스트</div>
     </div>
-    <div class="blog-popup-list" id="blogPopupList"></div>
-    <div class="blog-popup-footer">
-      <a href="blog.html" class="blog-popup-cta">블로그 전체 보기 →</a>
-    </div>
+    <button class="blog-popup-close" id="blogPopupClose" aria-label="닫기">✕</button>
   </div>
+  <div class="blog-popup-list" id="blogPopupList"></div>
+  <div class="blog-popup-footer">
+    <a href="blog.html" class="blog-popup-cta">블로그 전체 보기 →</a>
+  </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js"></script>
-  <script src="blog-posts.js"></script>
-  <script src="main.js"></script>
-  <script>
-    // ── BLOG POPUP ───────────────────────────────
-    (async function () {
-      const SESSION_KEY = 'blog_popup_seen';
-      if (sessionStorage.getItem(SESSION_KEY)) return;
+<div class="toast-msg" id="contactToast">✓ 문의가 성공적으로 전송되었습니다!</div>
 
-      const overlay = document.getElementById('blogPopupOverlay');
-      const popup = document.getElementById('blogPopup');
-      const list = document.getElementById('blogPopupList');
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="blog-posts.js"></script>
+<script src="main.js"></script>
+<script>
+// ── Mobile menu ──────────────────────────────
+(function(){
+  const btn = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobDrawer');
+  if(!btn||!drawer) return;
+  btn.addEventListener('click', ()=> drawer.classList.toggle('open'));
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> drawer.classList.remove('open')));
+  document.addEventListener('click', e=>{
+    if(!drawer.contains(e.target) && !btn.contains(e.target)) drawer.classList.remove('open');
+  });
+})();
 
-      function formatDate(dateStr) {
-        if (!dateStr) return '';
-        return new Date(dateStr).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+// ── Vision card mouse glow ───────────────────
+document.querySelectorAll('.vision-card').forEach(card=>{
+  card.addEventListener('mousemove', e=>{
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX-r.left)/r.width)*100+'%');
+    card.style.setProperty('--my', ((e.clientY-r.top)/r.height)*100+'%');
+  });
+});
+
+// ── Contact form (formspree) ─────────────────
+(function(){
+  const form = document.getElementById('contactForm');
+  const toast = document.getElementById('contactToast');
+  const success = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('contactSubmit');
+  if(!form) return;
+  form.addEventListener('submit', async e=>{
+    e.preventDefault();
+    const prev = submitBtn.textContent;
+    submitBtn.textContent = '전송 중...'; submitBtn.disabled = true;
+    try{
+      const res = await fetch(form.action, {method:'POST', body:new FormData(form), headers:{Accept:'application/json'}});
+      if(res.ok){
+        success.classList.add('show');
+        setTimeout(()=>{ success.classList.remove('show'); form.reset(); }, 3500);
+      } else {
+        toast.textContent = '⚠ 전송에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'),3500);
       }
+    } catch {
+      toast.textContent = '⚠ 네트워크 오류로 전송하지 못했습니다.';
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),3500);
+    } finally { submitBtn.textContent = prev; submitBtn.disabled = false; }
+  });
 
-      async function getPosts() {
-        const remote = await window.fetchBlogPosts();
-        if (remote !== null) return remote.slice(0, 3);
-        return (window.BLOG_POSTS || []).slice(0, 3);
+  // live validate
+  form.querySelectorAll('input, select').forEach(inp=>{
+    const check = ()=>{
+      const f = inp.closest('.field'); if(!f) return;
+      let ok = false;
+      if(inp.type==='email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value);
+      else ok = inp.value.trim().length >= 2;
+      f.classList.toggle('valid', ok);
+    };
+    inp.addEventListener('input', check);
+  });
+})();
+
+// ── Blog popup ────────────────────────────────
+(async function(){
+  const overlay = document.getElementById('blogPopupOverlay');
+  const popup = document.getElementById('blogPopup');
+  const list = document.getElementById('blogPopupList');
+
+  function formatDate(d){ return d ? new Date(d).toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'}) : ''; }
+  async function getPosts(){
+    try {
+      if(typeof window.fetchBlogPosts === 'function'){
+        const r = await window.fetchBlogPosts();
+        if(r && r.length) return r.slice(0,3);
       }
+    } catch(e){}
+    return (window.BLOG_POSTS||[]).slice(0,3);
+  }
+  function buildList(posts){
+    if(!posts.length) return;
+    list.innerHTML = posts.map(p=>{
+      const tag=(p.tags||[])[0]||'';
+      return `<a class="blog-popup-item" href="blog-post.html?id=${encodeURIComponent(p.id)}">
+        ${tag?`<span class="blog-popup-item-tag">${tag.toUpperCase()}</span>`:''}
+        <div class="blog-popup-item-title">${p.title}</div>
+        <div class="blog-popup-item-meta">${formatDate(p.date)}${p.author?' · '+p.author:''}</div>
+      </a>`;
+    }).join('');
+  }
+  function openPopup(){ overlay.classList.add('active'); popup.classList.add('active'); }
+  function closePopup(){ overlay.classList.remove('active'); popup.classList.remove('active'); sessionStorage.setItem(SESSION_KEY,'1'); }
 
-      function buildList(posts) {
-        if (!posts.length) return;
-        list.innerHTML = posts.map(post => {
-          const tag = (post.tags || [])[0] || '';
-          return `
-            <a class="blog-popup-item" href="blog-post.html?id=${encodeURIComponent(post.id)}">
-              ${tag ? `<span class="blog-popup-item-tag">${tag.toUpperCase()}</span>` : ''}
-              <div class="blog-popup-item-title">${post.title}</div>
-              <div class="blog-popup-item-meta">${formatDate(post.date)}${post.author ? ' · ' + post.author : ''}</div>
-            </a>`;
-        }).join('');
-      }
+  document.getElementById('blogPopupClose').addEventListener('click', closePopup);
+  overlay.addEventListener('click', closePopup);
 
-      function openPopup() {
-        overlay.classList.add('active');
-        popup.classList.add('active');
-      }
-
-      function closePopup() {
-        overlay.classList.remove('active');
-        popup.classList.remove('active');
-        sessionStorage.setItem(SESSION_KEY, '1');
-      }
-
-      document.getElementById('blogPopupClose').addEventListener('click', closePopup);
-      overlay.addEventListener('click', closePopup);
-
-      await new Promise(r => setTimeout(r, 1800));
-      const posts = await getPosts();
-      buildList(posts);
-      if (posts.length) openPopup();
-    })();
-  </script>
+  await new Promise(r=>setTimeout(r,2000));
+  const posts = await getPosts();
+  buildList(posts);
+  if(posts.length) openPopup();
+})();
+</script>
 </body>
-
 </html>

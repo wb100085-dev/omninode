@@ -1,774 +1,668 @@
 <!DOCTYPE html>
-<html lang="ko">
-
+<html lang="ko" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog Admin | SocialTwin</title>
-  <link rel="stylesheet" href="styles.css?v=b1" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <meta name="robots" content="noindex, nofollow" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog Admin | OMNINODE</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<meta name="robots" content="noindex, nofollow" />
 </head>
+<body>
 
-<body class="theme-ssyenc blog-admin-page">
+<!-- ── GATE ── -->
+<div id="adminGate" class="admin-gate" style="display:none;">
+  <div class="admin-gate-card">
+    <div class="admin-gate-brand">
+      <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
+      <span class="admin-badge">ADMIN</span>
+    </div>
+    <div class="admin-gate-title">관리자 로그인</div>
+    <p class="admin-gate-sub">블로그 관리를 위해 비밀번호를 입력하세요.</p>
+    <input type="password" id="adminPassInput" class="admin-input" placeholder="비밀번호" autocomplete="current-password" />
+    <div id="adminError" class="admin-error">비밀번호가 올바르지 않습니다.</div>
+    <button class="btn btn-primary" id="adminLoginBtn" style="width:100%;justify-content:center;margin-top:16px;padding:13px;">
+      로그인 <span class="arrow">→</span>
+    </button>
+    <p class="admin-gate-note">비밀번호를 변경하려면 이 페이지의 소스에서<br/><code>ADMIN_PASSWORD</code> 값을 수정하세요.</p>
+  </div>
+</div>
 
-  <!-- ============================================================
-       PASSWORD GATE
-  ============================================================ -->
-  <div id="adminGate" class="blog-admin-gate">
-    <div class="blog-admin-gate-card">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
-        <img src="socialtwin_icon.png" alt="SocialTwin" style="width:32px;height:auto;" />
-        <div>
-          <div style="font-size:1rem;font-weight:800;color:#fff;">Blog Admin</div>
-          <div style="font-size:0.78rem;color:var(--text-muted);">SocialTwin · OmniNode</div>
-        </div>
-      </div>
-      <h2>관리자 로그인</h2>
-      <p>블로그 관리를 위해 비밀번호를 입력하세요.</p>
-      <input type="password" id="adminPassInput" class="blog-admin-input" placeholder="비밀번호" autocomplete="current-password" />
-      <div id="adminError" class="blog-admin-error">비밀번호가 올바르지 않습니다.</div>
-      <button class="blog-admin-btn blog-admin-btn-primary blog-admin-btn-full" id="adminLoginBtn" style="margin-top:8px;">
-        로그인
+<!-- ── DASHBOARD ── -->
+<div id="adminDashboard" class="admin-wrap" style="display:none;">
+
+  <div class="admin-header">
+    <div class="admin-header-left">
+      <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+        <svg viewBox="0 0 32 32" fill="none" style="width:24px;height:24px;">
+          <circle cx="16" cy="16" r="15" stroke="#14213D" stroke-width="1.5"/>
+          <circle cx="16" cy="6" r="2.5" fill="#DC6D26"/>
+          <circle cx="16" cy="16" r="3.5" fill="#DC6D26"/>
+          <line x1="16" y1="9" x2="16" y2="13" stroke="#14213D" stroke-width="1.2"/>
+        </svg>
+      </a>
+      <h1>Blog Admin</h1>
+      <span class="admin-badge">관리자</span>
+    </div>
+    <div class="admin-header-right">
+      <span id="supabaseStatus" class="admin-header-status">● 연결 중...</span>
+      <a href="blog.html" target="_blank" class="a-btn a-btn-ghost a-btn-sm">블로그 보기 ↗</a>
+      <button class="a-btn a-btn-ghost a-btn-sm" id="exportBtn" title="백업 다운로드">↓ 백업</button>
+      <button class="admin-theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
       </button>
-      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:20px;text-align:center;">
-        비밀번호를 변경하려면 이 페이지의 소스에서<br/><code style="color:var(--indigo);">ADMIN_PASSWORD</code> 값을 수정하세요.
-      </p>
+      <button class="a-btn a-btn-ghost a-btn-sm" id="logoutBtn">로그아웃</button>
     </div>
   </div>
 
-  <!-- ============================================================
-       ADMIN DASHBOARD
-  ============================================================ -->
-  <div id="adminDashboard" style="display:none;">
+  <div class="admin-body">
 
-    <!-- Header Bar -->
-    <div class="blog-admin-header">
-      <div class="blog-admin-header-left">
-        <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
-          <img src="socialtwin_icon.png" alt="" style="width:24px;height:auto;" />
-        </a>
-        <h1>Blog Admin</h1>
-        <span class="blog-admin-badge">관리자</span>
+    <div class="admin-banner">
+      <strong>☁ Supabase 연동</strong>: <strong>"저장"</strong> 버튼을 누르면 <strong>즉시 온라인에 반영</strong>됩니다.
+      파일 교체나 Git push 없이 모든 방문자에게 바로 보입니다. <strong>"↓ 백업"</strong> 버튼으로 로컬 백업 파일을 다운로드할 수 있습니다.
+    </div>
+
+    <div class="admin-stats">
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="statTotal">0</div>
+        <div class="admin-stat-label">전체 게시물</div>
       </div>
-      <div class="blog-admin-header-right">
-        <span id="supabaseStatus" style="font-size:0.78rem;color:var(--text-muted);">● 연결 중...</span>
-        <a href="blog.html" target="_blank" class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm">블로그 보기 ↗</a>
-        <button class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" id="exportBtn" title="현재 포스트 목록 백업 다운로드">↓ 백업</button>
-        <button class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" id="logoutBtn">로그아웃</button>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="statFeatured">0</div>
+        <div class="admin-stat-label">Featured</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="statDraft" style="color:var(--ink-soft);">-</div>
+        <div class="admin-stat-label">HTML 모드</div>
       </div>
     </div>
 
-    <!-- Body -->
-    <div class="blog-admin-body">
-
-      <!-- Info Banner -->
-      <div class="blog-admin-export-info">
-        <strong>☁ Supabase 연동</strong>: <strong>"저장"</strong> 버튼을 누르면 <strong>즉시 온라인에 반영</strong>됩니다.
-        파일 교체나 Git push 없이 모든 방문자에게 바로 보입니다. <strong>"↓ 백업"</strong> 버튼으로 로컬 백업 파일을 다운로드할 수 있습니다.
-      </div>
-
-      <!-- Stats -->
-      <div class="blog-admin-stats">
-        <div class="blog-admin-stat">
-          <div class="blog-admin-stat-num" id="statTotal">0</div>
-          <div class="blog-admin-stat-label">전체 게시물</div>
-        </div>
-        <div class="blog-admin-stat">
-          <div class="blog-admin-stat-num" id="statFeatured">0</div>
-          <div class="blog-admin-stat-label">Featured</div>
-        </div>
-        <div class="blog-admin-stat">
-          <div class="blog-admin-stat-num" id="statDraft">-</div>
-          <div class="blog-admin-stat-label">미반영 변경</div>
-        </div>
-      </div>
-
-      <!-- Post List -->
-      <div class="blog-admin-toolbar">
-        <span class="blog-admin-section-title">게시물 목록</span>
-        <button class="blog-admin-btn blog-admin-btn-primary" id="newPostBtn">+ 새 게시물 작성</button>
-      </div>
-      <div class="blog-admin-post-list" id="postList"></div>
-
-      <!-- New / Edit Form -->
-      <div id="postFormWrap" style="display:none;">
-        <div class="blog-admin-form-wrap">
-          <div class="blog-admin-form-title" id="formTitle">새 게시물 작성</div>
-
-          <div class="blog-admin-form-row">
-            <div class="blog-admin-form-group">
-              <label>제목 *</label>
-              <input type="text" id="fTitle" placeholder="게시물 제목" />
-            </div>
-            <div class="blog-admin-form-group">
-              <label>작성자</label>
-              <input type="text" id="fAuthor" placeholder="OmniNode" />
-            </div>
-          </div>
-
-          <div class="blog-admin-form-group">
-            <label>요약 (Excerpt) *</label>
-            <input type="text" id="fExcerpt" placeholder="블로그 목록에 표시될 짧은 요약 (1-2문장)" />
-          </div>
-
-          <div class="blog-admin-form-row">
-            <div class="blog-admin-form-group">
-              <label>날짜 *</label>
-              <input type="date" id="fDate" />
-            </div>
-            <div class="blog-admin-form-group">
-              <label>태그 (쉼표로 구분)</label>
-              <input type="text" id="fTags" placeholder="예: AI, 연구, SocialTwin" />
-            </div>
-          </div>
-
-          <div class="blog-admin-form-group">
-            <label>대표 이미지 URL (선택)</label>
-            <input type="url" id="fImageUrl" placeholder="https://example.com/image.jpg (비우면 기본 배경 사용)" />
-          </div>
-
-          <div class="blog-admin-form-group">
-            <label>
-              <input type="checkbox" id="fFeatured" style="accent-color:var(--indigo);width:16px;height:16px;vertical-align:middle;margin-right:6px;" />
-              Featured 게시물로 설정 (블로그 상단 크게 표시)
-            </label>
-          </div>
-
-          <!-- Content Editor -->
-          <div class="blog-admin-form-group">
-            <label>본문 내용 * (Markdown / HTML 지원)</label>
-            <!-- Toolbar row -->
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px;flex-wrap:wrap;">
-              <div class="blog-admin-tabs">
-                <button class="blog-admin-tab active" id="tabWrite">✏ Markdown</button>
-                <button class="blog-admin-tab" id="tabHtml">🌐 HTML</button>
-                <button class="blog-admin-tab" id="tabPreview">👁 미리보기</button>
-              </div>
-              <div style="display:flex;gap:8px;align-items:center;" id="imgToolbar">
-                <label class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" style="cursor:pointer;margin-bottom:0;line-height:1;">
-                  🖼 이미지 삽입
-                  <input type="file" id="imgFileInput" accept="image/*" multiple style="display:none;" />
-                </label>
-                <span style="font-size:0.72rem;color:var(--text-muted);">또는 복사 후 Ctrl+V · 드래그&드롭</span>
-              </div>
-            </div>
-            <textarea id="fContent" rows="22" placeholder="# 제목&#10;&#10;본문을 작성하거나, 다른 곳에서 복사한 글+이미지를 그대로 붙여넣기 하세요.&#10;&#10;## 소제목&#10;&#10;**굵게**, *기울임*, `코드`&#10;&#10;- 목록 항목&#10;&#10;> 인용구&#10;&#10;```&#10;코드 블록&#10;```"></textarea>
-            <div id="previewBox" class="blog-admin-preview-box" style="display:none;"></div>
-            <div id="editorHint" class="blog-admin-form-hint">
-              Markdown: <code># 제목</code> &nbsp; <code>**굵게**</code> &nbsp; <code>*기울임*</code> &nbsp; <code>`코드`</code> &nbsp; <code>- 목록</code> &nbsp; <code>> 인용</code> &nbsp; <code>[링크](URL)</code> &nbsp; <code>![이미지](URL)</code>
-            </div>
-          </div>
-
-          <div class="blog-admin-form-actions">
-            <input type="hidden" id="fEditId" value="" />
-            <button class="blog-admin-btn blog-admin-btn-ghost" id="cancelFormBtn">취소</button>
-            <button class="blog-admin-btn blog-admin-btn-primary" id="savePostBtn">저장</button>
-          </div>
-        </div>
-      </div>
-
+    <div class="admin-toolbar">
+      <span class="admin-section-title">게시물 목록</span>
+      <button class="a-btn a-btn-primary" id="newPostBtn">+ 새 게시물 작성</button>
     </div>
+    <div class="admin-post-list" id="postList"></div>
+
+    <!-- New / Edit Form -->
+    <div id="postFormWrap" style="display:none;">
+      <div class="admin-form-wrap">
+        <div class="admin-form-title" id="formTitle">새 게시물 작성</div>
+
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label>제목 *</label>
+            <input type="text" id="fTitle" placeholder="게시물 제목" />
+          </div>
+          <div class="admin-form-group">
+            <label>작성자</label>
+            <input type="text" id="fAuthor" placeholder="OmniNode" />
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label>요약 (Excerpt) *</label>
+          <input type="text" id="fExcerpt" placeholder="블로그 목록에 표시될 짧은 요약 (1-2문장)" />
+        </div>
+
+        <div class="admin-form-row">
+          <div class="admin-form-group">
+            <label>날짜 *</label>
+            <input type="date" id="fDate" />
+          </div>
+          <div class="admin-form-group">
+            <label>태그 (쉼표로 구분)</label>
+            <input type="text" id="fTags" placeholder="예: AI, 연구, SocialTwin" />
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label>대표 이미지 URL (선택)</label>
+          <input type="url" id="fImageUrl" placeholder="https://example.com/image.jpg (비우면 기본 배경 사용)" />
+        </div>
+
+        <div class="admin-form-group">
+          <label>
+            <input type="checkbox" id="fFeatured" style="accent-color:var(--orange);width:15px;height:15px;vertical-align:middle;margin-right:7px;" />
+            Featured 게시물로 설정 (블로그 상단 크게 표시)
+          </label>
+        </div>
+
+        <div class="admin-form-group">
+          <label>본문 내용 * (Markdown / HTML 지원)</label>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px;flex-wrap:wrap;">
+            <div class="admin-tabs">
+              <button class="admin-tab active" id="tabWrite">✏ Markdown</button>
+              <button class="admin-tab" id="tabHtml">🌐 HTML</button>
+              <button class="admin-tab" id="tabPreview">👁 미리보기</button>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;" id="imgToolbar">
+              <label class="a-btn a-btn-ghost a-btn-sm" style="cursor:pointer;margin-bottom:0;line-height:1;">
+                🖼 이미지 삽입
+                <input type="file" id="imgFileInput" accept="image/*" multiple style="display:none;" />
+              </label>
+              <span style="font-size:12px;color:var(--ink-soft);">또는 복사 후 Ctrl+V · 드래그&드롭</span>
+            </div>
+          </div>
+          <textarea id="fContent" rows="22" style="width:100%;border:1px solid var(--line-strong);border-radius:10px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ink);background:var(--paper);outline:none;transition:border-color .2s;resize:vertical;box-sizing:border-box;" placeholder="# 제목&#10;&#10;본문을 작성하거나, 다른 곳에서 복사한 글+이미지를 그대로 붙여넣기 하세요.&#10;&#10;## 소제목&#10;&#10;**굵게**, *기울임*, `코드`&#10;&#10;- 목록 항목&#10;&#10;> 인용구&#10;&#10;```&#10;코드 블록&#10;```"></textarea>
+          <div id="previewBox" class="admin-preview-box" style="display:none;"></div>
+          <div id="editorHint" class="admin-form-hint" style="margin-top:10px;">
+            Markdown: <code># 제목</code> &nbsp; <code>**굵게**</code> &nbsp; <code>*기울임*</code> &nbsp; <code>`코드`</code> &nbsp; <code>- 목록</code> &nbsp; <code>&gt; 인용</code> &nbsp; <code>[링크](URL)</code> &nbsp; <code>![이미지](URL)</code>
+          </div>
+        </div>
+
+        <div class="admin-form-actions">
+          <input type="hidden" id="fEditId" value="" />
+          <button class="a-btn a-btn-ghost" id="cancelFormBtn">취소</button>
+          <button class="a-btn a-btn-primary" id="savePostBtn">저장</button>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <!-- Toast notification -->
-  <div id="adminToast" style="position:fixed;bottom:32px;right:32px;background:var(--bg-card);border:1px solid var(--border-soft);border-radius:12px;padding:14px 22px;font-size:0.88rem;font-weight:600;color:var(--text-primary);box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;transform:translateY(20px);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);z-index:9999;max-width:420px;pointer-events:none;"></div>
+<!-- Toast -->
+<div id="adminToast" class="admin-toast"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js"></script>
-  <script src="blog-posts.js"></script>
-  <script>
-    // ============================================================
-    //  CONFIG — 비밀번호를 변경하려면 아래 값을 수정하세요
-    // ============================================================
-    const ADMIN_PASSWORD = 'omninode8285'; // ← 이 값을 원하는 비밀번호로 변경
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<script src="blog-posts.js"></script>
+<script>
+// ── Theme toggle (minimal, no main.js needed) ────────────
+(function(){
+  const toggle = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+  const moonSvg = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+  const sunSvg = `<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>`;
+  function setTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    icon.innerHTML = t==='dark' ? sunSvg : moonSvg;
+    try{ localStorage.setItem('omninode-theme',t); }catch(e){}
+  }
+  if(toggle) toggle.addEventListener('click',()=>{
+    const cur=document.documentElement.getAttribute('data-theme')||'light';
+    setTheme(cur==='dark'?'light':'dark');
+  });
+  try{ const saved=localStorage.getItem('omninode-theme'); if(saved) setTheme(saved); }catch(e){}
+})();
 
-    // 현재 에디터 모드: 'markdown' | 'html'
-    let currentContentType = 'markdown';
+// ============================================================
+//  CONFIG
+// ============================================================
+const ADMIN_PASSWORD = 'omninode8285';
 
-    // ============================================================
-    //  AUTH
-    // ============================================================
-    function isAuthed() { return sessionStorage.getItem('blog_admin_auth') === '1'; }
-    function setAuth(v) { sessionStorage.setItem('blog_admin_auth', v ? '1' : '0'); }
+let currentContentType = 'markdown';
 
-    function showGate() {
-      document.getElementById('adminGate').style.display = 'flex';
-      document.getElementById('adminDashboard').style.display = 'none';
-    }
-    async function showDashboard() {
-      document.getElementById('adminGate').style.display = 'none';
-      document.getElementById('adminDashboard').style.display = 'block';
-      await renderDashboard();
-      setupPasteHandler();
-      setupImageInsert();
-    }
+// ============================================================
+//  AUTH
+// ============================================================
+function isAuthed(){ return sessionStorage.getItem('blog_admin_auth')==='1'; }
+function setAuth(v){ sessionStorage.setItem('blog_admin_auth', v?'1':'0'); }
 
-    document.getElementById('adminLoginBtn').addEventListener('click', tryLogin);
-    document.getElementById('adminPassInput').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+function showGate(){
+  document.getElementById('adminGate').style.display='flex';
+  document.getElementById('adminDashboard').style.display='none';
+}
+async function showDashboard(){
+  document.getElementById('adminGate').style.display='none';
+  document.getElementById('adminDashboard').style.display='flex';
+  await renderDashboard();
+  setupPasteHandler();
+  setupImageInsert();
+}
 
-    function tryLogin() {
-      const input = document.getElementById('adminPassInput').value;
-      if (input === ADMIN_PASSWORD) {
-        document.getElementById('adminError').style.display = 'none';
-        setAuth(true);
-        showDashboard();
-      } else {
-        document.getElementById('adminError').style.display = 'block';
-        document.getElementById('adminPassInput').value = '';
-        document.getElementById('adminPassInput').focus();
-      }
-    }
+document.getElementById('adminLoginBtn').addEventListener('click', tryLogin);
+document.getElementById('adminPassInput').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      setAuth(false);
-      showGate();
-    });
+function tryLogin(){
+  const input = document.getElementById('adminPassInput').value;
+  if(input===ADMIN_PASSWORD){
+    document.getElementById('adminError').style.display='none';
+    setAuth(true);
+    showDashboard();
+  } else {
+    document.getElementById('adminError').style.display='block';
+    document.getElementById('adminPassInput').value='';
+    document.getElementById('adminPassInput').focus();
+  }
+}
 
-    // ============================================================
-    //  DATA — Supabase 기반
-    // ============================================================
-    const STORAGE_KEY = 'omninode_blog_override';
+document.getElementById('logoutBtn').addEventListener('click',()=>{ setAuth(false); showGate(); });
 
-    function generateId() {
-      const now = new Date();
-      const d = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
-      return `post-${d}-${Math.random().toString(36).slice(2,6)}`;
-    }
+// ============================================================
+//  DATA
+// ============================================================
+const STORAGE_KEY = 'omninode_blog_override';
 
-    // JS post → Supabase DB row
-    function toDB(post) {
-      return {
-        id: post.id,
-        title: post.title || '',
-        excerpt: post.excerpt || '',
-        content: post.content || '',
-        content_type: post.contentType === 'html' ? 'html' : 'markdown',
-        author: post.author || 'OmniNode',
-        date: post.date || null,
-        tags: post.tags || [],
-        image_url: post.imageUrl || '',
-        featured: !!post.featured,
-        updated_at: new Date().toISOString()
-      };
-    }
+function generateId(){
+  const now=new Date();
+  const d=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+  return `post-${d}-${Math.random().toString(36).slice(2,6)}`;
+}
 
-    function setSupabaseStatus(state) {
-      const el = document.getElementById('supabaseStatus');
-      if (!el) return;
-      const map = {
-        loading: '<span style="color:var(--text-muted);">● 연결 중...</span>',
-        ok:      '<span style="color:#22c55e;">● Supabase 연결됨</span>',
-        error:   '<span style="color:#ef4444;">● 연결 오류 (로컬 캐시 사용)</span>'
-      };
-      el.innerHTML = map[state] || map.loading;
-    }
+function toDB(post){
+  return {
+    id:post.id, title:post.title||'', excerpt:post.excerpt||'',
+    content:post.content||'', content_type:post.contentType==='html'?'html':'markdown',
+    author:post.author||'OmniNode', date:post.date||null,
+    tags:post.tags||[], image_url:post.imageUrl||'', featured:!!post.featured,
+    updated_at:new Date().toISOString()
+  };
+}
 
-    async function loadPosts() {
-      setSupabaseStatus('loading');
-      try {
-        const { data, error } = await window.getSupabaseClient()
-          .from('blog_posts')
-          .select('*')
-          .order('date', { ascending: false });
-        if (error) throw error;
-        const posts = (data || []).map(window.postFromDB);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-        setSupabaseStatus('ok');
-        return posts;
-      } catch (e) {
-        console.error('loadPosts 실패:', e);
-        setSupabaseStatus('error');
-        const s = localStorage.getItem(STORAGE_KEY);
-        if (s) { try { const p = JSON.parse(s); if (Array.isArray(p)) return p; } catch(e2) {} }
-        return JSON.parse(JSON.stringify(window.BLOG_POSTS || []));
-      }
-    }
+function setSupabaseStatus(state){
+  const el=document.getElementById('supabaseStatus'); if(!el) return;
+  const map={
+    loading:'<span style="color:var(--ink-soft);">● 연결 중...</span>',
+    ok:'<span style="color:#22c55e;">● Supabase 연결됨</span>',
+    error:'<span style="color:#ef4444;">● 연결 오류 (로컬 캐시 사용)</span>'
+  };
+  el.innerHTML=map[state]||map.loading;
+}
 
-    async function upsertPost(post) {
-      const { error } = await window.getSupabaseClient()
-        .from('blog_posts')
-        .upsert(toDB(post), { onConflict: 'id' });
-      if (error) throw error;
-    }
+async function loadPosts(){
+  setSupabaseStatus('loading');
+  try{
+    const {data,error}=await window.getSupabaseClient().from('blog_posts').select('*').order('date',{ascending:false});
+    if(error) throw error;
+    const posts=(data||[]).map(window.postFromDB);
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(posts));
+    setSupabaseStatus('ok');
+    return posts;
+  } catch(e){
+    console.error('loadPosts 실패:',e);
+    setSupabaseStatus('error');
+    const s=localStorage.getItem(STORAGE_KEY);
+    if(s){ try{ const p=JSON.parse(s); if(Array.isArray(p)) return p; }catch(e2){} }
+    return JSON.parse(JSON.stringify(window.BLOG_POSTS||[]));
+  }
+}
 
-    async function removePost(id) {
-      const { error } = await window.getSupabaseClient()
-        .from('blog_posts')
-        .delete()
-        .eq('id', id);
-      if (error) throw error;
-    }
+async function upsertPost(post){
+  const {error}=await window.getSupabaseClient().from('blog_posts').upsert(toDB(post),{onConflict:'id'});
+  if(error) throw error;
+}
 
-    function triggerBackupDownload(posts) {
-      const content = `// SocialTwin Blog Posts 백업\n// ${new Date().toLocaleString('ko-KR')}\n\nwindow.BLOG_POSTS = ${JSON.stringify(posts, null, 2)};\n`;
-      const blob = new Blob([content], { type: 'application/javascript' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'blog-posts-backup.js'; a.click();
-      URL.revokeObjectURL(url);
-    }
+async function removePost(id){
+  const {error}=await window.getSupabaseClient().from('blog_posts').delete().eq('id',id);
+  if(error) throw error;
+}
 
-    // ============================================================
-    //  DASHBOARD
-    // ============================================================
-    function updateStats(posts) {
-      document.getElementById('statTotal').textContent = posts.length;
-      document.getElementById('statFeatured').textContent = posts.filter(p => p.featured).length;
-      document.getElementById('statDraft').textContent = posts.filter(p => p.contentType === 'html').length || '-';
-      document.getElementById('statDraft').style.color = 'var(--text-muted)';
-    }
+function triggerBackupDownload(posts){
+  const content=`// SocialTwin Blog Posts 백업\n// ${new Date().toLocaleString('ko-KR')}\n\nwindow.BLOG_POSTS = ${JSON.stringify(posts,null,2)};\n`;
+  const blob=new Blob([content],{type:'application/javascript'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='blog-posts-backup.js'; a.click();
+  URL.revokeObjectURL(url);
+}
 
-    async function renderDashboard() {
-      document.getElementById('postList').innerHTML =
-        `<div style="text-align:center;padding:40px;color:var(--text-muted);">불러오는 중...</div>`;
-      const posts = await loadPosts();
-      updateStats(posts);
-      renderPostList(posts);
-    }
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function updateStats(posts){
+  document.getElementById('statTotal').textContent=posts.length;
+  document.getElementById('statFeatured').textContent=posts.filter(p=>p.featured).length;
+  const html=posts.filter(p=>p.contentType==='html').length;
+  document.getElementById('statDraft').textContent=html||'-';
+}
 
-    function renderPostList(posts) {
-      const list = document.getElementById('postList');
-      if (!posts.length) {
-        list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-muted);">게시물이 없습니다. 새 게시물을 작성해보세요.</div>`;
-        return;
-      }
-      list.innerHTML = posts.map(post => `
-        <div class="blog-admin-post-item">
-          <div class="blog-admin-post-featured-dot ${post.featured ? '' : 'hidden'}" title="${post.featured ? 'Featured' : ''}"></div>
-          <div class="blog-admin-post-info">
-            <div class="blog-admin-post-title">${post.title}</div>
-            <div class="blog-admin-post-date">
-              ${post.date || '날짜 없음'}
-              ${post.author ? ' · ' + post.author : ''}
-              ${(post.tags||[]).length ? ' · ' + post.tags.join(', ') : ''}
-              ${post.featured ? ' · <span style="color:var(--indigo);font-weight:700;">Featured</span>' : ''}
-            </div>
-          </div>
-          <div class="blog-admin-post-actions">
-            <a href="blog-post.html?id=${encodeURIComponent(post.id)}" target="_blank" class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" title="미리보기">👁</a>
-            <button class="blog-admin-btn blog-admin-btn-ghost blog-admin-btn-sm" onclick="editPost('${post.id}')">수정</button>
-            <button class="blog-admin-btn blog-admin-btn-danger blog-admin-btn-sm" onclick="deletePost('${post.id}')">삭제</button>
-          </div>
+async function renderDashboard(){
+  document.getElementById('postList').innerHTML=`<div style="text-align:center;padding:48px;color:var(--ink-soft);">불러오는 중...</div>`;
+  const posts=await loadPosts();
+  updateStats(posts);
+  renderPostList(posts);
+}
+
+function renderPostList(posts){
+  const list=document.getElementById('postList');
+  if(!posts.length){
+    list.innerHTML=`<div style="text-align:center;padding:48px;color:var(--ink-soft);">게시물이 없습니다. 새 게시물을 작성해보세요.</div>`;
+    return;
+  }
+  list.innerHTML=posts.map(post=>`
+    <div class="admin-post-item">
+      <div class="admin-post-featured-dot ${post.featured?'':'hidden'}" title="${post.featured?'Featured':''}"></div>
+      <div class="admin-post-info">
+        <div class="admin-post-title">${post.title}</div>
+        <div class="admin-post-date">
+          ${post.date||'날짜 없음'}
+          ${post.author?' · '+post.author:''}
+          ${(post.tags||[]).length?' · '+post.tags.join(', '):''}
+          ${post.featured?' · <span style="color:var(--orange);font-weight:700;">Featured</span>':''}
         </div>
-      `).join('');
-    }
+      </div>
+      <div class="admin-post-actions">
+        <a href="blog-post.html?id=${encodeURIComponent(post.id)}" target="_blank" class="a-btn a-btn-ghost a-btn-sm" title="미리보기">👁</a>
+        <button class="a-btn a-btn-ghost a-btn-sm" onclick="editPost('${post.id}')">수정</button>
+        <button class="a-btn a-btn-danger a-btn-sm" onclick="deletePost('${post.id}')">삭제</button>
+      </div>
+    </div>
+  `).join('');
+}
 
-    // ============================================================
-    //  FORM
-    // ============================================================
-    document.getElementById('newPostBtn').addEventListener('click', () => openForm(null));
-    document.getElementById('cancelFormBtn').addEventListener('click', closeForm);
-    document.getElementById('savePostBtn').addEventListener('click', savePost);
+// ============================================================
+//  FORM
+// ============================================================
+document.getElementById('newPostBtn').addEventListener('click',()=>openForm(null));
+document.getElementById('cancelFormBtn').addEventListener('click',closeForm);
+document.getElementById('savePostBtn').addEventListener('click',savePost);
 
-    function openForm(post) {
-      document.getElementById('postFormWrap').style.display = 'block';
-      document.getElementById('postFormWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      if (post) {
-        document.getElementById('formTitle').textContent = '게시물 수정';
-        document.getElementById('fEditId').value = post.id;
-        document.getElementById('fTitle').value = post.title || '';
-        document.getElementById('fExcerpt').value = post.excerpt || '';
-        document.getElementById('fContent').value = post.content || '';
-        document.getElementById('fAuthor').value = post.author || '';
-        document.getElementById('fDate').value = post.date || '';
-        document.getElementById('fTags').value = (post.tags || []).join(', ');
-        document.getElementById('fImageUrl').value = post.imageUrl || '';
-        document.getElementById('fFeatured').checked = !!post.featured;
-        switchTab(post.contentType === 'html' ? 'html' : 'write');
-      } else {
-        document.getElementById('formTitle').textContent = '새 게시물 작성';
-        document.getElementById('fEditId').value = '';
-        document.getElementById('fTitle').value = '';
-        document.getElementById('fExcerpt').value = '';
-        document.getElementById('fContent').value = '';
-        document.getElementById('fAuthor').value = 'OmniNode';
-        document.getElementById('fDate').value = new Date().toISOString().slice(0, 10);
-        document.getElementById('fTags').value = '';
-        document.getElementById('fImageUrl').value = '';
-        document.getElementById('fFeatured').checked = false;
-        switchTab('write');
+function openForm(post){
+  document.getElementById('postFormWrap').style.display='block';
+  document.getElementById('postFormWrap').scrollIntoView({behavior:'smooth',block:'start'});
+  if(post){
+    document.getElementById('formTitle').textContent='게시물 수정';
+    document.getElementById('fEditId').value=post.id;
+    document.getElementById('fTitle').value=post.title||'';
+    document.getElementById('fExcerpt').value=post.excerpt||'';
+    document.getElementById('fContent').value=post.content||'';
+    document.getElementById('fAuthor').value=post.author||'';
+    document.getElementById('fDate').value=post.date||'';
+    document.getElementById('fTags').value=(post.tags||[]).join(', ');
+    document.getElementById('fImageUrl').value=post.imageUrl||'';
+    document.getElementById('fFeatured').checked=!!post.featured;
+    switchTab(post.contentType==='html'?'html':'write');
+  } else {
+    document.getElementById('formTitle').textContent='새 게시물 작성';
+    document.getElementById('fEditId').value='';
+    document.getElementById('fTitle').value='';
+    document.getElementById('fExcerpt').value='';
+    document.getElementById('fContent').value='';
+    document.getElementById('fAuthor').value='OmniNode';
+    document.getElementById('fDate').value=new Date().toISOString().slice(0,10);
+    document.getElementById('fTags').value='';
+    document.getElementById('fImageUrl').value='';
+    document.getElementById('fFeatured').checked=false;
+    switchTab('write');
+  }
+}
+
+function closeForm(){ document.getElementById('postFormWrap').style.display='none'; }
+
+async function savePost(){
+  const title=document.getElementById('fTitle').value.trim();
+  const excerpt=document.getElementById('fExcerpt').value.trim();
+  const content=document.getElementById('fContent').value.trim();
+  const author=document.getElementById('fAuthor').value.trim();
+  const date=document.getElementById('fDate').value;
+  const tags=document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const imageUrl=document.getElementById('fImageUrl').value.trim();
+  const featured=document.getElementById('fFeatured').checked;
+  const editId=document.getElementById('fEditId').value;
+  if(!title){ alert('제목을 입력해주세요.'); return; }
+  if(!excerpt){ alert('요약을 입력해주세요.'); return; }
+  if(!content){ alert('본문 내용을 입력해주세요.'); return; }
+  const post={id:editId||generateId(),title,excerpt,content,author,date,tags,imageUrl,featured};
+  if(currentContentType==='html') post.contentType='html';
+  const btn=document.getElementById('savePostBtn');
+  btn.textContent='저장 중...'; btn.disabled=true;
+  try{
+    await upsertPost(post);
+    closeForm();
+    const posts=await loadPosts();
+    renderPostList(posts); updateStats(posts);
+    showToast('✅ 저장 완료! Supabase에 즉시 반영되었습니다.');
+  } catch(e){ showToast('⚠ 저장 실패: '+(e.message||e)); }
+  finally{ btn.textContent='저장'; btn.disabled=false; }
+}
+
+function editPost(id){
+  const s=localStorage.getItem(STORAGE_KEY); let posts=[];
+  if(s){ try{ posts=JSON.parse(s); }catch(e){} }
+  const post=posts.find(p=>p.id===id);
+  if(post) openForm(post);
+}
+
+async function deletePost(id){
+  if(!confirm('이 게시물을 삭제하시겠습니까?')) return;
+  try{
+    await removePost(id);
+    const posts=await loadPosts();
+    renderPostList(posts); updateStats(posts);
+    showToast('✅ 삭제 완료! Supabase에서 제거되었습니다.');
+  } catch(e){ showToast('⚠ 삭제 실패: '+(e.message||e)); }
+}
+
+let toastTimer;
+function showToast(msg){
+  const el=document.getElementById('adminToast');
+  el.textContent=msg;
+  el.style.opacity='1'; el.style.transform='translateY(0)';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(20px)'; },4000);
+}
+
+// ============================================================
+//  BACKUP
+// ============================================================
+document.getElementById('exportBtn').addEventListener('click', async()=>{
+  const posts=await loadPosts();
+  triggerBackupDownload(posts);
+  showToast('📥 백업 파일이 다운로드되었습니다.');
+});
+
+// ============================================================
+//  HTML → MARKDOWN
+// ============================================================
+function htmlToMarkdown(html){
+  const div=document.createElement('div'); div.innerHTML=html;
+  function process(node){
+    if(node.nodeType===Node.TEXT_NODE) return node.textContent.replace(/[\r\n]+/g,' ');
+    if(node.nodeType!==Node.ELEMENT_NODE) return '';
+    const tag=node.tagName.toLowerCase();
+    const inner=()=>Array.from(node.childNodes).map(process).join('');
+    if(['script','style','nav','aside','noscript','meta','head','button','input','form'].includes(tag)) return '';
+    switch(tag){
+      case 'h1': return `\n\n# ${inner().trim()}\n`;
+      case 'h2': return `\n\n## ${inner().trim()}\n`;
+      case 'h3': return `\n\n### ${inner().trim()}\n`;
+      case 'h4': case 'h5': case 'h6': return `\n\n#### ${inner().trim()}\n`;
+      case 'strong': case 'b': { const t=inner().trim(); return t?`**${t}**`:''; }
+      case 'em': case 'i': { const t=inner().trim(); return t?`*${t}*`:''; }
+      case 'u': case 's': case 'del': case 'mark': return inner();
+      case 'sup': return `^${inner()}`;
+      case 'sub': return inner();
+      case 'code': {
+        if(node.closest('pre')) return inner();
+        const t=node.textContent; return t?`\`${t}\``:''
       }
-    }
-
-    function closeForm() { document.getElementById('postFormWrap').style.display = 'none'; }
-
-    async function savePost() {
-      const title = document.getElementById('fTitle').value.trim();
-      const excerpt = document.getElementById('fExcerpt').value.trim();
-      const content = document.getElementById('fContent').value.trim();
-      const author = document.getElementById('fAuthor').value.trim();
-      const date = document.getElementById('fDate').value;
-      const tags = document.getElementById('fTags').value.split(',').map(t => t.trim()).filter(Boolean);
-      const imageUrl = document.getElementById('fImageUrl').value.trim();
-      const featured = document.getElementById('fFeatured').checked;
-      const editId = document.getElementById('fEditId').value;
-
-      if (!title) { alert('제목을 입력해주세요.'); return; }
-      if (!excerpt) { alert('요약을 입력해주세요.'); return; }
-      if (!content) { alert('본문 내용을 입력해주세요.'); return; }
-
-      const post = {
-        id: editId || generateId(),
-        title, excerpt, content, author, date, tags, imageUrl, featured
-      };
-      if (currentContentType === 'html') post.contentType = 'html';
-
-      const btn = document.getElementById('savePostBtn');
-      btn.textContent = '저장 중...'; btn.disabled = true;
-      try {
-        await upsertPost(post);
-        closeForm();
-        const posts = await loadPosts();
-        renderPostList(posts);
-        updateStats(posts);
-        showToast('✅ 저장 완료! Supabase에 즉시 반영되었습니다.');
-      } catch (e) {
-        showToast('⚠ 저장 실패: ' + (e.message || e));
-      } finally {
-        btn.textContent = '저장'; btn.disabled = false;
+      case 'pre': {
+        const codeEl=node.querySelector('code');
+        const txt=(codeEl||node).textContent.trim();
+        return `\n\n\`\`\`\n${txt}\n\`\`\`\n`;
       }
-    }
-
-    function editPost(id) {
-      const s = localStorage.getItem(STORAGE_KEY);
-      let posts = [];
-      if (s) { try { posts = JSON.parse(s); } catch(e) {} }
-      const post = posts.find(p => p.id === id);
-      if (post) openForm(post);
-    }
-
-    async function deletePost(id) {
-      if (!confirm('이 게시물을 삭제하시겠습니까?')) return;
-      try {
-        await removePost(id);
-        const posts = await loadPosts();
-        renderPostList(posts);
-        updateStats(posts);
-        showToast('✅ 삭제 완료! Supabase에서 제거되었습니다.');
-      } catch (e) {
-        showToast('⚠ 삭제 실패: ' + (e.message || e));
+      case 'blockquote': { const t=inner().trim().replace(/^/gm,'> '); return `\n\n${t}\n`; }
+      case 'a': {
+        const href=node.getAttribute('href')||''; const text=inner().trim();
+        if(!href||href.startsWith('javascript:')||href==='#') return text;
+        return text?`[${text}](${href})`:href;
       }
-    }
-
-    // Toast
-    let toastTimer;
-    function showToast(msg) {
-      const el = document.getElementById('adminToast');
-      el.textContent = msg;
-      el.style.opacity = '1'; el.style.transform = 'translateY(0)';
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; }, 4000);
-    }
-
-    // ============================================================
-    //  BACKUP DOWNLOAD (header button)
-    // ============================================================
-    document.getElementById('exportBtn').addEventListener('click', async () => {
-      const posts = await loadPosts();
-      triggerBackupDownload(posts);
-      showToast('📥 백업 파일이 다운로드되었습니다.');
-    });
-
-    // ============================================================
-    //  HTML → MARKDOWN CONVERTER
-    // ============================================================
-    function htmlToMarkdown(html) {
-      const div = document.createElement('div');
-      div.innerHTML = html;
-
-      function process(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-          return node.textContent.replace(/[\r\n]+/g, ' ');
-        }
-        if (node.nodeType !== Node.ELEMENT_NODE) return '';
-
-        const tag = node.tagName.toLowerCase();
-        const inner = () => Array.from(node.childNodes).map(process).join('');
-
-        // Skip non-content tags
-        if (['script','style','nav','aside','noscript','meta','head','button','input','form'].includes(tag)) return '';
-
-        switch (tag) {
-          case 'h1': return `\n\n# ${inner().trim()}\n`;
-          case 'h2': return `\n\n## ${inner().trim()}\n`;
-          case 'h3': return `\n\n### ${inner().trim()}\n`;
-          case 'h4': case 'h5': case 'h6': return `\n\n#### ${inner().trim()}\n`;
-          case 'strong': case 'b': { const t = inner().trim(); return t ? `**${t}**` : ''; }
-          case 'em': case 'i':     { const t = inner().trim(); return t ? `*${t}*` : ''; }
-          case 'u': case 's': case 'del': case 'mark': return inner();
-          case 'sup': return `^${inner()}`;
-          case 'sub': return inner();
-
-          case 'code': {
-            if (node.closest('pre')) return inner();
-            const t = node.textContent;
-            return t ? `\`${t}\`` : '';
-          }
-          case 'pre': {
-            const codeEl = node.querySelector('code');
-            const txt = (codeEl || node).textContent.trim();
-            return `\n\n\`\`\`\n${txt}\n\`\`\`\n`;
-          }
-          case 'blockquote': {
-            const t = inner().trim().replace(/^/gm, '> ');
-            return `\n\n${t}\n`;
-          }
-          case 'a': {
-            const href = node.getAttribute('href') || '';
-            const text = inner().trim();
-            if (!href || href.startsWith('javascript:') || href === '#') return text;
-            return text ? `[${text}](${href})` : href;
-          }
-          case 'img': {
-            const src = node.getAttribute('src') || '';
-            const alt = node.getAttribute('alt') || '';
-            if (!src) return '';
-            // Skip tiny tracking pixels (< 200 chars and not real photos)
-            if (src.length < 50 && !src.startsWith('http')) return '';
-            return `\n\n![${alt}](${src})\n`;
-          }
-          case 'br': return '\n';
-          case 'hr': return '\n\n---\n';
-          case 'p': { const t = inner().trim(); return t ? `\n\n${t}` : ''; }
-          case 'div': case 'section': case 'article': case 'main':
-          case 'header': case 'footer': case 'figure': case 'fieldset': {
-            const t = inner().trim();
-            return t ? `\n${t}\n` : '';
-          }
-          case 'figcaption': { const t = inner().trim(); return t ? `\n*${t}*` : ''; }
-          case 'span': case 'label': return inner();
-          case 'li': return inner();
-          case 'ul': {
-            const items = Array.from(node.querySelectorAll(':scope > li'));
-            if (!items.length) return inner();
-            return '\n\n' + items.map(li => `- ${process(li).trim()}`).join('\n') + '\n';
-          }
-          case 'ol': {
-            const items = Array.from(node.querySelectorAll(':scope > li'));
-            if (!items.length) return inner();
-            return '\n\n' + items.map((li, i) => `${i + 1}. ${process(li).trim()}`).join('\n') + '\n';
-          }
-          case 'table': return '\n' + inner() + '\n';
-          case 'tbody': case 'thead': case 'tfoot': return inner();
-          case 'tr': { const cells = inner().replace(/\|?\s*$/, ''); return cells ? `${cells}|\n` : ''; }
-          case 'td': case 'th': return `| ${inner().trim()} `;
-          default: return inner();
-        }
+      case 'img': {
+        const src=node.getAttribute('src')||''; const alt=node.getAttribute('alt')||'';
+        if(!src) return '';
+        if(src.length<50&&!src.startsWith('http')) return '';
+        return `\n\n![${alt}](${src})\n`;
       }
-
-      let result = process(div);
-      result = result.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+$/gm, '').trim();
-      return result;
+      case 'br': return '\n';
+      case 'hr': return '\n\n---\n';
+      case 'p': { const t=inner().trim(); return t?`\n\n${t}`:''; }
+      case 'div': case 'section': case 'article': case 'main':
+      case 'header': case 'footer': case 'figure': case 'fieldset': {
+        const t=inner().trim(); return t?`\n${t}\n`:'';
+      }
+      case 'figcaption': { const t=inner().trim(); return t?`\n*${t}*`:''; }
+      case 'span': case 'label': return inner();
+      case 'li': return inner();
+      case 'ul': {
+        const items=Array.from(node.querySelectorAll(':scope > li'));
+        if(!items.length) return inner();
+        return '\n\n'+items.map(li=>`- ${process(li).trim()}`).join('\n')+'\n';
+      }
+      case 'ol': {
+        const items=Array.from(node.querySelectorAll(':scope > li'));
+        if(!items.length) return inner();
+        return '\n\n'+items.map((li,i)=>`${i+1}. ${process(li).trim()}`).join('\n')+'\n';
+      }
+      case 'table': return '\n'+inner()+'\n';
+      case 'tbody': case 'thead': case 'tfoot': return inner();
+      case 'tr': { const cells=inner().replace(/\|?\s*$/,''); return cells?`${cells}|\n`:''; }
+      case 'td': case 'th': return `| ${inner().trim()} `;
+      default: return inner();
     }
+  }
+  let result=process(div);
+  result=result.replace(/\n{3,}/g,'\n\n').replace(/[ \t]+$/gm,'').trim();
+  return result;
+}
 
-    // ============================================================
-    //  PASTE HANDLER
-    // ============================================================
-    function setupPasteHandler() {
-      const textarea = document.getElementById('fContent');
-      if (!textarea) return;
-
-      textarea.addEventListener('paste', async (e) => {
-        const items = Array.from(e.clipboardData.items);
-        const htmlData = e.clipboardData.getData('text/html');
-
-        // HTML 모드: 이미지만 따로 처리, 나머지는 기본 동작 (HTML 텍스트 그대로 붙여넣기)
-        if (currentContentType === 'html') {
-          const imgItem = items.find(item => item.type.startsWith('image/'));
-          if (imgItem && !htmlData) {
-            e.preventDefault();
-            const reader = new FileReader();
-            reader.onload = ev => {
-              insertAtCursor(textarea, `<img src="${ev.target.result}" alt="image" style="max-width:100%;" />`);
-              showToast('✅ 이미지가 삽입되었습니다.');
-            };
-            reader.readAsDataURL(imgItem.getAsFile());
-          }
-          // HTML 텍스트는 브라우저 기본 동작 (plain text로 붙여넣기)
-          return;
-        }
-
-        // Markdown 모드 처리
-
-        // 1. 직접 이미지 파일 (스크린샷, 복사된 이미지)
-        const imgItem = items.find(item => item.type.startsWith('image/'));
-        if (imgItem && !htmlData) {
-          e.preventDefault();
-          await insertImageBlob(textarea, imgItem.getAsFile());
-          return;
-        }
-
-        // 2. HTML 포함 (웹페이지 복사) → Markdown 변환
-        if (htmlData) {
-          e.preventDefault();
-          showToast('⏳ 붙여넣기 변환 중...');
-          const md = htmlToMarkdown(htmlData);
-          insertAtCursor(textarea, md);
-          showToast('✅ 붙여넣기 완료! 이미지 포함 내용이 Markdown으로 변환되었습니다.');
-          return;
-        }
-
-        // 3. 일반 텍스트 → 브라우저 기본 동작
-      });
-
-      // 드래그&드롭 이미지
-      textarea.addEventListener('dragover', e => {
+// ============================================================
+//  PASTE HANDLER
+// ============================================================
+function setupPasteHandler(){
+  const textarea=document.getElementById('fContent'); if(!textarea) return;
+  textarea.addEventListener('paste', async e=>{
+    const items=Array.from(e.clipboardData.items);
+    const htmlData=e.clipboardData.getData('text/html');
+    if(currentContentType==='html'){
+      const imgItem=items.find(item=>item.type.startsWith('image/'));
+      if(imgItem&&!htmlData){
         e.preventDefault();
-        textarea.style.borderColor = 'var(--indigo)';
-        textarea.style.background = 'rgba(232,105,42,0.05)';
-      });
-      textarea.addEventListener('dragleave', () => {
-        textarea.style.borderColor = '';
-        textarea.style.background = '';
-      });
-      textarea.addEventListener('drop', async e => {
-        e.preventDefault();
-        textarea.style.borderColor = '';
-        textarea.style.background = '';
-        const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-        for (const file of files) await insertImageBlob(textarea, file);
-        if (files.length) showToast(`✅ ${files.length}개 이미지가 삽입되었습니다.`);
-      });
-    }
-
-    function insertAtCursor(textarea, text) {
-      const s = textarea.selectionStart, e = textarea.selectionEnd;
-      textarea.value = textarea.value.slice(0, s) + text + textarea.value.slice(e);
-      textarea.selectionStart = textarea.selectionEnd = s + text.length;
-      textarea.focus();
-    }
-
-    async function insertImageBlob(textarea, blob) {
-      return new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = ev => {
-          const src = ev.target.result;
-          const text = currentContentType === 'html'
-            ? `\n<img src="${src}" alt="image" style="max-width:100%;" />\n`
-            : `\n![image](${src})\n`;
-          insertAtCursor(textarea, text);
-          showToast('✅ 이미지가 삽입되었습니다.');
-          resolve();
-        };
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    // ============================================================
-    //  IMAGE FILE INPUT
-    // ============================================================
-    function setupImageInsert() {
-      const input = document.getElementById('imgFileInput');
-      if (!input) return;
-      input.addEventListener('change', async () => {
-        const textarea = document.getElementById('fContent');
-        for (const file of Array.from(input.files)) {
-          if (file.type.startsWith('image/')) await insertImageBlob(textarea, file);
-        }
-        input.value = '';
-      });
-    }
-
-    // ============================================================
-    //  TABS
-    // ============================================================
-    function switchTab(tab) {
-      const isPreview = tab === 'preview';
-      const isHtml = tab === 'html';
-      const isWrite = tab === 'write';
-
-      document.getElementById('tabWrite').classList.toggle('active', isWrite);
-      document.getElementById('tabHtml').classList.toggle('active', isHtml);
-      document.getElementById('tabPreview').classList.toggle('active', isPreview);
-
-      const textarea = document.getElementById('fContent');
-      const preview = document.getElementById('previewBox');
-      const hint = document.getElementById('editorHint');
-      const imgToolbar = document.getElementById('imgToolbar');
-
-      textarea.style.display = isPreview ? 'none' : 'block';
-      preview.style.display = isPreview ? 'block' : 'none';
-
-      if (isWrite) {
-        currentContentType = 'markdown';
-        textarea.placeholder = '# 제목\n\n본문을 작성하거나, 다른 곳에서 복사한 글+이미지를 그대로 붙여넣기 하세요.\n\n## 소제목\n\n**굵게**, *기울임*, `코드`\n\n- 목록 항목\n\n> 인용구\n\n```\n코드 블록\n```';
-        hint.innerHTML = 'Markdown: <code># 제목</code> &nbsp; <code>**굵게**</code> &nbsp; <code>*기울임*</code> &nbsp; <code>`코드`</code> &nbsp; <code>- 목록</code> &nbsp; <code>&gt; 인용</code> &nbsp; <code>[링크](URL)</code> &nbsp; <code>![이미지](URL)</code>';
-        imgToolbar.style.display = 'flex';
-      } else if (isHtml) {
-        currentContentType = 'html';
-        textarea.placeholder = '<h2>제목</h2>\n\n<p>본문을 HTML로 작성하세요. 웹페이지에서 복사한 내용을 그대로 붙여넣을 수도 있습니다.</p>\n\n<ul>\n  <li>항목 1</li>\n  <li>항목 2</li>\n</ul>\n\n<img src="URL" alt="이미지" />';
-        hint.innerHTML = 'HTML 모드: 태그를 직접 입력하거나 웹페이지에서 복사한 HTML을 그대로 붙여넣으세요. 이미지 파일을 붙여넣으면 자동으로 삽입됩니다.';
-        imgToolbar.style.display = 'flex';
-      } else {
-        // preview
-        if (currentContentType === 'html') {
-          preview.innerHTML = document.getElementById('fContent').value || '<p style="color:var(--text-muted)">내용 없음</p>';
-        } else {
-          preview.innerHTML = parseMarkdownPreview(document.getElementById('fContent').value);
-        }
+        const reader=new FileReader();
+        reader.onload=ev=>{ insertAtCursor(textarea,`<img src="${ev.target.result}" alt="image" style="max-width:100%;" />`); showToast('✅ 이미지가 삽입되었습니다.'); };
+        reader.readAsDataURL(imgItem.getAsFile());
       }
+      return;
     }
-
-    document.getElementById('tabWrite').addEventListener('click', () => switchTab('write'));
-    document.getElementById('tabHtml').addEventListener('click', () => switchTab('html'));
-    document.getElementById('tabPreview').addEventListener('click', () => switchTab('preview'));
-
-    function parseMarkdownPreview(md) {
-      if (!md) return '<p style="color:var(--text-muted)">내용 없음</p>';
-
-      // 1. Protect code blocks
-      const codeBlocks = [];
-      let html = md.replace(/```([\s\S]*?)```/g, (_, c) => { codeBlocks.push(c); return `__CB${codeBlocks.length-1}__`; });
-
-      // 2. Markdown → HTML (images first, before any escaping issues)
-      html = html
-        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) =>
-          `<img src="${src}" alt="${alt}" style="max-width:100%;border-radius:8px;margin:10px 0;display:block;" />`)
-        .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
-        .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-        .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-        .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-        .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
-        .replace(/`([^`\n]+)`/g, '<code>$1</code>')
-        .replace(/^\> (.+)$/gm, '<blockquote>$1</blockquote>')
-        .replace(/^---+$/gm, '<hr />')
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-        .replace(/^(- .+(?:\n- .+)*)/gm, blk =>
-          '<ul>' + blk.split('\n').map(l => `<li>${l.replace(/^- /, '')}</li>`).join('') + '</ul>')
-        .replace(/^(\d+\. .+(?:\n\d+\. .+)*)/gm, blk =>
-          '<ol>' + blk.split('\n').map(l => `<li>${l.replace(/^\d+\. /, '')}</li>`).join('') + '</ol>');
-
-      // 3. Paragraphs
-      html = html.split(/\n{2,}/).map(b => {
-        b = b.trim();
-        if (!b) return '';
-        if (/^<(h[1-6]|ul|ol|blockquote|hr|img|__CB)/.test(b)) return b;
-        return `<p>${b.replace(/\n/g, '<br>')}</p>`;
-      }).join('');
-
-      // 4. Restore code blocks (escape inside)
-      html = html.replace(/__CB(\d+)__/g, (_, i) => {
-        const esc = codeBlocks[+i].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        return `<pre><code>${esc.trim()}</code></pre>`;
-      });
-
-      return html;
+    const imgItem=items.find(item=>item.type.startsWith('image/'));
+    if(imgItem&&!htmlData){ e.preventDefault(); await insertImageBlob(textarea,imgItem.getAsFile()); return; }
+    if(htmlData){
+      e.preventDefault(); showToast('⏳ 붙여넣기 변환 중...');
+      const md=htmlToMarkdown(htmlData);
+      insertAtCursor(textarea,md);
+      showToast('✅ 붙여넣기 완료! Markdown으로 변환되었습니다.'); return;
     }
+  });
+  textarea.addEventListener('dragover', e=>{ e.preventDefault(); textarea.style.borderColor='var(--orange)'; });
+  textarea.addEventListener('dragleave',()=>{ textarea.style.borderColor=''; });
+  textarea.addEventListener('drop', async e=>{
+    e.preventDefault(); textarea.style.borderColor='';
+    const files=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
+    for(const file of files) await insertImageBlob(textarea,file);
+    if(files.length) showToast(`✅ ${files.length}개 이미지가 삽입되었습니다.`);
+  });
+}
 
-    // ============================================================
-    //  INIT
-    // ============================================================
-    (async function () {
-      if (isAuthed()) {
-        await showDashboard();
-      } else {
-        showGate();
-        setTimeout(() => document.getElementById('adminPassInput').focus(), 100);
-      }
-    })();
-  </script>
+function insertAtCursor(textarea,text){
+  const s=textarea.selectionStart, e=textarea.selectionEnd;
+  textarea.value=textarea.value.slice(0,s)+text+textarea.value.slice(e);
+  textarea.selectionStart=textarea.selectionEnd=s+text.length;
+  textarea.focus();
+}
+
+async function insertImageBlob(textarea,blob){
+  return new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const src=ev.target.result;
+      const text=currentContentType==='html'
+        ?`\n<img src="${src}" alt="image" style="max-width:100%;" />\n`
+        :`\n![image](${src})\n`;
+      insertAtCursor(textarea,text);
+      showToast('✅ 이미지가 삽입되었습니다.');
+      resolve();
+    };
+    reader.readAsDataURL(blob);
+  });
+}
+
+// ============================================================
+//  IMAGE FILE INPUT
+// ============================================================
+function setupImageInsert(){
+  const input=document.getElementById('imgFileInput'); if(!input) return;
+  input.addEventListener('change', async()=>{
+    const textarea=document.getElementById('fContent');
+    for(const file of Array.from(input.files)){
+      if(file.type.startsWith('image/')) await insertImageBlob(textarea,file);
+    }
+    input.value='';
+  });
+}
+
+// ============================================================
+//  TABS
+// ============================================================
+function switchTab(tab){
+  const isPreview=tab==='preview', isHtml=tab==='html', isWrite=tab==='write';
+  document.getElementById('tabWrite').classList.toggle('active',isWrite);
+  document.getElementById('tabHtml').classList.toggle('active',isHtml);
+  document.getElementById('tabPreview').classList.toggle('active',isPreview);
+  const textarea=document.getElementById('fContent');
+  const preview=document.getElementById('previewBox');
+  const hint=document.getElementById('editorHint');
+  const imgToolbar=document.getElementById('imgToolbar');
+  textarea.style.display=isPreview?'none':'block';
+  preview.style.display=isPreview?'block':'none';
+  if(isWrite){
+    currentContentType='markdown';
+    textarea.placeholder='# 제목\n\n본문을 작성하거나, 다른 곳에서 복사한 글+이미지를 그대로 붙여넣기 하세요.\n\n## 소제목\n\n**굵게**, *기울임*, `코드`\n\n- 목록 항목\n\n> 인용구\n\n```\n코드 블록\n```';
+    hint.innerHTML='Markdown: <code># 제목</code> &nbsp; <code>**굵게**</code> &nbsp; <code>*기울임*</code> &nbsp; <code>`코드`</code> &nbsp; <code>- 목록</code> &nbsp; <code>&gt; 인용</code> &nbsp; <code>[링크](URL)</code> &nbsp; <code>![이미지](URL)</code>';
+    imgToolbar.style.display='flex';
+  } else if(isHtml){
+    currentContentType='html';
+    textarea.placeholder='<h2>제목</h2>\n\n<p>본문을 HTML로 작성하세요.</p>';
+    hint.innerHTML='HTML 모드: 태그를 직접 입력하거나 웹페이지에서 복사한 HTML을 붙여넣으세요.';
+    imgToolbar.style.display='flex';
+  } else {
+    if(currentContentType==='html'){
+      preview.innerHTML=document.getElementById('fContent').value||'<p style="color:var(--ink-soft)">내용 없음</p>';
+    } else {
+      preview.innerHTML=parseMarkdownPreview(document.getElementById('fContent').value);
+    }
+  }
+}
+
+document.getElementById('tabWrite').addEventListener('click',()=>switchTab('write'));
+document.getElementById('tabHtml').addEventListener('click',()=>switchTab('html'));
+document.getElementById('tabPreview').addEventListener('click',()=>switchTab('preview'));
+
+function parseMarkdownPreview(md){
+  if(!md) return '<p style="color:var(--ink-soft)">내용 없음</p>';
+  const codeBlocks=[];
+  let html=md.replace(/```([\s\S]*?)```/g,(_,c)=>{ codeBlocks.push(c); return `__CB${codeBlocks.length-1}__`; });
+  html=html
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(_,alt,src)=>`<img src="${src}" alt="${alt}" style="max-width:100%;border-radius:8px;margin:10px 0;display:block;" />`)
+    .replace(/^#### (.+)$/gm,'<h4>$1</h4>').replace(/^### (.+)$/gm,'<h3>$1</h3>')
+    .replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>')
+    .replace(/\*\*([^*\n]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*\n]+)\*/g,'<em>$1</em>')
+    .replace(/`([^`\n]+)`/g,'<code>$1</code>').replace(/^\> (.+)$/gm,'<blockquote>$1</blockquote>')
+    .replace(/^---+$/gm,'<hr />')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/^(- .+(?:\n- .+)*)/gm, blk=>'<ul>'+blk.split('\n').map(l=>`<li>${l.replace(/^- /,'')}</li>`).join('')+'</ul>')
+    .replace(/^(\d+\. .+(?:\n\d+\. .+)*)/gm, blk=>'<ol>'+blk.split('\n').map(l=>`<li>${l.replace(/^\d+\. /,'')}</li>`).join('')+'</ol>');
+  html=html.split(/\n{2,}/).map(b=>{
+    b=b.trim(); if(!b) return '';
+    if(/^<(h[1-6]|ul|ol|blockquote|hr|img|__CB)/.test(b)) return b;
+    return `<p>${b.replace(/\n/g,'<br>')}</p>`;
+  }).join('');
+  html=html.replace(/__CB(\d+)__/g,(_,i)=>{
+    const esc=codeBlocks[+i].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<pre><code>${esc.trim()}</code></pre>`;
+  });
+  return html;
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+(async function(){
+  if(isAuthed()){ await showDashboard(); }
+  else { showGate(); setTimeout(()=>document.getElementById('adminPassInput').focus(),100); }
+})();
+</script>
 </body>
 </html>

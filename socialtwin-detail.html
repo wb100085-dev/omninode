@@ -1,181 +1,261 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SocialTwin 서비스·기술 | ㈜옴니노드</title>
-  <link rel="stylesheet" href="styles.css?v=s2" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SocialTwin 서비스·기술 | ㈜옴니노드</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
 </head>
-<body class="theme-ssyenc">
+<body>
 
-  <!-- NAV -->
-  <nav class="nav ss-nav" id="nav">
-    <div class="nav__inner ss-nav-inner">
-      <a href="index.html" class="nav__logo">
-        <img src="socialtwin_icon.png" class="logo-img" alt="SocialTwin" style="width:30px;height:auto;flex-shrink:0;" />
-        <div class="logo-texts">
-          <span class="logo-product" style="color:var(--indigo);">SocialTwin</span>
-        </div>
-      </a>
-      <ul class="nav__links ss-nav-links">
-        <li><a href="index.html#ss-vision">VISION</a></li>
-        <li><a href="index.html#ss-business">OUR BUSINESS</a></li>
-        <li><a href="index.html#ss-masterpiece">MASTERPIECE</a></li>
-        <li><a href="index.html#ss-news">INSIGHTS</a></li>
-      </ul>
-      <a href="index.html#ss-footer" class="ss-nav-btn">CONTACT US</a>
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+<div class="scroll-prog" id="scrollProg"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html">
+      <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#ss-vision">VISION</a>
+      <a href="index.html#ss-business">OUR BUSINESS</a>
+      <a href="index.html#ss-masterpiece">MASTERPIECE</a>
+      <a href="index.html#ss-news">INSIGHTS</a>
+      <a href="blog.html">BLOG</a>
     </div>
-  </nav>
-
-  <!-- DETAIL HERO -->
-  <section class="ss-hero" id="hero" style="min-height: 50vh;">
-    <div class="ss-hero-bg">
-      <div class="ss-hero-overlay" style="background: rgba(8, 12, 20, 0.8);"></div>
+    <div class="nav-cta">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button class="icon-btn mob-btn" id="hamburger" aria-label="메뉴">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="btn btn-primary" href="index.html#ss-footer">문의하기 <span class="arrow">→</span></a>
     </div>
-    <div class="ss-hero-content container" style="text-align:center;">
-      <p class="ss-hero-subtitle">CORE FEATURES</p>
-      <h1 class="ss-hero-title" style="font-size:clamp(3rem, 6vw, 6rem);">
-        3대 핵심 기능
-      </h1>
-    </div>
-  </section>
+  </div>
+</nav>
 
-  <!-- TECHNOLOGY -->
-  <section class="technology ss-vision" id="technology" style="padding-top:0;">
-    <div class="container">
-      <div class="ss-vision-grid">
-        <div class="ss-vision-card">
-          <div class="ss-vision-text">
-            <h3>신제품·서비스 가상 시장 반응 조사</h3>
-            <p>실제 런칭 전 잠재 고객의 페르소나를 가진 AI 패널들의 생생한 피드백을 수집합니다.</p>
-          </div>
-          <div class="ss-vision-stat">
-            <span class="ss-stat-num gradient-text">01</span>
-            <span class="ss-stat-label">Market Testing</span>
+<!-- Mobile Drawer -->
+<div class="mob-drawer" id="mobDrawer">
+  <a href="index.html#ss-vision">VISION</a>
+  <a href="index.html#ss-business">OUR BUSINESS</a>
+  <a href="index.html#ss-masterpiece">MASTERPIECE</a>
+  <a href="index.html#ss-news">INSIGHTS</a>
+  <a href="blog.html">BLOG</a>
+  <a href="index.html#ss-footer" class="mob-cta-link">문의하기 →</a>
+</div>
+
+<!-- ============== HERO ============== -->
+<section class="blog-hero">
+  <div class="blog-hero-inner wrap">
+    <p class="blog-hero-eye">CORE FEATURES · SocialTwin B2B</p>
+    <h1 class="blog-hero-title reveal">3대 핵심 기능</h1>
+    <p class="blog-hero-desc reveal d1">AI 가상 패널이 실제 런칭 전 시장 반응을 검증합니다.<br/>수만 번의 시뮬레이션으로 리스크를 사전에 제거하세요.</p>
+  </div>
+</section>
+
+<!-- ============== TECHNOLOGY ============== -->
+<section class="tech" id="technology">
+  <div class="wrap">
+    <div class="tech-head">
+      <div>
+        <div class="reveal"><span class="eyebrow">01 · Market Testing</span></div>
+        <h2 class="h-section reveal d1">신제품·서비스 검증의<br/>3가지 방법</h2>
+      </div>
+      <p class="lead reveal d2">비용·속도·정확성. 기존 설문조사가 해결하지 못한 세 가지 문제를 AI 가상패널로 돌파합니다.</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card reveal d1">
+        <div class="num">01 · MARKET TESTING</div>
+        <p class="ko">신제품·서비스<br/>가상 시장 반응 조사</p>
+        <p class="en">Market Reaction Simulation</p>
+        <blockquote class="quote">"실제 런칭 전, 수만 명의 반응을 미리 확인합니다"</blockquote>
+        <p class="body">잠재 고객의 페르소나를 가진 AI 패널들이 생생한 피드백을 제공합니다. 제품 콘셉트부터 광고 카피까지 실제 출시 전에 검증하세요.</p>
+        <div class="badge"><span class="dot"></span>PMF 검증 · 시장성 사전 확인</div>
+      </div>
+      <div class="tech-card reveal d2">
+        <div class="num">02 · PRICE &amp; DEMAND</div>
+        <p class="ko">가격 수용성 및<br/>구매 의향 분석</p>
+        <p class="en">Price Sensitivity Analysis</p>
+        <blockquote class="quote">"최적의 가격 저항선과 수익 극대화 지점을 도출합니다"</blockquote>
+        <p class="body">PSM(Price Sensitivity Measurement) 모델 기반 AI 시뮬레이션으로 고객이 지불할 최적 가격대를 과학적으로 산출합니다.</p>
+        <div class="badge"><span class="dot"></span>PSM 모델 · 수익 극대화</div>
+      </div>
+      <div class="tech-card reveal d3">
+        <div class="num">03 · PRODUCT-MARKET FIT</div>
+        <p class="ko">PMF 검증 및<br/>Pivot 시뮬레이션</p>
+        <p class="en">Product-Market Fit Validation</p>
+        <blockquote class="quote">"전략 수정 시 변화될 지표를 미리 예측합니다"</blockquote>
+        <p class="body">제품-시장 적합성을 수치로 확인하고, 전략을 수정했을 때 어떤 결과가 나올지 시뮬레이션합니다. 실패 없는 피벗을 설계하세요.</p>
+        <div class="badge"><span class="dot"></span>Spearman 90%+ · RSS 방법론</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PROCESS ============== -->
+<section class="how" id="process">
+  <div class="wrap">
+    <div class="how-head">
+      <div>
+        <div class="reveal"><span class="eyebrow">02 · Process</span></div>
+        <h2 class="h-section reveal d1">4단계 프로세스</h2>
+      </div>
+      <p class="lead reveal d2">가상 사회 설계부터 리포트 자동 생성까지 — 완전 자동화된 AI 시장조사 파이프라인입니다.</p>
+    </div>
+    <div class="how-steps reveal">
+      <div class="step">
+        <div class="pin">01</div>
+        <h4>가상 사회 설계</h4>
+        <p class="d">IPF 기반으로 인구 구조를 모사하고 타깃 코호트를 정의합니다.</p>
+        <span class="tag">VIRTUAL SOCIETY</span>
+      </div>
+      <div class="step">
+        <div class="pin">02</div>
+        <h4>가상 패널 생성</h4>
+        <p class="d">디지털 트윈 페르소나를 수천~수만 명 규모로 즉시 생성합니다.</p>
+        <span class="tag">DIGITAL TWIN</span>
+      </div>
+      <div class="step">
+        <div class="pin">03</div>
+        <h4>시뮬레이션 실행</h4>
+        <p class="d">정성·정량 설문을 수만 번 반복하여 통계적 확실성을 확보합니다.</p>
+        <span class="tag">SIMULATION × 10K</span>
+      </div>
+      <div class="step">
+        <div class="pin">04</div>
+        <h4>리포트 자동 생성</h4>
+        <p class="d">LLM 기반 전문 컨설팅 보고서를 자동으로 출력합니다.</p>
+        <span class="tag">AI REPORT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ABOUT OMNINODE ============== -->
+<section class="research" id="about">
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">03 · About OmniNode</span></div>
+    <h2 class="h-section reveal d1">20년 경험이 만든<br/>AI 혁신.</h2>
+    <p class="lead reveal d2">"현실은 리플레이가 불가능하지만, 가상 세계에서는 수만 번의 시나리오를 미리 실행할 수 있다"</p>
+    <div class="papers">
+      <article class="paper reveal d1">
+        <div class="stars">▲</div>
+        <div class="ref">EXPERTISE · 01</div>
+        <h4>전문성</h4>
+        <p class="desc">R&D·기술사업화·사회조사 전략 기획 20년 경력의 전문가 그룹이 만든 검증된 방법론으로 시장을 분석합니다.</p>
+        <span class="tag">20년 현장 경험</span>
+      </article>
+      <article class="paper reveal d2">
+        <div class="stars">▲ ▲</div>
+        <div class="ref">TRACK RECORD · 02 · CORE</div>
+        <h4>검증된 실적</h4>
+        <p class="desc">공공·민간 40여개사 이상에 대한 심도 깊은 시장성 검증 수행 경험. <strong style="color:#fff;">95% 인간 응답 일치율</strong>이 신뢰성을 증명합니다.</p>
+        <span class="tag">40+ 기업 검증 완료</span>
+      </article>
+      <article class="paper reveal d3">
+        <div class="stars">▲</div>
+        <div class="ref">GLOBAL VISION · 03</div>
+        <h4>글로벌 확장</h4>
+        <p class="desc">한국형 디지털 트윈을 넘어 글로벌 단위의 리스크 시뮬레이터로의 비전. 국제 표준 통계 방법론 기반으로 확장합니다.</p>
+        <span class="tag">글로벌 리스크 시뮬레이터</span>
+      </article>
+    </div>
+    <div class="credentials reveal">
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        상표 출원 완료 · <strong style="color:var(--orange-soft);margin-left:4px;">SocialTwin</strong>
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        특허 출원 진행 중
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+        대구창조경제혁신센터 입주기업
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7L9 18l-5-5"/></svg>
+        여성기업 공공 수의계약 인증
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA ============== -->
+<section class="idx-cta">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <div class="cta-grid">
+        <div>
+          <h2>단 한 번의 잘못된 결정 없이<br/><span class="accent">시장을 정복하세요.</span></h2>
+          <p>SocialTwin 데모를 경험하고 시장 진입 리스크를 사전에 제거하세요. 옴니노드 팀이 귀사 도메인에 맞는 활용 시나리오를 직접 설계해 드립니다.</p>
+          <div class="cta-meta">
+            <div class="item"><span class="l">SERVICE</span><span class="v">SocialTwin B2B</span></div>
+            <div class="item"><span class="l">EMAIL</span><span class="v">hys@omninode.kr</span></div>
+            <div class="item"><span class="l">RESPONSE</span><span class="v">영업일 24시간 이내</span></div>
           </div>
         </div>
-
-        <div class="ss-vision-card">
-          <div class="ss-vision-text">
-            <h3>가격 수용성 및 구매 의향 분석</h3>
-            <p>PSM 모델 기반의 AI 시뮬레이션으로 최적의 가격 저항선과 수익 극대화 지점을 도출합니다.</p>
-          </div>
-          <div class="ss-vision-stat">
-            <span class="ss-stat-num gradient-text">02</span>
-            <span class="ss-stat-label">Price & Demand</span>
-          </div>
-        </div>
-
-        <div class="ss-vision-card" style="border-bottom:none;">
-          <div class="ss-vision-text">
-            <h3>PMF 검증 및 Pivot 시뮬레이션</h3>
-            <p>제품-시장 적합성을 수치로 확인하고, 전략 수정 시 변화될 지표를 미리 예측합니다.</p>
-          </div>
-          <div class="ss-vision-stat">
-            <span class="ss-stat-num gradient-text">03</span>
-            <span class="ss-stat-label">Product-Market Fit</span>
-          </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;position:relative;z-index:1;">
+          <a class="btn btn-primary" href="https://www.socialtwin.site/" target="_blank" rel="noopener" style="justify-content:center;">무료 데모 경험하기 <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="index.html#ss-footer" style="justify-content:center;border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.8);">문의하기</a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- HOW IT WORKS -> PROCESS PANELS -->
-  <section class="process ss-business" id="process" style="padding-top:100px;">
-    <div class="ss-business-header container">
-      <h2 style="font-size:3rem;">4단계 프로세스</h2>
-    </div>
-    <div class="ss-business-panels" style="min-height: 400px; height:50vh;">
-      <div class="ss-b-panel" style="background:#111a2e; align-items:center; justify-content:center; text-align:center;">
-        <div class="ss-b-content">
-          <h3 style="font-size:3rem; color:var(--indigo); margin-bottom:0;">01</h3>
-          <h3 style="margin-top:20px;">가상 사회 설계</h3>
-          <p style="opacity:1; transform:none;">IPF 기반으로 인구 구조를 모사하고 타깃 코호트를 정의합니다.</p>
-        </div>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <a class="brand" href="index.html">
+          <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
+        </a>
+        <p class="desc">통계기반 AI 가상패널로 더 빠르고 정확하고 저렴하게 소비자 인사이트를 발굴합니다.</p>
+        <p class="desc" style="margin-top:8px;">대구광역시 북구 호암로 51 대구창조경제혁신센터 4F<br/>E. hys@omninode.kr / cwb@omninode.kr</p>
       </div>
-      <div class="ss-b-panel" style="background:#162444; align-items:center; justify-content:center; text-align:center;">
-        <div class="ss-b-content">
-          <h3 style="font-size:3rem; color:var(--cyan); margin-bottom:0;">02</h3>
-          <h3 style="margin-top:20px;">가상 패널 생성</h3>
-          <p style="opacity:1; transform:none;">디지털 트윈 페르소나를 수천~수만 명 규모로 즉시 생성합니다.</p>
-        </div>
+      <div>
+        <h5>PRODUCT</h5>
+        <ul>
+          <li><a href="index.html#ss-vision">Virtual Society</a></li>
+          <li><a href="index.html#ss-masterpiece">핵심 기술</a></li>
+          <li><a href="index.html#ss-business">Our Business</a></li>
+        </ul>
       </div>
-      <div class="ss-b-panel" style="background:#1d3060; align-items:center; justify-content:center; text-align:center;">
-        <div class="ss-b-content">
-          <h3 style="font-size:3rem; color:var(--indigo); margin-bottom:0;">03</h3>
-          <h3 style="margin-top:20px;">시뮬레이션 실행</h3>
-          <p style="opacity:1; transform:none;">정성·정량 설문을 수만 번 반복하여 통계적 확실성을 확보합니다.</p>
-        </div>
+      <div>
+        <h5>SOLUTIONS</h5>
+        <ul>
+          <li><a href="index.html#ss-business">B2B 스타트업</a></li>
+          <li><a href="index.html#ss-business">B2G 지자체</a></li>
+          <li><a href="index.html#ss-business">B2P 선거·정치</a></li>
+        </ul>
       </div>
-      <div class="ss-b-panel" style="background:var(--indigo); align-items:center; justify-content:center; text-align:center;">
-        <div class="ss-b-content" style="color:#fff;">
-          <h3 style="font-size:3rem; color:#fff; margin-bottom:0;">04</h3>
-          <h3 style="margin-top:20px; color:#fff;">리포트 자동 생성</h3>
-          <p style="opacity:1; transform:none; color:rgba(255,255,255,0.8);">LLM 기반 전문 컨설팅 보고서를 자동으로 출력합니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT OMNINODE (MASTERPIECE STYLE) -->
-  <section class="about ss-masterpiece" id="about">
-    <div class="container ss-masterpiece-container">
-      <div class="ss-mp-left">
-        <h2 style="font-size:3rem;">ABOUT OMNINODE</h2>
-        <p>20년 현장 경험이 만든 AI 혁신. <br/>"현실은 리플레이가 불가능하지만, 가상 세계에서는 수만 번의 시나리오를 미리 실행할 수 있다"는 철학으로 SocialTwin을 개발했습니다.</p>
-      </div>
-      <div class="ss-mp-right" style="gap:80px;">
-        <div class="ss-mp-item">
-          <div class="ss-mp-info">
-            <h4>전문성</h4>
-            <p>R&D·기술사업화·사회조사 전략 기획 20년 경력의 전문가 그룹</p>
-          </div>
-        </div>
-        <div class="ss-mp-item">
-          <div class="ss-mp-info">
-            <h4>검증된 실적</h4>
-            <p>공공·민간 40여개사 이상에 대한 심도 깊은 시장성 검증 수행 경험</p>
-          </div>
-        </div>
-        <div class="ss-mp-item">
-          <div class="ss-mp-info">
-            <h4>글로벌 확장</h4>
-            <p>한국형 디지털 트윈을 넘어 글로벌 단위의 리스크 시뮬레이터로의 비전</p>
-          </div>
-        </div>
+      <div>
+        <h5>COMPANY</h5>
+        <ul>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#ss-footer">문의하기</a></li>
+          <li><a href="#">개인정보 처리방침</a></li>
+          <li><a href="#">이용약관</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-
-  <!-- CTA BANNER -->
-  <section class="cta-banner" style="background:var(--indigo); padding:100px 0; text-align:center; color:#fff;">
-    <div class="container">
-      <h2 style="font-size:2.5rem; font-weight:800; margin-bottom:20px;">단 한 번의 잘못된 결정 없이 시장을 정복하세요</h2>
-      <p style="font-size:1.2rem; font-weight:600; margin-bottom:40px;">SocialTwin 데모를 경험하고 시장 진입 리스크를 사전에 제거하세요.</p>
-      <a href="https://www.socialtwin.site/" target="_blank" rel="noopener noreferrer" class="ss-nav-btn" style="border-color:#fff; color:#fff; background:rgba(255,255,255,0.1);">무료 데모 경험하기</a>
+    <div class="footer-bottom">
+      <div>© 2026 OMNINODE Inc. All rights reserved.</div>
+      <div>Made with statistical rigor in Seoul.</div>
     </div>
-  </section>
+  </div>
+</footer>
 
-  <!-- FOOTER -->
-  <footer class="ss-footer" id="ss-footer" style="padding-top:60px;">
-    <div class="container">
-      <div class="ss-footer-bottom" style="border-top:none; padding-top:0;">
-        <div class="ss-brand">
-          <img src="이미지/omninode.png" alt="OmniNode" style="height:35px; width:auto;" />
-          <p>Copyright © OmniNode. All rights reserved.</p>
-        </div>
-        <div class="ss-f-links">
-          <a href="#">개인정보처리방침</a>
-          <a href="#">이용약관</a>
-          <a href="index.html">홈으로 가기</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script src="main.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
