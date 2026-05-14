@@ -54,6 +54,24 @@
     body.cursor-hover .cursor-ring{width:60px;height:60px;border-color:var(--orange);opacity:1;}
     body.cursor-text .cursor{width:3px;height:24px;border-radius:2px;}
     body.cursor-text .cursor-ring{opacity:0;}
+    /* Admin 페이지: 커스텀 커서 엘리먼트가 없으므로 시스템 커서 유지 */
+    body.admin-page{cursor:auto;}
+    body.admin-page a,
+    body.admin-page button,
+    body.admin-page [role="button"],
+    body.admin-page .a-btn,
+    body.admin-page .btn,
+    body.admin-page label,
+    body.admin-page input[type="checkbox"],
+    body.admin-page input[type="radio"],
+    body.admin-page input[type="file"]{cursor:pointer;}
+    body.admin-page input[type="text"],
+    body.admin-page input[type="email"],
+    body.admin-page input[type="password"],
+    body.admin-page input[type="url"],
+    body.admin-page input[type="date"],
+    body.admin-page input[type="search"],
+    body.admin-page textarea{cursor:text;}
   }
 
   /* ---------- Scroll progress ---------- */
