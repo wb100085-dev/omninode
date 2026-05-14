@@ -418,6 +418,10 @@
   </div>
   <div class="blog-popup-list" id="blogPopupList"></div>
   <div class="blog-popup-footer">
+    <label class="blog-popup-dontshow" for="blogPopupHideToday" style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft);cursor:pointer;user-select:none;">
+      <input type="checkbox" id="blogPopupHideToday" style="accent-color:var(--orange);width:15px;height:15px;cursor:pointer;" />
+      오늘은 그만 보기
+    </label>
     <a href="blog.html" class="blog-popup-cta">블로그 전체 보기 →</a>
   </div>
 </div>
@@ -496,16 +500,40 @@ document.querySelectorAll('.vision-card').forEach(card=>{
   const overlay = document.getElementById('blogPopupOverlay');
   const popup = document.getElementById('blogPopup');
   const list = document.getElementById('blogPopupList');
+  const hideTodayCheckbox = document.getElementById('blogPopupHideToday');
+
+  const SESSION_KEY = 'omninode_blog_popup_closed';
+  const HIDE_TODAY_KEY = 'omninode_blog_popup_hide_until';
+
+  function todayStr(){
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+  function shouldSkipPopup(){
+    try {
+      const hideUntil = localStorage.getItem(HIDE_TODAY_KEY);
+      if(hideUntil && hideUntil === todayStr()) return true;
+    } catch(e){}
+    try {
+      if(sessionStorage.getItem(SESSION_KEY)==='1') return true;
+    } catch(e){}
+    return false;
+  }
 
   function formatDate(d){ return d ? new Date(d).toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'}) : ''; }
   async function getPosts(){
+    let raw = [];
     try {
       if(typeof window.fetchBlogPosts === 'function'){
         const r = await window.fetchBlogPosts();
-        if(r && r.length) return r.slice(0,3);
+        if(r && r.length) raw = r;
       }
     } catch(e){}
-    return (window.BLOG_POSTS||[]).slice(0,3);
+    if(!raw.length) raw = (window.BLOG_POSTS || []);
+    const visible = (typeof window.filterPublicPosts === 'function')
+      ? window.filterPublicPosts(raw)
+      : raw.filter(p => p && p.published !== false);
+    return visible.slice(0,3);
   }
   function buildList(posts){
     if(!posts.length) return;
@@ -519,12 +547,28 @@ document.querySelectorAll('.vision-card').forEach(card=>{
     }).join('');
   }
   function openPopup(){ overlay.classList.add('active'); popup.classList.add('active'); }
-  function closePopup(){ overlay.classList.remove('active'); popup.classList.remove('active'); sessionStorage.setItem(SESSION_KEY,'1'); }
+  function closePopup(){
+    overlay.classList.remove('active');
+    popup.classList.remove('active');
+    try {
+      if(hideTodayCheckbox && hideTodayCheckbox.checked){
+        localStorage.setItem(HIDE_TODAY_KEY, todayStr());
+      }
+      sessionStorage.setItem(SESSION_KEY,'1');
+    } catch(e){}
+  }
 
   document.getElementById('blogPopupClose').addEventListener('click', closePopup);
   overlay.addEventListener('click', closePopup);
+  // 체크박스 라벨 클릭이 오버레이로 버블링되어 즉시 닫히지 않도록
+  document.querySelector('.blog-popup-dontshow')?.addEventListener('click', e=>e.stopPropagation());
+
+  if(shouldSkipPopup()) return;
 
   await new Promise(r=>setTimeout(r,2000));
+  // 비동기 대기 중 다른 탭/페이지에서 "오늘은 그만 보기"가 켜졌을 수 있으므로 재확인
+  if(shouldSkipPopup()) return;
+
   const posts = await getPosts();
   buildList(posts);
   if(posts.length) openPopup();

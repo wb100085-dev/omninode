@@ -194,6 +194,15 @@ function formatDate(dateStr){
 async function init(){
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
+  function hasAdminMarker(){
+    if(sessionStorage.getItem('blog_admin_auth')==='1') return true;
+    try {
+      const until = parseInt(localStorage.getItem('blog_admin_preview_until')||'0', 10);
+      if(until && Date.now() < until) return true;
+    } catch(e){}
+    return false;
+  }
+  const isAdminPreview = params.get('preview')==='1' && hasAdminMarker();
   const allPosts = await getAllPosts();
   const post = allPosts.find(p=>p.id===id);
 
@@ -204,10 +213,22 @@ async function init(){
     return;
   }
 
+  // 비공개 게시물 차단 (관리자 미리보기는 예외)
+  if(post.published===false && !isAdminPreview){
+    document.getElementById('postHeroContent').innerHTML=`
+      <h1 style="color:#fff;font-size:2rem;margin-bottom:16px;">포스트를 찾을 수 없습니다</h1>
+      <a href="blog.html" style="color:var(--orange-soft);">← 블로그 목록으로 돌아가기</a>`;
+    return;
+  }
+
   document.title = `${post.title} | OMNINODE Blog`;
 
   const tags=(post.tags||[]).map(t=>`<span class="post-tag">${t.toUpperCase()}</span>`).join('');
+  const previewBanner = (post.published===false && isAdminPreview)
+    ? `<div style="display:inline-block;padding:6px 14px;border-radius:20px;background:rgba(239,68,68,0.18);color:#fecaca;font-size:12px;font-weight:700;margin-bottom:14px;">🔒 비공개 미리보기 (관리자 전용)</div>`
+    : '';
   document.getElementById('postHeroContent').innerHTML=`
+    ${previewBanner}
     <div class="post-tags">${tags}</div>
     <h1 class="post-title">${post.title}</h1>
     <div class="post-meta">
@@ -219,9 +240,11 @@ async function init(){
     ? (post.content||'')
     : parseMarkdown(post.content||'');
 
-  const idx = allPosts.indexOf(post);
-  const prev = allPosts[idx+1];
-  const next = allPosts[idx-1];
+  // 일반 방문자 prev/next에는 비공개 게시물 제외
+  const navPosts = isAdminPreview ? allPosts : allPosts.filter(p=>p.published!==false);
+  const idx = navPosts.indexOf(post);
+  const prev = navPosts[idx+1];
+  const next = navPosts[idx-1];
   let navHtml='';
   if(prev) navHtml+=`<a class="post-nav-link prev" href="blog-post.html?id=${encodeURIComponent(prev.id)}"><span class="post-nav-label">← Previous</span><span class="post-nav-title">${prev.title}</span></a>`;
   if(next) navHtml+=`<a class="post-nav-link next" href="blog-post.html?id=${encodeURIComponent(next.id)}"><span class="post-nav-label">Next →</span><span class="post-nav-title">${next.title}</span></a>`;

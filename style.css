@@ -1247,12 +1247,17 @@
 }
 .blog-popup-item-title{font-size:14px;font-weight:600;color:var(--navy);line-height:1.4;}
 .blog-popup-item-meta{font-size:12px;color:var(--ink-soft);margin-top:4px;}
-.blog-popup-footer{padding:14px 20px;border-top:1px solid var(--line);}
+.blog-popup-footer{
+  padding:14px 20px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
 .blog-popup-cta{
   font-size:13px;font-weight:700;color:var(--orange);text-decoration:none;
   transition:letter-spacing .2s;display:inline-block;
 }
 .blog-popup-cta:hover{letter-spacing:.04em;}
+.blog-popup-dontshow{margin:0;}
+.blog-popup-dontshow:hover{color:var(--navy);}
 
 
 /* ==============================================

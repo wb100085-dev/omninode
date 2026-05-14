@@ -16,9 +16,14 @@ CREATE TABLE IF NOT EXISTS public.blog_posts (
   tags         text[]      NOT NULL DEFAULT '{}',
   image_url    text        NOT NULL DEFAULT '',
   featured     boolean     NOT NULL DEFAULT false,
+  published    boolean     NOT NULL DEFAULT true,
   created_at   timestamptz NOT NULL DEFAULT now(),
   updated_at   timestamptz NOT NULL DEFAULT now()
 );
+
+-- 1-1. 기존 테이블에 published 컬럼이 없을 경우 추가
+ALTER TABLE public.blog_posts
+  ADD COLUMN IF NOT EXISTS published boolean NOT NULL DEFAULT true;
 
 -- 2. RLS(행 수준 보안) 활성화
 ALTER TABLE public.blog_posts ENABLE ROW LEVEL SECURITY;

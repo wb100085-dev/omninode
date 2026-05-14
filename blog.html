@@ -156,11 +156,20 @@
 
 // ── Get posts ────────────────────────────────
 async function getAllPosts(){
+  let posts;
   const remote = await window.fetchBlogPosts();
-  if(remote !== null) return remote;
-  const override = localStorage.getItem('omninode_blog_override');
-  if(override){ try{ const p=JSON.parse(override); if(Array.isArray(p)&&p.length>0) return p; }catch(e){} }
-  return window.BLOG_POSTS || [];
+  if(remote !== null) posts = remote;
+  else {
+    const override = localStorage.getItem('omninode_blog_override');
+    if(override){
+      try{ const p=JSON.parse(override); if(Array.isArray(p)&&p.length>0) posts=p; }catch(e){}
+    }
+    if(!posts) posts = window.BLOG_POSTS || [];
+  }
+  // 비공개 게시물은 일반 방문자에게 노출하지 않음
+  return (typeof window.filterPublicPosts === 'function')
+    ? window.filterPublicPosts(posts)
+    : posts.filter(p => p && p.published !== false);
 }
 
 function formatDate(dateStr){

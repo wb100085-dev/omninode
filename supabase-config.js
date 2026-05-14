@@ -26,8 +26,17 @@ window.postFromDB = function (row) {
     date: row.date || '',
     tags: row.tags || [],
     imageUrl: row.image_url || '',
-    featured: !!row.featured
+    featured: !!row.featured,
+    published: row.published === undefined ? true : !!row.published
   };
+};
+
+// 일반 방문자에게 노출할 게시물만 필터링 (비공개 제외)
+window.filterPublicPosts = function (posts) {
+  if (!Array.isArray(posts)) return [];
+  return posts.filter(function (p) {
+    return p && p.published !== false;
+  });
 };
 
 // Supabase에서 전체 포스트 조회 (날짜 내림차순)
