@@ -1743,3 +1743,83 @@ html,body{background:var(--paper);min-height:100vh;}
   .admin-form-row{grid-template-columns:1fr;}
   .admin-stats{grid-template-columns:1fr;}
 }
+
+/* ==================================================================
+   MOBILE OPTIMIZATION  ·  added 2026-05
+   Phone-only refinements. Every rule lives inside a max-width media
+   query, so desktop / tablet (>640px) rendering stays untouched.
+   Fixes: hero headline top-clipping, desktop fixed-height gaps,
+   grids that stayed multi-column, oversized section padding,
+   staggered credential pills, tap targets, admin dashboard.
+   ================================================================== */
+@media (max-width:640px){
+  /* ── Hero (index split layout) ──
+     The base .hero is min-height:100vh + flex align-items:center +
+     overflow:hidden. On phones the stacked content is taller than the
+     viewport, so centering pushed the first line above the top edge and
+     overflow clipped it ("더 정확하고"). Switch to natural top-down flow.
+     .hero-center (service-coming-soon) is left as-is — it stays nicely
+     centered because its content is short. */
+  .hero-split{min-height:auto;display:block;align-items:stretch;padding:92px 0 60px;}
+  .hero-split .hero-inner{gap:36px;}
+  .hero-split h1.hero-title{font-size:clamp(34px,8.5vw,46px);line-height:1.16;}
+  .hero-split .hero-sub{font-size:16px;line-height:1.6;}   /* 19px → 16px: 모바일에서 살짝 축소 */
+  .hero-split .hero-ctas{gap:10px;}
+  .hero-split .hero-ctas .btn{flex:1 1 auto;justify-content:center;}
+
+  /* ── Remove desktop fixed heights that leave huge empty gaps ──
+     tech-card (480px) and case-content (420px) reserved space far taller
+     than the stacked mobile content. .biz-card keeps its height: those
+     are background-image cards that need it. */
+  .tech-card{min-height:0;}
+  .case-content{min-height:0;padding:28px 22px;}
+  .cmp-pane{padding:32px 20px;}
+
+  /* ── Collapse remaining multi-column grids to a single column ──
+     .how-steps was left at 2 columns by the 1024px breakpoint; the rest
+     are defensive (already 1fr at 1024, harmless to restate). */
+  .how-steps{grid-template-columns:1fr;gap:18px;}
+  .how-steps::before,.how-steps::after{display:none;}
+  .how-steps .step{padding-right:0;}
+  .tech-grid,.feat-grid,.pain-grid,.papers,.team-grid,
+  .vision-grid,.biz-grid,.blog-grid{grid-template-columns:1fr;}
+
+  /* ── Tame oversized section vertical padding (was 140–180px) ── */
+  .problem,.solution,.features,.how,.cases,.compare,
+  .tech,.research,.team,.vision-section,.biz-section,
+  .insight-section{padding-top:76px;padding-bottom:76px;}
+  .story{padding-top:88px;padding-bottom:88px;}
+  .cta,.idx-cta{padding-top:76px;}            /* keep 0 bottom — flows into footer */
+  .legal-page{padding:96px 0 56px;}
+
+  /* ── Credential pills: left-aligned wrap instead of staggered centre ── */
+  .credentials{justify-content:flex-start;gap:10px;padding-top:32px;margin-top:44px !important;}
+
+  /* ── Comfortable tap target height ── */
+  .btn{padding:13px 22px;}
+
+  /* ── Blog filter bar ──
+     The sticky .blog-controls (top:72px) was ~486px tall on phones because
+     ~30 tags wrapped into many rows, covering the whole viewport so posts
+     stayed hidden while scrolling. Keep it compact: search on one row, tags
+     on a single horizontally-scrollable row instead of wrapping. */
+  .blog-controls{padding:12px 0;}
+  .blog-controls-inner{gap:10px;}
+  .blog-tags{
+    flex-wrap:nowrap;overflow-x:auto;width:100%;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;
+  }
+  .blog-tags::-webkit-scrollbar{display:none;}
+  .blog-tag{flex:0 0 auto;}
+
+  /* ── Admin dashboard (login card already fits) ── */
+  .admin-header{gap:10px;}
+  .admin-header-status{display:none;}
+  .admin-header-left h1{font-size:16px;}
+  .admin-form-wrap{padding:24px 18px;}
+}
+
+@media (max-width:400px){
+  .hero-split h1.hero-title{font-size:32px;}
+  .hero-stats{gap:18px 24px;}
+}
