@@ -121,8 +121,15 @@
         </div>
 
         <div class="admin-form-group">
-          <label>대표 이미지 URL (선택)</label>
-          <input type="url" id="fImageUrl" placeholder="https://example.com/image.jpg (비우면 기본 배경 사용)" />
+          <label>대표 이미지 (블로그 목록 썸네일)</label>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <input type="url" id="fImageUrl" placeholder="이미지 업로드 버튼을 쓰거나 직접 URL 입력 (비우면 기본 배경)" style="flex:1;min-width:240px;" />
+            <label class="a-btn a-btn-ghost a-btn-sm" style="cursor:pointer;margin-bottom:0;line-height:1;white-space:nowrap;">
+              ⬆ 이미지 업로드
+              <input type="file" id="fThumbInput" accept="image/*" style="display:none;" />
+            </label>
+          </div>
+          <div id="fThumbPreview" style="margin-top:8px;"></div>
         </div>
 
         <div class="admin-form-group">
@@ -147,10 +154,14 @@
               <button class="admin-tab" id="tabHtml">🌐 HTML</button>
               <button class="admin-tab" id="tabPreview">👁 미리보기</button>
             </div>
-            <div style="display:flex;gap:8px;align-items:center;" id="imgToolbar">
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;" id="imgToolbar">
               <label class="a-btn a-btn-ghost a-btn-sm" style="cursor:pointer;margin-bottom:0;line-height:1;">
                 🖼 이미지 삽입
                 <input type="file" id="imgFileInput" accept="image/*" multiple style="display:none;" />
+              </label>
+              <label class="a-btn a-btn-ghost a-btn-sm" style="cursor:pointer;margin-bottom:0;line-height:1;" title="완성된 HTML 파일을 그대로 불러옵니다 (HTML 모드로 전환)">
+                📄 HTML 파일 불러오기
+                <input type="file" id="htmlFileInput" accept=".html,.htm,text/html" style="display:none;" />
               </label>
               <span style="font-size:12px;color:var(--ink-soft);">또는 복사 후 Ctrl+V · 드래그&드롭</span>
             </div>
@@ -231,6 +242,8 @@ async function showDashboard(){
   await renderDashboard();
   setupPasteHandler();
   setupImageInsert();
+  setupThumbUpload();
+  setupHtmlFileUpload();
 }
 
 document.getElementById('adminLoginBtn').addEventListener('click', tryLogin);
@@ -411,6 +424,7 @@ function openForm(post){
     document.getElementById('fPublished').checked=true;
     switchTab('write');
   }
+  if(typeof renderThumbPreview==='function') renderThumbPreview();
 }
 
 function closeForm(){ document.getElementById('postFormWrap').style.display='none'; }
@@ -577,14 +591,12 @@ function setupPasteHandler(){
     const items=Array.from(e.clipboardData.items);
     const htmlData=e.clipboardData.getData('text/html');
     if(currentContentType==='html'){
+      // 이미지 붙여넣기 → Storage 업로드
       const imgItem=items.find(item=>item.type.startsWith('image/'));
-      if(imgItem&&!htmlData){
-        e.preventDefault();
-        const reader=new FileReader();
-        reader.onload=ev=>{ insertAtCursor(textarea,`<img src="${ev.target.result}" alt="image" style="max-width:100%;" />`); showToast('✅ 이미지가 삽입되었습니다.'); };
-        reader.readAsDataURL(imgItem.getAsFile());
-      }
-      return;
+      if(imgItem){ e.preventDefault(); await insertImageBlob(textarea,imgItem.getAsFile()); return; }
+      // 웹페이지/HTML 복사본 → text/html 을 그대로 삽입 (레이아웃·태그 보존)
+      if(htmlData){ e.preventDefault(); insertAtCursor(textarea,htmlData); showToast('✅ HTML 붙여넣기 완료 (원본 그대로)'); return; }
+      return; // 순수 텍스트는 기본 동작(그대로 입력)
     }
     const imgItem=items.find(item=>item.type.startsWith('image/'));
     if(imgItem&&!htmlData){ e.preventDefault(); await insertImageBlob(textarea,imgItem.getAsFile()); return; }
@@ -612,20 +624,31 @@ function insertAtCursor(textarea,text){
   textarea.focus();
 }
 
+// 이미지 Blob → Supabase Storage(blog-images) 업로드 → 영구 공개 URL 반환
+async function uploadImageToStorage(blob){
+  const client=window.getSupabaseClient();
+  const type=blob.type||'image/png';
+  const ext=(type.split('/')[1]||'png').replace('jpeg','jpg').replace('svg+xml','svg');
+  const rand=Math.random().toString(36).slice(2,8);
+  const path=`posts/${Date.now()}-${rand}.${ext}`;
+  const {error}=await client.storage.from('blog-images').upload(path,blob,{contentType:type,upsert:false});
+  if(error) throw error;
+  const {data}=client.storage.from('blog-images').getPublicUrl(path);
+  return data.publicUrl;
+}
+
 async function insertImageBlob(textarea,blob){
-  return new Promise(resolve=>{
-    const reader=new FileReader();
-    reader.onload=ev=>{
-      const src=ev.target.result;
-      const text=currentContentType==='html'
-        ?`\n<img src="${src}" alt="image" style="max-width:100%;" />\n`
-        :`\n![image](${src})\n`;
-      insertAtCursor(textarea,text);
-      showToast('✅ 이미지가 삽입되었습니다.');
-      resolve();
-    };
-    reader.readAsDataURL(blob);
-  });
+  showToast('⏳ 이미지 업로드 중...');
+  try{
+    const url=await uploadImageToStorage(blob);
+    const text=currentContentType==='html'
+      ?`\n<img src="${url}" alt="image" style="max-width:100%;" />\n`
+      :`\n![image](${url})\n`;
+    insertAtCursor(textarea,text);
+    showToast('✅ 이미지 업로드 완료 (영구 저장)');
+  }catch(e){
+    showToast('⚠ 이미지 업로드 실패: '+(e.message||e));
+  }
 }
 
 // ============================================================
@@ -638,6 +661,47 @@ function setupImageInsert(){
     for(const file of Array.from(input.files)){
       if(file.type.startsWith('image/')) await insertImageBlob(textarea,file);
     }
+    input.value='';
+  });
+}
+
+// 대표 이미지 미리보기 (URL 만료/오류 시 안내)
+function renderThumbPreview(){
+  const url=(document.getElementById('fImageUrl').value||'').trim();
+  const box=document.getElementById('fThumbPreview'); if(!box) return;
+  if(!url){ box.innerHTML=''; return; }
+  box.innerHTML='<img alt="썸네일 미리보기" style="max-height:120px;border-radius:8px;border:1px solid var(--line);object-fit:cover;" />';
+  const img=box.querySelector('img');
+  img.onerror=()=>{ box.innerHTML='<span style="font-size:12px;color:#ef4444;">⚠ 이미지를 불러올 수 없습니다 (URL 만료/오류)</span>'; };
+  img.src=url;
+}
+
+// 대표 이미지: 파일 업로드 → Storage → URL 자동 입력
+function setupThumbUpload(){
+  const input=document.getElementById('fThumbInput'); if(!input) return;
+  const urlField=document.getElementById('fImageUrl');
+  urlField.addEventListener('input',renderThumbPreview);
+  input.addEventListener('change', async()=>{
+    const file=input.files&&input.files[0]; if(!file) return;
+    showToast('⏳ 대표 이미지 업로드 중...');
+    try{
+      const url=await uploadImageToStorage(file);
+      urlField.value=url; renderThumbPreview();
+      showToast('✅ 대표 이미지 업로드 완료 (영구 저장)');
+    }catch(e){ showToast('⚠ 업로드 실패: '+(e.message||e)); }
+    input.value='';
+  });
+}
+
+// 완성된 HTML 파일을 그대로 불러오기 → HTML 모드 textarea 로
+function setupHtmlFileUpload(){
+  const input=document.getElementById('htmlFileInput'); if(!input) return;
+  input.addEventListener('change', async()=>{
+    const file=input.files&&input.files[0]; if(!file) return;
+    const text=await file.text();
+    switchTab('html');
+    document.getElementById('fContent').value=text;
+    showToast('✅ HTML 파일을 불러왔습니다. (HTML 모드 — 저장 시 원본 그대로 게시)');
     input.value='';
   });
 }

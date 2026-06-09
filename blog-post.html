@@ -244,9 +244,30 @@ async function init(){
       ${post.author?`<span class="post-meta-sep">·</span><span>${post.author}</span>`:''}
     </div>`;
 
-  document.getElementById('postContent').innerHTML = post.contentType==='html'
-    ? (post.content||'')
-    : parseMarkdown(post.content||'');
+  const contentEl = document.getElementById('postContent');
+  if(post.contentType==='html'){
+    // HTML 글은 샌드박스 iframe 으로 렌더 → 원본 레이아웃·효과·CSS 를 블로그 페이지와 격리해 그대로 보존
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('sandbox','allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox');
+    iframe.style.cssText = 'width:100%;border:0;display:block;overflow:hidden;';
+    const baseCss = `<style>
+      :root{color-scheme:light}
+      html,body{margin:0;padding:0}
+      body{font-family:'Pretendard',system-ui,-apple-system,sans-serif;line-height:1.7;color:#1a1a1a;word-break:keep-all;overflow-wrap:anywhere;font-size:17px}
+      img,video,iframe,table{max-width:100%}
+      img{height:auto;border-radius:8px}
+      table{border-collapse:collapse}
+      pre{overflow:auto}
+      a{color:#e85d2c}
+    </style>`;
+    iframe.srcdoc = `<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${baseCss}</head><body>${post.content||''}</body></html>`;
+    contentEl.appendChild(iframe);
+    const resize = ()=>{ try{ const h=iframe.contentDocument.body.scrollHeight; if(h) iframe.style.height=(h+24)+'px'; }catch(e){} };
+    iframe.addEventListener('load', ()=>{ resize(); setTimeout(resize,300); setTimeout(resize,1200); });
+    window.addEventListener('resize', resize);
+  } else {
+    contentEl.innerHTML = parseMarkdown(post.content||'');
+  }
 
   // 일반 방문자 prev/next에는 비공개 게시물 제외
   const navPosts = isAdminPreview ? allPosts : allPosts.filter(p=>p.published!==false);
