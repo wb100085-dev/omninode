@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SocialTwin 서비스·기술 | ㈜옴니노드</title>
+<link rel="icon" type="image/png" href="이미지/omninode.png" />
+<title>SocialTwin — AI 고객조사 서비스 | ㈜옴니노드</title>
+<meta name="description" content="더 빠르고, 더 정확하고, 더 저렴하게 — AI 가상패널 SocialTwin이 출시 전 시장 반응을 시뮬레이션합니다. 옴니노드의 첫 번째 서비스." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,10 +26,10 @@
       <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
     </a>
     <div class="nav-links" id="navLinks">
-      <a href="index.html#ss-vision">VISION</a>
-      <a href="index.html#ss-business">OUR BUSINESS</a>
-      <a href="index.html#ss-masterpiece">MASTERPIECE</a>
-      <a href="index.html#ss-news">INSIGHTS</a>
+      <a href="index.html#ss-why">ABOUT</a>
+      <a href="index.html#ss-what">WHAT WE DO</a>
+      <a href="index.html#ss-tech">TECHNOLOGY</a>
+      <a href="socialtwin-detail.html">SOCIALTWIN</a>
       <a href="blog.html">BLOG</a>
     </div>
     <div class="nav-cta">
@@ -44,20 +46,31 @@
 
 <!-- Mobile Drawer -->
 <div class="mob-drawer" id="mobDrawer">
-  <a href="index.html#ss-vision">VISION</a>
-  <a href="index.html#ss-business">OUR BUSINESS</a>
-  <a href="index.html#ss-masterpiece">MASTERPIECE</a>
-  <a href="index.html#ss-news">INSIGHTS</a>
+  <a href="index.html#ss-why">ABOUT</a>
+  <a href="index.html#ss-what">WHAT WE DO</a>
+  <a href="index.html#ss-tech">TECHNOLOGY</a>
+  <a href="socialtwin-detail.html">SOCIALTWIN</a>
   <a href="blog.html">BLOG</a>
   <a href="index.html#ss-footer" class="mob-cta-link">문의하기 →</a>
 </div>
 
 <!-- ============== HERO ============== -->
-<section class="blog-hero">
+<section class="blog-hero st-hero">
   <div class="blog-hero-inner wrap">
-    <p class="blog-hero-eye">CORE FEATURES · SocialTwin B2B</p>
-    <h1 class="blog-hero-title reveal">3대 핵심 기능</h1>
-    <p class="blog-hero-desc reveal d1">AI 가상 패널이 실제 런칭 전 시장 반응을 검증합니다.<br/>수만 번의 시뮬레이션으로 리스크를 사전에 제거하세요.</p>
+    <div class="blog-hero-left">
+      <p class="blog-hero-eye reveal">OMNINODE FIRST SERVICE · SocialTwin</p>
+      <h1 class="blog-hero-title reveal d1">더 빠르고, 더 정확하고, 더 저렴하게<br/>소비자 시뮬레이션의 새로운 기준</h1>
+      <p class="blog-hero-desc reveal d2">AI 가상 패널이 수만 명의 응답자를 시뮬레이션합니다.<br/>현실은 단 한 번, 시뮬레이션은 수만 번 — 출시 전에 시장 반응을 확인하세요.</p>
+      <div class="hero-ctas reveal d3">
+        <a class="btn btn-primary" href="https://www.socialtwin.site/" target="_blank" rel="noopener">무료 데모 경험하기 <span class="arrow">→</span></a>
+        <a class="btn btn-ghost st-hero-ghost" href="index.html#ss-footer">도입 문의</a>
+      </div>
+      <div class="hero-stats reveal d4">
+        <div class="hero-stat"><div class="num">52<span class="sym">만명</span></div><div class="lbl">시뮬레이션 가상 인구</div></div>
+        <div class="hero-stat"><div class="num">90<span class="sym">%</span></div><div class="lbl">통계 정합성 (Spearman)</div></div>
+        <div class="hero-stat"><div class="num">95<span class="sym">%</span></div><div class="lbl">인간 응답 일치율 (SSR)</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -100,17 +113,69 @@
   </div>
 </section>
 
+<!-- ============== USE CASES ============== -->
+<section class="biz-section" id="business">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="reveal eyebrow-w"><span class="eyebrow">02 · Use Cases</span></div>
+    <h2 class="h-section reveal d1">시장을 검증하는<br/>4가지 방법.</h2>
+    <p class="lead reveal d2">스타트업부터 정부기관까지, 모든 의사결정 현장에 최적화된 시뮬레이션 솔루션을 제공합니다.</p>
+
+    <div class="biz-grid">
+      <div class="biz-card reveal d1" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(8,12,20,0.72) 0%,rgba(8,12,20,0.08) 100%),url('이미지/1. B2B.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">01 · B2B</div>
+          <div class="biz-title">스타트업 · 중소기업</div>
+          <p class="biz-desc">예산 집행 전 시장 반응 분석<br/>PMF (Product-Market Fit) 검증</p>
+          <a href="#technology" class="biz-link">View More →</a>
+        </div>
+      </div>
+
+      <div class="biz-card reveal d2" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(13,22,40,0.72) 0%,rgba(13,22,40,0.08) 100%),url('이미지/2. B2G.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">02 · B2G</div>
+          <div class="biz-title">창업보육 <span class="biz-badge">출시예정</span></div>
+          <p class="biz-desc">AI 기반 기술·재무 기업 진단<br/>전체 입주사 성과 자동 관리</p>
+          <a href="service-coming-soon.html?service=corp" class="biz-link" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+
+      <div class="biz-card reveal d3" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(29,48,96,0.72) 0%,rgba(29,48,96,0.08) 100%),url('이미지/3. B2G.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">03 · B2G</div>
+          <div class="biz-title">지자체 · 정부 <span class="biz-badge">출시예정</span></div>
+          <p class="biz-desc">정책 타당성 사전 시뮬레이션<br/>지역별 코호트 분석 및 리포팅</p>
+          <a href="service-coming-soon.html?service=policy" class="biz-link" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+
+      <div class="biz-card reveal d4" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(180,70,20,0.45) 0%,rgba(220,109,38,0.0) 100%),url('이미지/4. B2P.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">04 · B2P</div>
+          <div class="biz-title">선거 · 정치 <span class="biz-badge wh">출시예정</span></div>
+          <p class="biz-desc">가상 투표 확률 시뮬레이션<br/>투표자 계층별 감성 심층 분석</p>
+          <a href="service-coming-soon.html?service=election" class="biz-link" style="border-color:rgba(255,255,255,.3);" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============== PROCESS ============== -->
 <section class="how" id="process">
   <div class="wrap">
     <div class="how-head">
       <div>
-        <div class="reveal"><span class="eyebrow">02 · Process</span></div>
+        <div class="reveal"><span class="eyebrow">03 · Process</span></div>
         <h2 class="h-section reveal d1">4단계 프로세스</h2>
       </div>
       <p class="lead reveal d2">가상 사회 설계부터 리포트 자동 생성까지 — 완전 자동화된 AI 시장조사 파이프라인입니다.</p>
     </div>
-    <div class="how-steps reveal">
+    <div class="how-steps reveal" id="howSteps">
       <div class="step">
         <div class="pin">01</div>
         <h4>가상 사회 설계</h4>
@@ -142,7 +207,7 @@
 <!-- ============== ABOUT OMNINODE ============== -->
 <section class="research" id="about">
   <div class="wrap">
-    <div class="reveal"><span class="eyebrow">03 · About OmniNode</span></div>
+    <div class="reveal"><span class="eyebrow">04 · About OmniNode</span></div>
     <h2 class="h-section reveal d1">20년 경험이 만든<br/>AI 혁신.</h2>
     <p class="lead reveal d2">"현실은 리플레이가 불가능하지만, 가상 세계에서는 수만 번의 시나리오를 미리 실행할 수 있다"</p>
     <div class="papers">
@@ -220,33 +285,33 @@
         <a class="brand" href="index.html">
           <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
         </a>
-        <p class="desc">통계기반 AI 가상패널로 더 빠르고 정확하고 저렴하게 소비자 인사이트를 발굴합니다.</p>
+        <p class="desc">인간의 선택, 시장의 반응, 사회의 수용성을 AI로 탐구하는 미래 리서치 기업.</p>
         <p class="biz-info">
           <span>주식회사 옴니노드</span><span>대표 황영순</span><br/>
           <span>사업자등록번호 366-86-04216</span><br/>
-          <span>통신판매업 신고번호 신고 예정</span><br/>
           대구광역시 북구 호암로 51, 4층 AX창업오피스<br/>
           E. hys@omninode.kr / cwb@omninode.kr
         </p>
       </div>
       <div>
-        <h5>PRODUCT</h5>
-        <ul>
-          <li><a href="index.html#ss-vision">Virtual Society</a></li>
-          <li><a href="index.html#ss-masterpiece">핵심 기술</a></li>
-          <li><a href="index.html#ss-business">Our Business</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>SOLUTIONS</h5>
-        <ul>
-          <li><a href="index.html#ss-business">B2B 스타트업</a></li>
-          <li><a href="index.html#ss-business">B2G 지자체</a></li>
-          <li><a href="index.html#ss-business">B2P 선거·정치</a></li>
-        </ul>
-      </div>
-      <div>
         <h5>COMPANY</h5>
+        <ul>
+          <li><a href="index.html#ss-why">Why OmniNode</a></li>
+          <li><a href="index.html#ss-what">What We Do</a></li>
+          <li><a href="index.html#ss-tech">Technology &amp; Trust</a></li>
+          <li><a href="index.html#ss-vision">Vision &amp; Principles</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>SERVICE</h5>
+        <ul>
+          <li><a href="socialtwin-detail.html">SocialTwin 소개</a></li>
+          <li><a href="https://www.socialtwin.site/" target="_blank" rel="noopener">무료 데모</a></li>
+          <li><a href="index.html#ss-footer">문의하기</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>RESOURCES</h5>
         <ul>
           <li><a href="blog.html">Blog</a></li>
           <li><a href="index.html#ss-footer">문의하기</a></li>

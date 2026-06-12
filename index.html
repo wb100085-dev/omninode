@@ -9,10 +9,12 @@
   gtag('js', new Date());
 
   gtag('config', 'G-WLV8LFBR35');
-</script>ß
+</script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SocialTwin | ㈜옴니노드 — AI 가상패널 솔루션</title>
+<link rel="icon" type="image/png" href="이미지/omninode.png" />
+<title>옴니노드 OmniNode | Human Behavior Intelligence Lab</title>
+<meta name="description" content="인간의 선택, 시장의 반응, 사회의 수용성을 AI로 탐구하는 미래 리서치 기업 옴니노드. 데이터와 언어모델로 인간 행동의 맥락을 시뮬레이션합니다." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -33,10 +35,10 @@
       <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
     </a>
     <div class="nav-links" id="navLinks">
-      <a href="#ss-vision">VISION</a>
-      <a href="#ss-business">OUR BUSINESS</a>
-      <a href="#ss-masterpiece">MASTERPIECE</a>
-      <a href="#ss-news">INSIGHTS</a>
+      <a href="#ss-why">ABOUT</a>
+      <a href="#ss-what">WHAT WE DO</a>
+      <a href="#ss-tech">TECHNOLOGY</a>
+      <a href="socialtwin-detail.html">SOCIALTWIN</a>
       <a href="blog.html">BLOG</a>
     </div>
     <div class="nav-cta">
@@ -53,10 +55,10 @@
 
 <!-- Mobile Drawer -->
 <div class="mob-drawer" id="mobDrawer">
-  <a href="#ss-vision">VISION</a>
-  <a href="#ss-business">OUR BUSINESS</a>
-  <a href="#ss-masterpiece">MASTERPIECE</a>
-  <a href="#ss-news">INSIGHTS</a>
+  <a href="#ss-why">ABOUT</a>
+  <a href="#ss-what">WHAT WE DO</a>
+  <a href="#ss-tech">TECHNOLOGY</a>
+  <a href="socialtwin-detail.html">SOCIALTWIN</a>
   <a href="blog.html">BLOG</a>
   <a href="#ss-footer" class="mob-cta-link">문의하기 →</a>
 </div>
@@ -70,42 +72,77 @@
 <section class="hero hero-split" id="hero" data-screen-label="01 Hero">
   <div class="hero-bg">
     <div class="grid-bg"></div>
+    <canvas class="node-canvas" id="nodeCanvas"></canvas>
     <div class="particles" id="particles"></div>
   </div>
   <div class="wrap">
     <div class="hero-inner">
       <!-- LEFT: Text -->
       <div class="hero-left">
-        <div class="hero-tag reveal"><span class="dot"></span><span>OMNINODE · AI Virtual Panel Solution</span></div>
+        <div class="hero-tag reveal"><span class="dot"></span><span>OMNINODE · Human Behavior Intelligence Lab</span></div>
         <h1 class="hero-title reveal d1">
-          <span class="rotating"><ul><li>더 빠르고,</li><li>더 정확하고,</li><li>더 저렴하게</li></ul></span><br/>
-          <span class="highlight-pen">소비자 시뮬레이션</span>의<br/>
-          새로운 기준 <span class="accent">SocialTwin</span>
+          우리는 인간을<br/>
+          <span class="highlight-pen">더 잘 이해하는 <span class="accent">AI</span></span>를<br/>
+          만듭니다.
         </h1>
         <p class="hero-sub reveal d2">
-          AI 가상 패널이 수만 명의 응답자를 시뮬레이션합니다.<br/>
-          현실은 단 한 번, 시뮬레이션은 수만 번 — 완벽한 시장성 검증 프로세스.
+          시장의 선택, 사회의 갈등, 사람의 망설임까지 <br/>
+          옴니노드는 데이터와 언어모델로 인간 행동의 맥락을 시뮬레이션합니다.
         </p>
         <div class="hero-ctas reveal d3">
-          <a class="btn btn-primary" href="#ss-footer">무료 데모 신청 <span class="arrow">→</span></a>
-          <a class="btn btn-ghost" href="#ss-masterpiece">핵심 기술 보기</a>
+          <a class="btn btn-primary" href="#ss-footer">협업 문의하기 <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="socialtwin-detail.html">SocialTwin 보기</a>
         </div>
-        <div class="hero-stats reveal d4">
-          <div class="hero-stat"><div class="num"><span data-count="520000">52</span><span class="sym">만명</span></div><div class="lbl">시뮬레이션 가상 인구</div></div>
-          <div class="hero-stat"><div class="num"><span data-count="90">95</span><span class="sym">%</span></div><div class="lbl">통계 정합성 (Spearman)</div></div>
-          <div class="hero-stat"><div class="num"><span data-count="95">90</span><span class="sym">%</span></div><div class="lbl">인간 응답 일치율 (SSR)</div></div>
-        </div>
+        <p class="hero-def reveal d4">인간의 선택, 시장의 반응, 사회의 수용성을 AI로 탐구하는 미래 리서치 기업</p>
       </div>
       <!-- RIGHT: Visual -->
       <div class="hero-right reveal d2">
         <div class="hero-visual-wrap">
           <div class="hero-glow"></div>
-          <div class="hero-mockup" id="heroMockup">
-            <img src="이미지/main1.png" alt="SocialTwin 대시보드" loading="eager" class="hero-mockup-main" />
-            <img src="이미지/main3.png" alt="" loading="eager" class="hero-mockup-overlay hero-mockup-overlay--br" />
+          <div class="hero-nodes" aria-hidden="true">
+            <svg viewBox="0 0 520 520" fill="none">
+              <g class="ng">
+              <g class="node-links" stroke="currentColor" stroke-width="1">
+                <line x1="260" y1="260" x2="120" y2="120"/>
+                <line x1="260" y1="260" x2="400" y2="110"/>
+                <line x1="260" y1="260" x2="430" y2="280"/>
+                <line x1="260" y1="260" x2="370" y2="420"/>
+                <line x1="260" y1="260" x2="150" y2="410"/>
+                <line x1="260" y1="260" x2="70" y2="270"/>
+                <line x1="120" y1="120" x2="400" y2="110"/>
+                <line x1="400" y1="110" x2="430" y2="280"/>
+                <line x1="430" y1="280" x2="370" y2="420"/>
+                <line x1="370" y1="420" x2="150" y2="410"/>
+                <line x1="150" y1="410" x2="70" y2="270"/>
+                <line x1="70" y1="270" x2="120" y2="120"/>
+                <line x1="120" y1="120" x2="190" y2="60" opacity=".5"/>
+                <line x1="400" y1="110" x2="330" y2="50" opacity=".5"/>
+                <line x1="430" y1="280" x2="490" y2="350" opacity=".5"/>
+                <line x1="150" y1="410" x2="80" y2="470" opacity=".5"/>
+              </g>
+              <g class="node-dots">
+                <circle class="nd nd-core" cx="260" cy="260" r="14"/>
+                <circle class="nd" cx="120" cy="120" r="9"/>
+                <circle class="nd" cx="400" cy="110" r="9"/>
+                <circle class="nd" cx="430" cy="280" r="9"/>
+                <circle class="nd" cx="370" cy="420" r="9"/>
+                <circle class="nd" cx="150" cy="410" r="9"/>
+                <circle class="nd" cx="70" cy="270" r="9"/>
+                <circle class="nd nd-sm" cx="190" cy="60" r="5"/>
+                <circle class="nd nd-sm" cx="330" cy="50" r="5"/>
+                <circle class="nd nd-sm" cx="490" cy="350" r="5"/>
+                <circle class="nd nd-sm" cx="80" cy="470" r="5"/>
+              </g>
+              </g>
+              <g class="node-rings" stroke="currentColor" fill="none">
+                <circle cx="260" cy="260" r="40" opacity=".35"/>
+                <circle cx="260" cy="260" r="80" opacity=".18"/>
+                <circle cx="260" cy="260" r="130" opacity=".08"/>
+              </g>
+            </svg>
           </div>
           <div class="hero-float-badge">
-            <span class="dot"></span>실시간 분석 중
+            <span class="dot"></span>Human Behavior Simulation
           </div>
         </div>
       </div>
@@ -117,107 +154,97 @@
   </div>
 </section>
 
-<!-- ============== VIRTUAL SOCIETY ============== -->
-<section class="vision-section" id="ss-vision">
+<!-- ============== WHY OMNINODE ============== -->
+<section class="vision-section" id="ss-why">
   <div class="wrap">
-    <div class="reveal"><span class="eyebrow">01 · Virtual Society</span></div>
-    <h2 class="h-section reveal d1">살아있는 가상 사회를<br/>구축합니다.</h2>
-    <p class="lead reveal d2">CA-IPF, PGM 모집단 설계 기술로 실제와 동일한 대한민국을 가상 공간에 세웁니다.<br/>원하는 타겟 페르소나를 무한정 생성해 정량·정성 조사를 실시간 실행합니다.</p>
+    <div class="reveal"><span class="eyebrow">01 · Why OmniNode</span></div>
+    <h2 class="h-section reveal d1">왜 인간 행동을<br/>이해해야 할까요.</h2>
+    <p class="lead reveal d2">많은 실패는 기술이 없어서가 아니라, 사람이 왜 선택하고 왜 거절하는지<br/>충분히 이해하지 못해서 발생합니다. 옴니노드는 그 빈틈을 AI 시뮬레이션으로 줄입니다.</p>
 
-    <div class="vision-grid">
-      <div class="vision-card reveal d1" data-cursor>
-        <div class="v-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><circle cx="5" cy="15" r="2.5"/><path d="M1 20c0-2.5 1.8-4 4-4"/><circle cx="19" cy="15" r="2.5"/><path d="M23 20c0-2.5-1.8-4-4-4"/></svg>
-        </div>
-        <div class="feat-num">DIGITAL TWIN SOCIETY</div>
-        <h3>통계 인구 구조 완벽 복제<br/>디지털 트윈 사회</h3>
-        <p>IPF(반복 비례 가중법), PGM(확률 그래프 모델)로 대한민국 인구 구조를 완벽히 복제. 통계청 데이터 실시간 연동으로 특정 지역·코호트 패널을 즉시 생성합니다.</p>
-        <div class="vision-stat">
-          <div class="v">전국 52만명</div>
-          <div class="l">시뮬레이션 인구 (1/100 축척)</div>
-        </div>
-      </div>
+    <div class="papers" style="margin-top:72px;">
+      <article class="paper reveal d1" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">MARKET · 01</div>
+        <h4>시장</h4>
+        <p class="desc">좋다고 말한 제품이 실제 구매로 이어지지 않는 이유를 이해합니다. 출시 전에 진짜 반응을 확인할 수 있어야 합니다.</p>
+        <span class="tag">MARKET RESPONSE</span>
+      </article>
 
-      <div class="vision-card reveal d2" data-cursor>
-        <div class="v-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div class="feat-num">UNBIASED RESPONSES</div>
-        <h3>의식적 편향 없는<br/>진정한 시장의 소리</h3>
-        <p>원하는 타겟 페르소나를 무한정 생성하여 정량·정성 조사를 실시간 실행합니다. 조사자의 사전 편향 없이 순수한 소비자 인사이트를 수집합니다.</p>
-        <div class="vision-stat">
-          <div class="v">90%</div>
-          <div class="l">통계 정합성 (Spearman Similarity)</div>
-        </div>
-      </div>
+      <article class="paper reveal d2" data-cursor style="background:rgba(220,109,38,.08);border-color:rgba(220,109,38,.3);">
+        <div class="stars">▲ ▲</div>
+        <div class="ref">POLICY &amp; SOCIETY · 02 · CORE</div>
+        <h4>정책 · 사회</h4>
+        <p class="desc">정책 수용성과 사회적 갈등을 사전에 읽고 의사결정 리스크를 줄입니다. 실행 전에 사회의 반응을 먼저 살펴야 합니다.</p>
+        <span class="tag">SOCIAL ACCEPTANCE</span>
+      </article>
+
+      <article class="paper reveal d3" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">HUMAN CONTEXT · 03</div>
+        <h4>사람</h4>
+        <p class="desc">사람의 망설임, 체면, 불안, 기대처럼 숫자 뒤에 있는 맥락을 해석합니다. 데이터만으로는 보이지 않는 이유를 찾습니다.</p>
+        <span class="tag">BEHAVIORAL CONTEXT</span>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ============== OUR BUSINESS ============== -->
-<section class="biz-section" id="ss-business">
+<!-- ============== WHAT WE DO ============== -->
+<section class="insight-section" id="ss-what">
   <div class="grid-bg"></div>
   <div class="wrap">
-    <div class="reveal eyebrow-w"><span class="eyebrow">02 · Our Business</span></div>
-    <h2 class="h-section reveal d1">시장을 검증하는<br/>4가지 방법.</h2>
-    <p class="lead reveal d2">스타트업부터 정부기관까지, 모든 의사결정 현장에 최적화된 시뮬레이션 솔루션을 제공합니다.</p>
+    <div class="reveal"><span class="eyebrow">02 · What We Do</span></div>
+    <h2 class="h-section reveal d1">실패 비용을 줄이는<br/>사전 의사결정 실험실.</h2>
+    <p class="lead reveal d2">옴니노드는 시장·정책·사회 반응을 가상사회에서 먼저 실험합니다.<br/>현실은 단 한 번이지만, 시뮬레이션은 몇 번이든 다시 해볼 수 있습니다.</p>
 
-    <div class="biz-grid">
-      <div class="biz-card reveal d1" data-cursor>
-        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(8,12,20,0.72) 0%,rgba(8,12,20,0.08) 100%),url('이미지/1. B2B.png') center/cover no-repeat;"></div>
-        <div class="biz-card-body">
-          <div class="biz-num">01 · B2B</div>
-          <div class="biz-title">스타트업 · 중소기업</div>
-          <p class="biz-desc">예산 집행 전 시장 반응 분석<br/>PMF (Product-Market Fit) 검증</p>
-          <a href="socialtwin-detail.html#technology" class="biz-link" target="_blank" rel="noopener">View More →</a>
-        </div>
-      </div>
+    <div class="papers" style="margin-top:72px;">
+      <article class="paper reveal d1" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">SOCIAL SIMULATION · 01</div>
+        <h4>AI 사회<br/>시뮬레이션</h4>
+        <p class="desc">현실에서 실행하기 전, 가상사회에서 먼저 실험합니다. 시장 반응, 정책 수용성, 여론 흐름을 사전에 확인합니다.</p>
+        <span class="tag">VIRTUAL SOCIETY</span>
+      </article>
 
-      <div class="biz-card reveal d2" data-cursor>
-        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(13,22,40,0.72) 0%,rgba(13,22,40,0.08) 100%),url('이미지/2. B2G.png') center/cover no-repeat;"></div>
-        <div class="biz-card-body">
-          <div class="biz-num">02 · B2G</div>
-          <div class="biz-title">창업보육 <span class="biz-badge">출시예정</span></div>
-          <p class="biz-desc">AI 기반 기술·재무 기업 진단<br/>전체 입주사 성과 자동 관리</p>
-          <a href="service-coming-soon.html?service=corp" class="biz-link" target="_blank" rel="noopener">View More →</a>
-        </div>
-      </div>
+      <article class="paper reveal d2" data-cursor style="background:rgba(220,109,38,.08);border-color:rgba(220,109,38,.3);">
+        <div class="stars">▲ ▲</div>
+        <div class="ref">HUMAN BEHAVIOR INTELLIGENCE · 02 · CORE</div>
+        <h4>인간 행동<br/>인텔리전스</h4>
+        <p class="desc">사람의 선택과 맥락을 데이터로 해석합니다. 고객 인사이트, 시민 인식, 의사결정 요인 등 숫자 뒤에 있는 사람의 이유를 찾습니다.</p>
+        <span class="tag">BEHAVIOR DATA</span>
+      </article>
 
-      <div class="biz-card reveal d3" data-cursor>
-        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(29,48,96,0.72) 0%,rgba(29,48,96,0.08) 100%),url('이미지/3. B2G.png') center/cover no-repeat;"></div>
-        <div class="biz-card-body">
-          <div class="biz-num">03 · B2G</div>
-          <div class="biz-title">지자체 · 정부 <span class="biz-badge">출시예정</span></div>
-          <p class="biz-desc">정책 타당성 사전 시뮬레이션<br/>지역별 코호트 분석 및 리포팅</p>
-          <a href="service-coming-soon.html?service=policy" class="biz-link" target="_blank" rel="noopener">View More →</a>
-        </div>
-      </div>
+      <article class="paper reveal d3" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">DECISION INTELLIGENCE · 03</div>
+        <h4>의사결정<br/>인텔리전스</h4>
+        <p class="desc">불확실한 결정을 더 안전하게 만드는 근거를 제공합니다. PMF, 가격, 메시지, 정책 방향의 사전 검토를 지원합니다.</p>
+        <span class="tag">DECISION SUPPORT</span>
+      </article>
+    </div>
 
-      <div class="biz-card reveal d4" data-cursor>
-        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(180,70,20,0.45) 0%,rgba(220,109,38,0.0) 100%),url('이미지/4. B2P.png') center/cover no-repeat;"></div>
-        <div class="biz-card-body">
-          <div class="biz-num">04 · B2P</div>
-          <div class="biz-title">선거 · 정치 <span class="biz-badge wh">출시예정</span></div>
-          <p class="biz-desc">가상 투표 확률 시뮬레이션<br/>투표자 계층별 감성 심층 분석</p>
-          <a href="service-coming-soon.html?service=election" class="biz-link" style="border-color:rgba(255,255,255,.3);" target="_blank" rel="noopener">View More →</a>
-        </div>
-      </div>
+    <div class="layer-flow reveal d2" aria-label="가상사회 구축 흐름">
+      <span class="lf-step">실제 사회</span><span class="lf-arrow">→</span>
+      <span class="lf-step">합성 인구</span><span class="lf-arrow">→</span>
+      <span class="lf-step">가상 패널</span><span class="lf-arrow">→</span>
+      <span class="lf-step">시뮬레이션</span><span class="lf-arrow">→</span>
+      <span class="lf-step lf-accent">의사결정 인사이트</span>
     </div>
   </div>
 </section>
 
-<!-- ============== 3대 핵심 기술 ============== -->
-<section class="tech" id="ss-masterpiece">
+<!-- ============== TECHNOLOGY & TRUST ============== -->
+<section class="tech" id="ss-tech">
   <div class="wrap">
     <div class="tech-head">
       <div>
-        <div class="reveal eyebrow-w"><span class="eyebrow">03 · Core Technology</span></div>
-        <h2 class="h-section reveal d1">리서치 산업의 세 가지 난제를<br/>동시에 해결합니다.</h2>
+        <div class="reveal eyebrow-w"><span class="eyebrow">03 · Technology &amp; Trust</span></div>
+        <h2 class="h-section reveal d1">신뢰할 수 있는 가상사회를<br/>만드는 네 가지 축.</h2>
       </div>
-      <p class="lead reveal d2">전 세계를 무대로, 시뮬레이션 그 이상의 가치를 실현해갑니다.<br> 국제 학회 논문에서 검증된 방법론 기반으로<br> <strong style="color:var(--orange);">현실성·유사성·재현성</strong>을 달성합니다.</p>
+      <p class="lead reveal d2">기술은 신뢰의 근거입니다. 옴니노드는 <strong style="color:var(--orange);">대표성 · 맥락 · 검증 · 품질관리</strong>로<br/>가상사회의 신뢰를 만듭니다. 국제 학회에서 검증된 방법론으로<br/>통계 정합성(Spearman) 90%, 인간 응답 일치율(SSR) 95%를 달성합니다.</p>
     </div>
 
-    <div class="tech-grid">
+    <div class="tech-grid tg-4">
       <div class="tech-card reveal d1" data-cursor>
         <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
           <circle cx="32" cy="32" r="28"/>
@@ -225,80 +252,87 @@
           <circle cx="32" cy="32" r="12"/>
           <circle cx="32" cy="32" r="4" fill="currentColor"/>
         </svg>
-        <div class="num">TECHNOLOGY · 01</div>
-        <div class="ko">현실성</div>
-        <div class="en">Digital Twin Society</div>
-        <div class="quote">"살아있는 가상 사회를 구축한다"</div>
-        <p class="body">IPF(반복 비례 가중법), PGM(확률 그래프 모델)로 대한민국 인구 구조를 완벽히 복제. 통계청 데이터 실시간 연동으로 특정 지역·코호트 패널을 즉시 생성합니다.</p>
-        <div class="badge"><span class="dot"></span>#CA-IPF 확률 행렬 #PGM 확률 모델 #통계청 연동</div>
+        <div class="num">TRUST · 01</div>
+        <div class="ko">대표성</div>
+        <div class="en">CA-IPF</div>
+        <div class="quote">"실제 인구 구조와 최대한 닮은 가상사회"</div>
+        <p class="body">인구통계 축 간 상관관계를 반영한 합성 모집단으로, 실제 대한민국 인구 구조를 닮은 가상사회를 만듭니다. 전국 52만 명(1/100 축척) 규모의 시뮬레이션 인구를 운영합니다.</p>
+        <div class="badge"><span class="dot"></span>#CA-IPF #합성 모집단 #통계청 연동</div>
       </div>
 
       <div class="tech-card reveal d2" data-cursor>
         <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
-          <path d="M8 32c0-8 4-16 12-16M56 32c0-8-4-16-12-16M8 32c0 8 4 16 12 16M56 32c0 8-4 16-12 16"/>
-          <circle cx="20" cy="16" r="3" fill="currentColor"/>
-          <circle cx="44" cy="16" r="3" fill="currentColor"/>
-          <circle cx="20" cy="48" r="3" fill="currentColor"/>
-          <circle cx="44" cy="48" r="3" fill="currentColor"/>
-          <path d="M20 16L44 48M44 16L20 48" stroke-dasharray="2 2" opacity=".5"/>
+          <circle cx="32" cy="22" r="10"/>
+          <path d="M14 52c0-10 8-16 18-16s18 6 18 16"/>
+          <path d="M46 18c4 1 7 4 8 8M18 18c-4 1-7 4-8 8" stroke-dasharray="2 2" opacity=".6"/>
         </svg>
-        <div class="num">TECHNOLOGY · 02</div>
-        <div class="ko">유사성</div>
-        <div class="en">Memory Stream AI</div>
-        <div class="quote">"인간 무의식의 정밀 추론"</div>
-        <p class="body">메모리스트림 기술로 가상 패널이 맥락 기반의 일관된 반응을 보이도록 구현. <strong style="color:#fff;">SSR(Semantic Similarity Rating)</strong> 방법론으로 인간 응답과 95% 이상 일치하는 답변을 생성합니다.</p>
-        <div class="badge"><span class="dot"></span>#Memory Stream #SSR 방법론</div>
+        <div class="num">TRUST · 02</div>
+        <div class="ko">맥락</div>
+        <div class="en">LLM Persona</div>
+        <div class="quote">"생활 맥락과 가치관을 가진 가상인물"</div>
+        <p class="body">나이·지역·소득 같은 정보만이 아니라 생활 맥락과 가치관까지 가진 가상인물을 언어모델로 구성합니다. 맥락 기반의 일관된 반응을 보이도록 설계합니다.</p>
+        <div class="badge"><span class="dot"></span>#LLM Persona #Memory Stream</div>
       </div>
 
       <div class="tech-card reveal d3" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <path d="M12 32l12 12 28-28"/>
+          <circle cx="32" cy="32" r="28" opacity=".4"/>
+        </svg>
+        <div class="num">TRUST · 03</div>
+        <div class="ko">검증</div>
+        <div class="en">Validation</div>
+        <div class="quote">"현실 데이터와 비교해 검증"</div>
+        <p class="body">생성된 가상사회와 응답 결과를 실제 데이터와 비교합니다. <strong style="color:#fff;">MAPE, 분포 차이, 순위 일치, 인간 응답 대비 검증</strong>으로 정합성을 확인합니다.</p>
+        <div class="badge"><span class="dot"></span>#MAPE #SSR 95% #Spearman 90%+</div>
+      </div>
+
+      <div class="tech-card reveal d4" data-cursor>
         <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
           <path d="M16 16h32v32H16z"/>
           <path d="M22 22h20v20H22z" opacity=".7"/>
           <path d="M28 28h8v8h-8z" opacity=".5"/>
           <path d="M16 16l-6-6M48 16l6-6M16 48l-6 6M48 48l6 6"/>
         </svg>
-        <div class="num">TECHNOLOGY · 03</div>
-        <div class="ko">재현성</div>
-        <div class="en">Statistical Certainty</div>
-        <div class="quote">"통계적 확실성을 보장한다"</div>
-        <p class="body">수만 번의 반복 시뮬레이션으로 통계적 확실성 확보. <strong style="color:#fff;">RSS 방법론</strong>으로 Spearman Similarity 90% 이상의 정합성을 목표하며, 동일 조건에서 결과 편차를 최소화합니다.</p>
-        <div class="badge"><span class="dot"></span>#RSS 방법론 #Spearman 90%+</div>
+        <div class="num">TRUST · 04</div>
+        <div class="ko">품질관리</div>
+        <div class="en">Quality Management</div>
+        <div class="quote">"설문과 응답의 품질을 함께 관리"</div>
+        <p class="body">AI가 만든 설문과 가상패널의 응답이 믿을 만한지 지속 점검합니다. 측정도구의 신뢰도·타당도, 응답 일관성, 편향과 분산을 관리합니다.</p>
+        <div class="badge"><span class="dot"></span>#신뢰도·타당도 #편향 점검</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============== INSIGHTS ============== -->
-<section class="insight-section" id="ss-news">
+<!-- ============== VISION & PRINCIPLES ============== -->
+<section class="insight-section" id="ss-vision">
   <div class="grid-bg"></div>
   <div class="wrap">
-    <div class="reveal"><span class="eyebrow">04 · Insights & Strategy</span></div>
-    <h2 class="h-section reveal d1">시장이 직면한 도전,<br/>옴니노드의 해답.</h2>
-    <p class="lead reveal d2">비용·속도·신뢰도. 기존 리서치가 해결하지 못한 세 가지 문제를 AI 가상패널로 돌파합니다.</p>
+    <div class="reveal"><span class="eyebrow">04 · Vision &amp; Principles</span></div>
+    <h2 class="h-section reveal d1">AI는 인간을 대체하지 않고,<br/>판단을 확장합니다.</h2>
+    <p class="lead reveal d2">옴니노드가 AI와 인간의 관계를 바라보는 네 가지 원칙입니다.</p>
 
-    <div class="papers" style="margin-top:72px;">
-      <article class="paper reveal d1" data-cursor>
-        <div class="stars">▲</div>
-        <div class="ref">PAIN POINT SOLUTION · 01</div>
-        <h4>비용과 시간의<br/>획기적 단축</h4>
-        <p class="desc">월등히 낮은 비용으로 수만 명 대상 조사를 즉시 실행. 기존 수백만원, 수 주의 프로세스를 수만원·15분으로 단축합니다.</p>
-        <span class="tag">COST &amp; SPEED</span>
+    <div class="principles">
+      <article class="principle reveal d1" data-cursor>
+        <div class="p-num">PRINCIPLE · 01</div>
+        <h4>AI와 인간</h4>
+        <p>AI는 인간을 대체하지 않습니다. AI는 인간을 더 깊게 질문하게 만드는 도구입니다.</p>
       </article>
-
-      <article class="paper reveal d2" data-cursor style="background:rgba(220,109,38,.08);border-color:rgba(220,109,38,.3);">
-        <div class="stars">▲ ▲</div>
-        <div class="ref">DATA RELIABILITY · 02 · CORE</div>
-        <h4>의식적 편향이 배제된<br/>진실한 데이터</h4>
-        <p class="desc">조사 시 가짜 답변을 하려는 심리를 AI 알고리즘으로 회피해 정확한 응답을 수집합니다. <strong style="color:var(--orange);">95% 인간 응답 일치율</strong>이 이를 증명합니다.</p>
-        <span class="tag">DATA QUALITY</span>
+      <article class="principle reveal d2" data-cursor>
+        <div class="p-num">PRINCIPLE · 02</div>
+        <h4>데이터와 사람</h4>
+        <p>데이터는 사람을 단순화하는 것이 아니라, 사람의 맥락을 더 정밀하게 이해하기 위한 출발점입니다.</p>
       </article>
-
-      <article class="paper reveal d3" data-cursor>
-        <div class="stars">▲</div>
-        <div class="ref">MARKET STRATEGY · 03</div>
-        <h4>시장 확장<br/>마일스톤</h4>
-        <p class="desc">기업 B2B 시장부터 공공 B2G, 최종적으로 선거/정치 시장(B2P)까지 순차적 점유 라인업. 단계별로 검증된 성장 전략을 실행합니다.</p>
-        <span class="tag">STRATEGY</span>
+      <article class="principle reveal d3" data-cursor>
+        <div class="p-num">PRINCIPLE · 03</div>
+        <h4>시뮬레이션의 역할</h4>
+        <p>시뮬레이션은 현실의 결정을 대신하지 않습니다. 현실의 실패 비용을 줄이는 사전 실험입니다.</p>
+      </article>
+      <article class="principle reveal d4" data-cursor>
+        <div class="p-num">PRINCIPLE · 04</div>
+        <h4>사회적 책임</h4>
+        <p>AI 기반 예측은 검증 가능해야 하며, 인간과 사회에 대한 존중을 전제로 사용되어야 합니다.</p>
       </article>
     </div>
 
@@ -323,14 +357,31 @@
   </div>
 </section>
 
+<!-- ============== SOCIALTWIN ============== -->
+<section class="st-banner" id="ss-socialtwin">
+  <div class="wrap">
+    <div class="st-card reveal" data-cursor>
+      <div class="st-card-body">
+        <div class="st-label"><span class="dot"></span>05 · First Service</div>
+        <h2>옴니노드의 첫 번째 서비스,<br/>AI 고객조사 <span class="accent">SocialTwin</span></h2>
+        <p>SocialTwin은 옴니노드가 만드는 신뢰 가능한 가상사회 기술을 고객조사에 적용한 첫 번째 서비스입니다. 제품·정책·메시지의 반응을 현실 실행 전 가상패널로 검토합니다. 옴니노드는 이후 시장, 정책, 지역사회, 공공 의사결정 영역으로 시뮬레이션의 범위를 확장합니다.</p>
+      </div>
+      <div class="st-card-actions">
+        <a class="btn btn-primary" href="socialtwin-detail.html">AI 고객조사 서비스 보기 <span class="arrow">→</span></a>
+        <a class="btn btn-ghost st-ghost" href="https://www.socialtwin.site/" target="_blank" rel="noopener">무료 데모 경험하기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============== CONTACT CTA ============== -->
 <section class="idx-cta" id="ss-footer">
   <div class="wrap">
     <div class="cta-card reveal">
       <div class="cta-grid">
         <div>
-          <h2>지금 바로 옴니노드와<br/><span class="accent">파트너십을 시작하세요.</span></h2>
-          <p>혁신적인 AI 가상 패널 도입, 옴니노드 팀이 직접 데모를 진행하고 귀사 도메인에 맞는 활용 시나리오를 함께 설계해 드립니다.</p>
+          <h2>시장·정책·사회 의사결정에<br/><span class="accent">AI 시뮬레이션을 적용해 보세요.</span></h2>
+          <p>SocialTwin 도입, PoC 파일럿, 연구·정책 제휴 — 옴니노드 팀이 직접 협업 시나리오를 함께 설계해 드립니다.</p>
           <div class="cta-meta">
             <div class="item"><span class="l">ADDRESS</span><span class="v">대구창조경제혁신센터 4F</span></div>
             <div class="item"><span class="l">EMAIL</span><span class="v">hys@omninode.kr</span></div>
@@ -342,7 +393,18 @@
             <div class="field"><label for="f-name">이름</label><input id="f-name" type="text" name="name" placeholder="홍길동" required /></div>
             <div class="field"><label for="f-company">소속 / 회사</label><input id="f-company" type="text" name="company" placeholder="옴니노드" required /></div>
           </div>
-          <div class="field"><label for="f-email">이메일</label><input id="f-email" type="email" name="email" placeholder="you@company.com" required /></div>
+          <div class="form-row">
+            <div class="field"><label for="f-email">이메일</label><input id="f-email" type="email" name="email" placeholder="you@company.com" required /></div>
+            <div class="field"><label for="f-type">협업 유형</label>
+              <select id="f-type" name="collaboration_type" required>
+                <option value="" disabled selected>선택해 주세요</option>
+                <option value="SocialTwin 도입 문의">SocialTwin 도입 문의</option>
+                <option value="PoC · 파일럿 프로젝트">PoC · 파일럿 프로젝트</option>
+                <option value="연구 · 정책 제휴">연구 · 정책 제휴</option>
+                <option value="기타">기타</option>
+              </select>
+            </div>
+          </div>
           <div class="field"><label for="f-msg">문의 내용</label>
             <textarea id="f-msg" name="message" placeholder="진행 중이신 프로젝트나 검증하고자 하는 가설을 알려주세요." rows="4"></textarea>
           </div>
@@ -369,7 +431,7 @@
           <a class="brand" href="index.html">
             <img src="이미지/omninode.png" class="logo" alt="OMNINODE" />
           </a>
-          <p class="desc">통계기반 AI 가상패널로 더 빠르고 정확하고 저렴하게 소비자 인사이트를 발굴합니다.</p>
+          <p class="desc">인간의 선택, 시장의 반응, 사회의 수용성을 AI로 탐구하는 미래 리서치 기업.</p>
           <p class="biz-info">
             <span>주식회사 옴니노드</span><span>대표 황영순</span><br/>
             <span>사업자등록번호 366-86-04216</span><br/>
@@ -378,26 +440,26 @@
           </p>
         </div>
         <div>
-          <h5>PRODUCT</h5>
-          <ul>
-            <li><a href="#ss-vision">Virtual Society</a></li>
-            <li><a href="#ss-masterpiece">핵심 기술</a></li>
-            <li><a href="#ss-business">Our Business</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5>SOLUTIONS</h5>
-          <ul>
-            <li><a href="#ss-business">B2B 스타트업</a></li>
-            <li><a href="#ss-business">B2G 지자체</a></li>
-            <li><a href="#ss-business">B2P 선거·정치</a></li>
-          </ul>
-        </div>
-        <div>
           <h5>COMPANY</h5>
           <ul>
-            <li><a href="blog.html">Blog</a></li>
+            <li><a href="#ss-why">Why OmniNode</a></li>
+            <li><a href="#ss-what">What We Do</a></li>
+            <li><a href="#ss-tech">Technology &amp; Trust</a></li>
+            <li><a href="#ss-vision">Vision &amp; Principles</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>SERVICE</h5>
+          <ul>
+            <li><a href="socialtwin-detail.html">SocialTwin 소개</a></li>
+            <li><a href="https://www.socialtwin.site/" target="_blank" rel="noopener">무료 데모</a></li>
             <li><a href="#ss-footer">문의하기</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>RESOURCES</h5>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
             <li><a href="business-info.html">사업자정보</a></li>
             <li><a href="privacy.html">개인정보 처리방침</a></li>
             <li><a href="terms.html">이용약관</a></li>

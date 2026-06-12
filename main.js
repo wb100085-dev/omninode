@@ -78,7 +78,7 @@ document.querySelectorAll('.eyebrow').forEach(el => io.observe(el));
 
 /* =================== Hero panel bars trigger =================== */
 const pcMain = document.getElementById('pcMain');
-new IntersectionObserver(es=>es.forEach(en=>en.isIntersecting&&en.target.classList.add('in')),{threshold:.2}).observe(pcMain);
+if(pcMain) new IntersectionObserver(es=>es.forEach(en=>en.isIntersecting&&en.target.classList.add('in')),{threshold:.2}).observe(pcMain);
 
 /* =================== Hero parallax (mouse + scroll) =================== */
 (function(){
@@ -112,6 +112,156 @@ new IntersectionObserver(es=>es.forEach(en=>en.isIntersecting&&en.target.classLi
     const grid = hero.querySelector('.grid-bg');
     if(grid) grid.style.transform = `translateY(${y}px)`;
   }, {passive:true});
+})();
+
+/* =================== Hero node graph: organic motion =================== */
+(function(){
+  const svg = document.querySelector('.hero-nodes svg');
+  if(!svg) return;
+  const circles = [...svg.querySelectorAll('.node-dots circle')];
+  const lines = [...svg.querySelectorAll('.node-links line')];
+  if(!circles.length) return;
+
+  const CX = 260, CY = 260;
+  const nodes = circles.map(c => ({
+    el: c,
+    hx: +c.getAttribute('cx'), hy: +c.getAttribute('cy'),
+    x: +c.getAttribute('cx'),  y: +c.getAttribute('cy'),
+    p1: Math.random() * Math.PI * 2,
+    p2: Math.random() * Math.PI * 2,
+    p3: Math.random() * Math.PI * 2,
+    f1: .00045 + Math.random() * .00055,
+    f2: .0007  + Math.random() * .0008,
+    f3: .00025 + Math.random() * .0003,
+    a1: 10 + Math.random() * 14,
+    a2: 6  + Math.random() * 10,
+    core: c.classList.contains('nd-core')
+  }));
+
+  // map each line endpoint to its node by original coordinates
+  const byKey = {};
+  nodes.forEach((n, i) => { byKey[n.hx + ',' + n.hy] = i; });
+  const links = lines.map(l => ({
+    el: l,
+    a: byKey[+l.getAttribute('x1') + ',' + +l.getAttribute('y1')],
+    b: byKey[+l.getAttribute('x2') + ',' + +l.getAttribute('y2')]
+  })).filter(l => l.a !== undefined && l.b !== undefined);
+
+  function step(t){
+    const rot = t * .000018;                    // very slow global orbit
+    const cos = Math.cos(rot), sin = Math.sin(rot);
+    for(const n of nodes){
+      const dx = n.hx - CX, dy = n.hy - CY;
+      const rx = dx * cos - dy * sin, ry = dx * sin + dy * cos;
+      const w = n.core ? .3 : 1;                // core barely drifts
+      n.x = CX + rx + (Math.sin(t * n.f1 + n.p1) * n.a1 + Math.sin(t * n.f3 + n.p3) * 5) * w;
+      n.y = CY + ry + (Math.cos(t * n.f2 + n.p2) * n.a2 + Math.cos(t * n.f3 + n.p1) * 4) * w;
+      n.el.setAttribute('cx', n.x);
+      n.el.setAttribute('cy', n.y);
+    }
+    for(const l of links){
+      const A = nodes[l.a], B = nodes[l.b];
+      l.el.setAttribute('x1', A.x); l.el.setAttribute('y1', A.y);
+      l.el.setAttribute('x2', B.x); l.el.setAttribute('y2', B.y);
+    }
+  }
+
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    step(0);                                    // static layout only
+    return;
+  }
+  let raf = null;
+  const frame = t => { step(t); raf = requestAnimationFrame(frame); };
+  new IntersectionObserver(es => es.forEach(en => {
+    if(en.isIntersecting){ if(!raf) raf = requestAnimationFrame(frame); }
+    else if(raf){ cancelAnimationFrame(raf); raf = null; }
+  }), {threshold: 0}).observe(svg);
+})();
+
+/* =================== Hero node-network background =================== */
+(function(){
+  const canvas = document.getElementById('nodeCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const hero = canvas.closest('.hero') || canvas.parentElement;
+  let W = 0, H = 0;
+
+  function resize(){
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = hero.offsetWidth; H = hero.offsetHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  const N = Math.max(30, Math.min(70, Math.round(W * H / 26000)));
+  const nodes = Array.from({length: N}, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4,
+    r: 1.2 + Math.random() * 2.2,
+    accent: Math.random() < .12
+  }));
+
+  const mouse = {x: -9999, y: -9999};
+  hero.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+  });
+  hero.addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
+
+  function palette(){
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return dark
+      ? {dot: 'rgba(214,226,255,', accent: 'rgba(255,140,66,'}
+      : {dot: 'rgba(20,33,61,',   accent: 'rgba(220,109,38,'};
+  }
+
+  const LINK = 130;
+  let raf = null;
+  function frame(){
+    const c = palette();
+    ctx.clearRect(0, 0, W, H);
+    for(const n of nodes){
+      n.x += n.vx; n.y += n.vy;
+      if(n.x < -20) n.x = W + 20; else if(n.x > W + 20) n.x = -20;
+      if(n.y < -20) n.y = H + 20; else if(n.y > H + 20) n.y = -20;
+      const dx = n.x - mouse.x, dy = n.y - mouse.y, d2 = dx*dx + dy*dy;
+      if(d2 > 0 && d2 < 12000){
+        const d = Math.sqrt(d2);
+        n.x += dx / d * .8; n.y += dy / d * .8;
+      }
+    }
+    ctx.lineWidth = 1;
+    for(let i = 0; i < nodes.length; i++){
+      for(let j = i + 1; j < nodes.length; j++){
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        if(Math.abs(dx) > LINK || Math.abs(dy) > LINK) continue;
+        const d = Math.hypot(dx, dy);
+        if(d < LINK){
+          ctx.strokeStyle = c.dot + (0.16 * (1 - d / LINK)).toFixed(3) + ')';
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    for(const n of nodes){
+      ctx.fillStyle = n.accent ? c.accent + '0.6)' : c.dot + '0.4)';
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    frame();
+    cancelAnimationFrame(raf); raf = null;   // draw one static frame only
+  } else {
+    new IntersectionObserver(es => es.forEach(en => {
+      if(en.isIntersecting){ if(!raf) raf = requestAnimationFrame(frame); }
+      else if(raf){ cancelAnimationFrame(raf); raf = null; }
+    }), {threshold: 0}).observe(hero);
+  }
 })();
 
 /* =================== Hero particles =================== */
@@ -189,6 +339,7 @@ new IntersectionObserver(es=>es.forEach(en=>en.isIntersecting&&en.target.classLi
   const tabs = document.querySelectorAll('#pcTabs button');
   const pcQ = document.getElementById('pcQuestion');
   const pcMain = document.getElementById('pcMain');
+  if(!typer || !pcMain) return;
 
   let qi = 0, typing = null;
 
@@ -437,7 +588,7 @@ new IntersectionObserver(es=>es.forEach(en=>en.isIntersecting&&en.target.classLi
 
 /* =================== How steps trigger =================== */
 const howSteps = document.getElementById('howSteps');
-new IntersectionObserver((entries)=>{
+if(howSteps) new IntersectionObserver((entries)=>{
   entries.forEach(en=>{
     if(en.isIntersecting){
       en.target.classList.add('in');
@@ -554,6 +705,7 @@ const caseData = [
 const renderCase = (i) => {
   const c = caseData[i];
   const cc = document.getElementById('caseContent');
+  if(!cc) return;
   cc.classList.remove('switching');
   void cc.offsetWidth;
   cc.classList.add('switching');
@@ -596,7 +748,7 @@ document.querySelectorAll('#caseTabs .case-tab').forEach(t=>{
 });
 // only auto-rotate when section is visible
 const casesSection = document.getElementById('cases');
-new IntersectionObserver((es)=>{
+if(casesSection) new IntersectionObserver((es)=>{
   es.forEach(e=>{ if(e.isIntersecting) startCaseAuto(); else clearInterval(caseAuto); });
 },{threshold:.3}).observe(casesSection);
 
@@ -604,7 +756,7 @@ new IntersectionObserver((es)=>{
 const cmpMode = document.getElementById('cmpMode');
 const cmpTable = document.getElementById('cmpTable');
 const cmpVisual = document.getElementById('cmpVisual');
-cmpMode.querySelectorAll('button').forEach(b=>{
+if(cmpMode) cmpMode.querySelectorAll('button').forEach(b=>{
   b.addEventListener('click', ()=>{
     cmpMode.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
@@ -710,8 +862,10 @@ try{
 
 /* =================== Keyboard shortcuts =================== */
 const kbdHint = document.getElementById('kbdHint');
-setTimeout(()=>kbdHint.classList.add('show'), 2500);
-setTimeout(()=>kbdHint.classList.remove('show'), 8000);
+if(kbdHint){
+  setTimeout(()=>kbdHint.classList.add('show'), 2500);
+  setTimeout(()=>kbdHint.classList.remove('show'), 8000);
+}
 
 document.addEventListener('keydown', e=>{
   if(e.target.matches('input, textarea, select')) return;
@@ -723,7 +877,7 @@ document.addEventListener('keydown', e=>{
   } else if(k==='t'){
     themeToggle.click();
   } else if(k==='?'){
-    kbdHint.classList.toggle('show');
+    if(kbdHint) kbdHint.classList.toggle('show');
   }
 });
 
