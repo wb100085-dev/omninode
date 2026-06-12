@@ -114,6 +114,21 @@ if(pcMain) new IntersectionObserver(es=>es.forEach(en=>en.isIntersecting&&en.tar
   }, {passive:true});
 })();
 
+/* =================== SocialTwin hero: cycling word emphasis =================== */
+(function(){
+  const words = document.querySelectorAll('.st-word');
+  if(!words.length) return;
+  words[0].classList.add('active');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let i = 0;
+  setInterval(()=>{
+    if(document.hidden) return;
+    words[i].classList.remove('active');
+    i = (i + 1) % words.length;
+    words[i].classList.add('active');
+  }, 1700);
+})();
+
 /* =================== Hero node graph: organic motion =================== */
 (function(){
   const svg = document.querySelector('.hero-nodes svg');

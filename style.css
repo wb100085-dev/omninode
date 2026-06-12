@@ -1819,8 +1819,32 @@ html,body{background:var(--paper);min-height:100vh;}
 .lf-step.lf-accent{background:var(--orange);border-color:var(--orange);color:#fff;}
 .lf-arrow{color:var(--orange);font-size:14px;}
 
+/* ── SocialTwin detail CTA: footer sits outside the section here,
+   so restore the bottom padding that index's idx-cta deliberately drops ── */
+.st-cta{padding-bottom:140px;}
+
 /* ── SocialTwin detail hero ── */
 .st-hero .blog-hero-title{font-size:clamp(34px,4.4vw,58px);line-height:1.2;}
+.st-word{
+  display:inline-block;position:relative;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1),color .5s,text-shadow .5s;
+}
+.st-word.active{
+  color:var(--orange);
+  transform:translateY(-5px) scale(1.07);
+  text-shadow:0 0 28px rgba(220,109,38,.5);
+}
+.st-word::after{
+  content:"";position:absolute;left:2%;right:2%;bottom:4px;height:3px;
+  background:var(--orange);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.st-word.active::after{transform:scaleX(1);}
+@media (prefers-reduced-motion: reduce){
+  .st-word,.st-word::after{transition:none;}
+  .st-word.active{transform:none;}
+}
 .st-hero .hero-ctas{display:flex;gap:14px;justify-content:center;margin-top:36px;}
 .st-hero .st-hero-ghost{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.85);}
 .st-hero .st-hero-ghost:hover{border-color:var(--orange);color:#fff;}
@@ -1973,6 +1997,7 @@ html,body{background:var(--paper);min-height:100vh;}
   .st-hero .blog-hero-title{font-size:clamp(26px,7.5vw,34px);}
   .st-hero .hero-ctas{flex-direction:column;align-items:stretch;}
   .st-hero .hero-stats{gap:20px 28px;flex-wrap:wrap;}
+  .st-cta{padding-bottom:76px;}
   .st-banner{padding-bottom:76px;}
   .st-card{padding:36px 24px;gap:28px;}
   .st-card p{font-size:14px;}
