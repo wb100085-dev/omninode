@@ -79,9 +79,6 @@
       <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--ink-soft);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="search" id="blogSearch" placeholder="검색..." autocomplete="off" />
     </div>
-    <div class="blog-tags" id="blogTagsBar">
-      <button class="blog-tag active" data-tag="all">ALL</button>
-    </div>
   </div>
 </div>
 
@@ -92,7 +89,7 @@
     <div id="blogGrid" class="blog-grid"></div>
     <div id="blogEmpty" class="blog-empty" style="display:none;">
       <p>게시물을 찾을 수 없습니다.</p>
-      <span>검색어 또는 태그를 변경해보세요.</span>
+      <span>검색어를 변경해보세요.</span>
     </div>
   </div>
 </section>
@@ -189,26 +186,6 @@ function formatDate(dateStr){
 
 let allPosts = [], activeTag = 'all', searchQuery = '';
 
-function buildTags(){
-  const bar = document.getElementById('blogTagsBar');
-  const tagSet = new Set();
-  allPosts.forEach(p=>(p.tags||[]).forEach(t=>tagSet.add(t)));
-  tagSet.forEach(tag=>{
-    const btn = document.createElement('button');
-    btn.className = 'blog-tag'; btn.dataset.tag = tag;
-    btn.textContent = tag.toUpperCase();
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.blog-tag').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active'); activeTag = tag; renderPosts();
-    });
-    bar.appendChild(btn);
-  });
-  bar.querySelector('[data-tag="all"]').addEventListener('click', function(){
-    document.querySelectorAll('.blog-tag').forEach(b=>b.classList.remove('active'));
-    this.classList.add('active'); activeTag='all'; renderPosts();
-  });
-}
-
 function filterPosts(){
   return allPosts.filter(post=>{
     const matchTag = activeTag==='all'||(post.tags||[]).includes(activeTag);
@@ -299,7 +276,6 @@ searchInput.addEventListener('input', ()=>{
 // ── Init ──────────────────────────────────────
 (async function(){
   allPosts = await getAllPosts();
-  buildTags();
   renderPosts();
 })();
 </script>
