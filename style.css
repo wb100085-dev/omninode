@@ -105,6 +105,12 @@
   .nav-links a:hover{color:var(--navy);background:color-mix(in oklab,var(--paper) 50%,var(--line));}
   .nav-links a.active{color:var(--orange);}
   .nav-links a.active::before{content:"";position:absolute;left:14px;right:14px;bottom:3px;height:2px;background:var(--orange);border-radius:2px;}
+  /* 야간모드: 상단 메뉴 글자가 흐려 보이지 않도록 또렷하게 */
+  [data-theme="dark"] .nav-links a{color:var(--ink);}
+  [data-theme="dark"] .nav-links a:hover{color:#fff;background:rgba(255,255,255,.08);}
+  [data-theme="dark"] .nav-links a.active{color:var(--orange);}
+  [data-theme="dark"] .mob-drawer a{color:var(--ink);}
+  [data-theme="dark"] .icon-btn{color:var(--ink);}
   .nav-cta{display:flex;align-items:center;gap:10px;}
   .icon-btn{
     width:38px;height:38px;border-radius:999px;display:grid;place-items:center;
@@ -1152,6 +1158,11 @@
 .vision-section .h-section{color:#fff;}
 .vision-section .eyebrow{color:var(--orange-soft);}
 .vision-section .eyebrow::before{background:var(--orange-soft);}
+/* 야간모드: --navy 배경 섹션이 밝게 반전돼 흰 글자가 사라지는 문제 방지 (배경을 어둡게 고정) */
+[data-theme="dark"] .vision-section,
+[data-theme="dark"] .tech,
+[data-theme="dark"] .idx-cta{background:var(--navy-2);}
+[data-theme="dark"] .cta-card{background:var(--navy-3);}
 .vision-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:64px;}
 .vision-card{
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:24px;
