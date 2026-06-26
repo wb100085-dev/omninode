@@ -1,3 +1,32 @@
+/* =================== Analytics (GA4) =================== */
+(function(){
+  var GA_ID = 'G-WLV8LFBR35';
+  // index.html은 <head>에 gtag를 인라인 로드함. 그 외 페이지는 여기서 부트스트랩.
+  if (typeof window.gtag !== 'function') {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  }
+  // CTA 버튼 클릭 추적: a.btn / button.btn / 모바일 CTA / data-track 지정 요소
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('a.btn, button.btn, .mob-cta-link, [data-track]');
+    if (!el || typeof window.gtag !== 'function') return;
+    var label = (el.getAttribute('data-track') || el.textContent || '')
+      .replace(/\s+/g, ' ').replace(/→/g, '').trim();
+    if (!label) return;
+    gtag('event', 'cta_click', {
+      cta_label: label,
+      link_url: el.getAttribute('href') || '',
+      page_path: location.pathname
+    });
+  }, true);
+})();
+
 /* =================== Custom cursor =================== */
 (function(){
   const c = document.querySelector('.cursor');
