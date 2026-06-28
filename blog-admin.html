@@ -29,7 +29,7 @@
     <button class="btn btn-primary" id="adminLoginBtn" style="width:100%;justify-content:center;margin-top:16px;padding:13px;">
       로그인 <span class="arrow">→</span>
     </button>
-    <p class="admin-gate-note">비밀번호를 변경하려면 이 페이지의 소스에서<br/><code>ADMIN_PASSWORD</code> 값을 수정하세요.</p>
+    <p class="admin-gate-note">비밀번호 변경은 Supabase 대시보드<br/>Authentication → Users 에서 관리자 계정 비밀번호를 수정하세요.</p>
   </div>
 </div>
 
@@ -213,23 +213,29 @@
 // ============================================================
 //  CONFIG
 // ============================================================
-const ADMIN_PASSWORD = 'omninode8285';
+// 블로그 운영진 공용 계정 이메일(고정·숨김). 사용자는 비밀번호 한 칸만 입력한다.
+// 여러 명이 이 '하나의 비밀번호'를 공유해서 로그인 → 모두 글 작성/수정 가능.
+// 비밀번호는 코드에 두지 않고 Supabase Auth 로 검증한다(소스 노출 없음).
+// → blog_posts/이미지 쓰기는 '로그인한(authenticated) 사용자'만 가능(RLS 정책).
+//   공개 키만으로는 글을 쓸 수 없다.
+const ADMIN_EMAIL = 'blog@omninode.kr';
 
 let currentContentType = 'markdown';
 
 // ============================================================
-//  AUTH
+//  AUTH  — Supabase Auth 세션 기반 (가짜 비밀번호 게이트 제거)
 // ============================================================
-function isAuthed(){ return sessionStorage.getItem('blog_admin_auth')==='1'; }
-function setAuth(v){
-  sessionStorage.setItem('blog_admin_auth', v?'1':'0');
-  // 새 탭에서 sessionStorage가 복사되지 않을 수 있으므로 미리보기 통과용 마커를 localStorage에도 단기 보관
+async function isAuthed(){
   try {
-    if(v){
-      localStorage.setItem('blog_admin_preview_until', String(Date.now() + 8*60*60*1000)); // 8시간 유효
-    } else {
-      localStorage.removeItem('blog_admin_preview_until');
-    }
+    const { data } = await window.getSupabaseClient().auth.getSession();
+    return !!(data && data.session);
+  } catch(e){ return false; }
+}
+// 다른 페이지(blog-post.html)의 미리보기 통과용 마커 호환 유지
+function setPreviewMarker(on){
+  try {
+    if(on) localStorage.setItem('blog_admin_preview_until', String(Date.now() + 8*60*60*1000));
+    else   localStorage.removeItem('blog_admin_preview_until');
   } catch(e){}
 }
 
@@ -250,20 +256,34 @@ async function showDashboard(){
 document.getElementById('adminLoginBtn').addEventListener('click', tryLogin);
 document.getElementById('adminPassInput').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 
-function tryLogin(){
+async function tryLogin(){
+  const btn = document.getElementById('adminLoginBtn');
   const input = document.getElementById('adminPassInput').value;
-  if(input===ADMIN_PASSWORD){
-    document.getElementById('adminError').style.display='none';
-    setAuth(true);
-    showDashboard();
-  } else {
+  document.getElementById('adminError').style.display='none';
+  btn.disabled = true;
+  try {
+    const { error } = await window.getSupabaseClient().auth.signInWithPassword({
+      email: ADMIN_EMAIL,
+      password: input
+    });
+    if(error) throw error;
+    setPreviewMarker(true);
+    await showDashboard();
+  } catch(e){
+    console.warn('login 실패:', e);
     document.getElementById('adminError').style.display='block';
     document.getElementById('adminPassInput').value='';
     document.getElementById('adminPassInput').focus();
+  } finally {
+    btn.disabled = false;
   }
 }
 
-document.getElementById('logoutBtn').addEventListener('click',()=>{ setAuth(false); showGate(); });
+document.getElementById('logoutBtn').addEventListener('click', async ()=>{
+  try { await window.getSupabaseClient().auth.signOut(); } catch(e){}
+  setPreviewMarker(false);
+  showGate();
+});
 
 // ============================================================
 //  DATA
@@ -774,7 +794,7 @@ function parseMarkdownPreview(md){
 //  INIT
 // ============================================================
 (async function(){
-  if(isAuthed()){ await showDashboard(); }
+  if(await isAuthed()){ await showDashboard(); }
   else { showGate(); setTimeout(()=>document.getElementById('adminPassInput').focus(),100); }
 })();
 </script>
