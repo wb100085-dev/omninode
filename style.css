@@ -2020,3 +2020,116 @@ html,body{background:var(--paper);min-height:100vh;}
   .principles{gap:14px;margin-top:48px;}
   .principle{padding:28px 22px;}
 }
+
+/* ═══════════ 소개 영상 · 공공기관 로고 마퀴 · 인증서 스트립 (2026-08) ═══════════ */
+
+/* ── SocialTwin detail: 히어로 서비스 소개 영상 ── */
+.st-video{max-width:860px;margin:56px auto 0;}
+.st-video-frame{
+  border-radius:20px;overflow:hidden;background:#0B1226;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 40px 80px -30px rgba(0,0,0,.6);
+}
+.st-video-bar{
+  display:flex;align-items:center;gap:10px;padding:12px 20px;
+  background:linear-gradient(90deg,rgba(220,109,38,.25),rgba(220,109,38,.06));
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.st-video-bar svg{color:var(--orange-soft);flex:0 0 auto;}
+.st-video-bar .t{font-size:14px;font-weight:700;color:#fff;}
+.st-video-bar .dur{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.5);}
+.st-video-body{position:relative;aspect-ratio:16/9;background:#0B1226;}
+.st-video-body video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.st-video-play{
+  position:absolute;inset:0;width:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  background:rgba(5,9,20,.35);transition:background .3s;
+}
+.st-video-play:hover{background:rgba(5,9,20,.18);}
+.st-video-play .pbtn{
+  width:64px;height:64px;border-radius:50%;background:#fff;color:var(--orange);
+  display:grid;place-items:center;box-shadow:0 12px 32px rgba(0,0,0,.45);transition:transform .3s;
+}
+.st-video-play .pbtn svg{margin-left:3px;}
+.st-video-play:hover .pbtn{transform:scale(1.1);}
+.st-video-play .ptxt{
+  font-size:12px;font-weight:700;color:#fff;background:rgba(11,18,38,.7);
+  padding:6px 14px;border-radius:999px;backdrop-filter:blur(4px);
+}
+
+/* ── SocialTwin detail: Use Cases 공공기관 로고 마퀴 ── */
+.partner-marquee{
+  margin-top:48px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 0;
+}
+.partner-clip{
+  overflow:hidden;
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+}
+.partner-track{display:flex;width:max-content;animation:partnerScroll 32s linear infinite;}
+.partner-marquee:hover .partner-track{animation-play-state:paused;}
+.partner-group{display:flex;align-items:center;gap:64px;padding-right:64px;}
+.partner-group img{width:auto;max-width:none;}
+.plh24{height:24px;}
+.plh28{height:28px;}
+.plh32{height:32px;}
+.plh36{height:36px;}
+.plh40{height:40px;}
+@keyframes partnerScroll{to{transform:translateX(-50%);}}
+
+/* ── index Technology & Trust: 인증서·수상 스트립 ──
+   .tech 섹션은 야간모드에서도 어두운 배경 유지 → 카드 위 텍스트는 고정 색상 사용 */
+.cert-block{margin-top:72px;position:relative;}
+.cert-label{
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;
+  color:rgba(255,255,255,.55);display:flex;align-items:center;gap:12px;margin-bottom:28px;
+}
+.cert-label::before{content:"";width:24px;height:1px;background:var(--orange);}
+.cert-strip{display:flex;gap:20px;align-items:stretch;}
+.cert-fixed{flex:0 0 auto;position:relative;z-index:2;margin:0;}
+.cert-card{
+  background:#fff;border-radius:14px;padding:10px;width:210px;margin:0;
+  display:flex;flex-direction:column;flex:0 0 auto;
+  box-shadow:0 16px 40px -18px rgba(0,0,0,.55);
+}
+.cert-fixed.cert-card{
+  box-shadow:0 0 0 2px var(--orange),0 20px 48px -18px rgba(0,0,0,.6);
+}
+.cert-imgw{
+  aspect-ratio:1/1.4;border:1px solid rgba(20,33,61,.1);border-radius:8px;
+  overflow:hidden;background:#fff;
+}
+.cert-imgw img{width:100%;height:100%;object-fit:cover;object-position:top center;}
+.cert-card figcaption{padding:10px 4px 4px;min-height:64px;text-align:center;}
+.cert-card figcaption{font-size:12.5px;font-weight:700;color:#14213D;line-height:1.35;}
+.cert-card figcaption span{
+  display:block;margin-top:3px;font-size:11px;font-weight:500;color:#5A6478;line-height:1.4;
+}
+.cert-fixed figcaption{color:var(--orange);}
+.cert-marquee{
+  flex:1;min-width:0;overflow:hidden;
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.cert-track{display:flex;width:max-content;animation:certScroll 48s linear infinite;}
+.cert-marquee:hover .cert-track{animation-play-state:paused;}
+.cert-group{display:flex;gap:20px;padding-right:20px;}
+@keyframes certScroll{to{transform:translateX(-50%);}}
+@media (prefers-reduced-motion: reduce){
+  .partner-track,.cert-track{animation:none;}
+}
+
+/* ── 모바일 (영상·마퀴·인증서) ── */
+@media (max-width:640px){
+  .st-video{margin-top:40px;}
+  .st-video-bar{padding:10px 14px;}
+  .st-video-play .pbtn{width:52px;height:52px;}
+  .partner-marquee{margin-top:36px;padding:16px 0;}
+  .partner-group{gap:36px;padding-right:36px;}
+  .partner-group img{height:22px;}
+  .partner-group img.plh36,.partner-group img.plh40{height:30px;}
+  .cert-block{margin-top:52px;}
+  .cert-strip{flex-direction:column;gap:20px;}
+  .cert-fixed{align-self:center;}
+  .cert-card{width:188px;}
+}

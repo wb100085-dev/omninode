@@ -73,6 +73,24 @@
         <div class="hero-stat"><div class="num">95<span class="sym">%</span></div><div class="lbl">통계 정합성 (Spearman)</div></div>
         <div class="hero-stat"><div class="num">95<span class="sym">%</span></div><div class="lbl">인간 응답 일치율 (SSR)</div></div>
       </div>
+
+      <!-- 서비스 소개 영상 (영상 파일은 socialtwin.site CDN에서 로드) -->
+      <div class="st-video reveal d4">
+        <div class="st-video-frame">
+          <div class="st-video-bar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 7l5 3-5 3V7z"/></svg>
+            <span class="t">서비스 소개 영상</span>
+            <span class="dur">01:51</span>
+          </div>
+          <div class="st-video-body">
+            <video id="stIntroVideo" src="https://www.socialtwin.site/videos/service-intro.mp4" poster="이미지/service-intro-poster.jpg" preload="none" playsinline></video>
+            <button type="button" class="st-video-play" id="stVideoPlay" aria-label="서비스 소개 동영상 재생" data-cursor>
+              <span class="pbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+              <span class="ptxt">클릭하여 재생</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -123,6 +141,30 @@
     <div class="reveal eyebrow-w"><span class="eyebrow">02 · Use Cases</span></div>
     <h2 class="h-section reveal d1">시장을 검증하는<br/>4가지 방법.</h2>
     <p class="lead reveal d2">스타트업부터 정부기관까지, 모든 의사결정 현장에 최적화된 시뮬레이션 솔루션을 제공합니다.</p>
+
+    <!-- 함께한 공공기관 로고 마퀴 — 두 벌을 이어 붙여 -50% 이동으로 무한 루프 -->
+    <div class="partner-marquee reveal d3" aria-label="함께한 기관">
+      <div class="partner-clip">
+        <div class="partner-track">
+          <div class="partner-group">
+            <img src="이미지/logos/dip.svg" alt="대구디지털혁신진흥원" class="plh24" loading="lazy" />
+            <img src="이미지/logos/kspo.svg" alt="국민체육진흥공단" class="plh32" loading="lazy" />
+            <img src="이미지/logos/daegu-ccei.png" alt="대구창조경제혁신센터" class="plh36" loading="lazy" />
+            <img src="이미지/logos/daegu-tp.png" alt="대구테크노파크" class="plh28" loading="lazy" />
+            <img src="이미지/logos/kmedihub.png" alt="대구경북첨단의료산업진흥재단" class="plh40" loading="lazy" />
+            <img src="이미지/logos/innopolis.svg" alt="연구개발특구진흥재단" class="plh36" loading="lazy" />
+          </div>
+          <div class="partner-group" aria-hidden="true">
+            <img src="이미지/logos/dip.svg" alt="" class="plh24" loading="lazy" />
+            <img src="이미지/logos/kspo.svg" alt="" class="plh32" loading="lazy" />
+            <img src="이미지/logos/daegu-ccei.png" alt="" class="plh36" loading="lazy" />
+            <img src="이미지/logos/daegu-tp.png" alt="" class="plh28" loading="lazy" />
+            <img src="이미지/logos/kmedihub.png" alt="" class="plh40" loading="lazy" />
+            <img src="이미지/logos/innopolis.svg" alt="" class="plh36" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="biz-grid">
       <div class="biz-card reveal d1" data-cursor>
@@ -331,5 +373,22 @@
 </footer>
 
 <script src="main.js"></script>
+<script>
+/* 소개 영상: 클릭 전에는 포스터만 보여주고, 재생 시작 시 네이티브 컨트롤로 전환 */
+(function(){
+  var v = document.getElementById('stIntroVideo');
+  var btn = document.getElementById('stVideoPlay');
+  if(!v || !btn) return;
+  btn.addEventListener('click', function(){
+    btn.style.display = 'none';
+    v.controls = true;
+    v.play();
+  });
+  v.addEventListener('ended', function(){
+    v.controls = false;
+    btn.style.display = '';
+  });
+})();
+</script>
 </body>
 </html>
