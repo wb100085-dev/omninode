@@ -1453,6 +1453,24 @@
 .blog-card-meta{display:flex;justify-content:space-between;align-items:center;margin-top:18px;font-size:12px;color:var(--ink-soft);}
 .blog-card-read{color:var(--orange);font-weight:700;font-size:12px;}
 
+/* ── Category sections ── */
+.blog-cat-sec{margin-top:64px;}
+.blog-cat-sec:first-child{margin-top:8px;}
+.blog-cat-head{
+  display:flex;align-items:baseline;gap:12px;
+  margin-bottom:22px;padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+}
+.blog-cat-title{
+  font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.01em;
+  display:flex;align-items:center;gap:12px;
+}
+.blog-cat-title::before{content:"";width:24px;height:2px;background:var(--orange);}
+.blog-cat-count{
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+  color:var(--orange);
+}
+
 /* ── Empty state ── */
 .blog-empty{text-align:center;padding:80px 0;}
 .blog-empty p{font-size:18px;font-weight:700;color:var(--navy);}
@@ -2157,4 +2175,13 @@ html,body{background:var(--paper);min-height:100vh;}
   .cert-strip{flex-direction:column;gap:20px;}
   .cert-fixed{align-self:center;}
   .cert-card{width:188px;}
+}
+
+/* ── 모바일 (블로그 카테고리) ── */
+@media (max-width:640px){
+  .blog-cat-sec{margin-top:48px;}
+  .blog-cat-title{font-size:19px;gap:10px;}
+  .blog-cat-title::before{width:18px;}
+  .blog-tags{gap:5px;}
+  .blog-tag{padding:6px 11px;font-size:11px;}
 }

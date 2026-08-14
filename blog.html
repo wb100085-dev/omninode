@@ -81,6 +81,7 @@
       <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--ink-soft);flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="search" id="blogSearch" placeholder="검색..." autocomplete="off" />
     </div>
+    <div class="blog-tags" id="blogCats"></div>
   </div>
 </div>
 
@@ -88,7 +89,7 @@
 <section class="blog-section">
   <div class="wrap">
     <div id="blogFeaturedWrap"></div>
-    <div id="blogGrid" class="blog-grid"></div>
+    <div id="blogGrid"></div>
     <div id="blogEmpty" class="blog-empty" style="display:none;">
       <p>게시물을 찾을 수 없습니다.</p>
       <span>검색어를 변경해보세요.</span>
@@ -187,17 +188,64 @@ function formatDate(dateStr){
   return new Date(dateStr).toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
 }
 
-let allPosts = [], activeTag = 'all', searchQuery = '';
+let allPosts = [], activeCat = 'all', searchQuery = '';
+
+// ── Categories ───────────────────────────────
+// 분류 우선순위: ① post.category 필드 또는 카테고리명과 동일한 태그(예: "회사소식")
+//              ② 제목 키워드  ③ 태그 키워드  ④ 기본값(AI 인사이트)
+const CATEGORIES = [
+  { key:'news',     label:'회사 소식',    re:/수상|최우수|협약|MOU|보도|인터뷰|소식/i },
+  { key:'series',   label:'연구 시리즈',  re:/series|연구노트|방법론/i },
+  { key:'forecast', label:'AI 예측 데모', re:/예측|데모|여론조사|선거|민심|시뮬레이션/ }
+];
+
+function getCategory(post){
+  const norm = s => (s||'').replace(/^#/,'').replace(/[\s·]/g,'');
+  const explicit = norm(post.category);
+  const tagNorms = (post.tags||[]).map(norm);
+  for(const c of CATEGORIES){
+    const l = norm(c.label);
+    if(explicit===l || explicit===c.key || tagNorms.includes(l)) return c;
+  }
+  for(const c of CATEGORIES){ if(c.re && c.re.test(post.title||'')) return c; }
+  const tagText = tagNorms.join(' ');
+  for(const c of CATEGORIES){ if(c.re && c.re.test(tagText)) return c; }
+  // 어디에도 안 걸리는 글은 연구 시리즈로 (태그에 "회사소식" 등을 넣어 지정 가능)
+  return CATEGORIES.find(c=>c.key==='series');
+}
 
 function filterPosts(){
   return allPosts.filter(post=>{
-    const matchTag = activeTag==='all'||(post.tags||[]).includes(activeTag);
+    const matchCat = activeCat==='all' || getCategory(post).key===activeCat;
     const q = searchQuery.trim().toLowerCase();
     const matchSearch = !q||
       (post.title||'').toLowerCase().includes(q)||
       (post.excerpt||'').toLowerCase().includes(q)||
       (post.tags||[]).some(t=>t.toLowerCase().includes(q));
-    return matchTag && matchSearch;
+    return matchCat && matchSearch;
+  });
+}
+
+function renderCatChips(){
+  const wrap = document.getElementById('blogCats');
+  const counts = {};
+  allPosts.forEach(p=>{ const k=getCategory(p).key; counts[k]=(counts[k]||0)+1; });
+  const chips = [{key:'all',label:'전체'}].concat(CATEGORIES.filter(c=>counts[c.key]));
+  wrap.innerHTML = chips.map(c=>
+    `<button class="blog-tag${activeCat===c.key?' active':''}" data-cat="${c.key}">${c.label}</button>`
+  ).join('');
+  wrap.querySelectorAll('.blog-tag').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ activeCat = btn.dataset.cat; renderCatChips(); renderPosts(); });
+  });
+}
+
+function appendCards(container, posts){
+  posts.forEach(post=>{
+    const div = document.createElement('div');
+    div.className = 'blog-card reveal';
+    div.innerHTML = buildCard(post);
+    div.addEventListener('click', ()=>{ window.location.href=`blog-post.html?id=${encodeURIComponent(post.id)}`; });
+    container.appendChild(div);
   });
 }
 
@@ -209,17 +257,36 @@ function renderPosts(){
   featWrap.innerHTML = ''; grid.innerHTML = '';
   if(!filtered.length){ empty.style.display='block'; return; }
   empty.style.display = 'none';
-  const showFeat = activeTag==='all' && !searchQuery;
+  const showFeat = activeCat==='all' && !searchQuery;
   const featured = showFeat ? filtered.find(p=>p.featured) : null;
   if(featured) featWrap.innerHTML = buildFeaturedCard(featured);
   const gridPosts = featured ? filtered.filter(p=>p!==featured) : filtered;
-  gridPosts.forEach(post=>{
-    const div = document.createElement('div');
-    div.className = 'blog-card reveal';
-    div.innerHTML = buildCard(post);
-    div.addEventListener('click', ()=>{ window.location.href=`blog-post.html?id=${encodeURIComponent(post.id)}`; });
-    grid.appendChild(div);
-  });
+
+  if(searchQuery.trim()){
+    // 검색 중에는 카테고리 구분 없이 평면 그리드
+    const flat = document.createElement('div');
+    flat.className = 'blog-grid';
+    appendCards(flat, gridPosts);
+    grid.appendChild(flat);
+  }else{
+    // 카테고리별 섹션 (게시물이 있는 카테고리만)
+    CATEGORIES.forEach(cat=>{
+      const posts = gridPosts.filter(p=>getCategory(p)===cat);
+      if(!posts.length) return;
+      const sec = document.createElement('section');
+      sec.className = 'blog-cat-sec';
+      sec.innerHTML = `
+        <div class="blog-cat-head">
+          <h2 class="blog-cat-title">${cat.label}</h2>
+          <span class="blog-cat-count">${posts.length}</span>
+        </div>`;
+      const g = document.createElement('div');
+      g.className = 'blog-grid';
+      appendCards(g, posts);
+      sec.appendChild(g);
+      grid.appendChild(sec);
+    });
+  }
   // re-observe new cards
   document.querySelectorAll('.blog-card.reveal:not(.in)').forEach(el=>{
     new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting) en.target.classList.add('in'); }),{threshold:.1}).observe(el);
@@ -279,6 +346,7 @@ searchInput.addEventListener('input', ()=>{
 // ── Init ──────────────────────────────────────
 (async function(){
   allPosts = await getAllPosts();
+  renderCatChips();
   renderPosts();
 })();
 </script>
