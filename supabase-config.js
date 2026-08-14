@@ -31,6 +31,29 @@ window.postFromDB = function (row) {
   };
 };
 
+// ── 블로그 카테고리 (blog.html 목록 · blog-admin.html 작성 폼 공용) ──
+// 분류 우선순위: ① category 필드 또는 카테고리명과 같은 태그(예: "회사소식")
+//              ② 제목 키워드  ③ 태그 키워드  ④ 기본값(연구 시리즈)
+window.BLOG_CATEGORIES = [
+  { key: 'news',     label: '회사 소식',    re: /수상|최우수|협약|MOU|보도|인터뷰|소식/i },
+  { key: 'series',   label: '연구 시리즈',  re: /series|연구노트|방법론/i },
+  { key: 'forecast', label: 'AI 예측 데모', re: /예측|데모|여론조사|선거|민심|시뮬레이션/ }
+];
+window.blogCategoryOf = function (post) {
+  const cats = window.BLOG_CATEGORIES;
+  const norm = s => (s || '').replace(/^#/, '').replace(/[\s·]/g, '');
+  const explicit = norm(post.category);
+  const tagNorms = (post.tags || []).map(norm);
+  for (const c of cats) {
+    const l = norm(c.label);
+    if (explicit === l || explicit === c.key || tagNorms.includes(l)) return c;
+  }
+  for (const c of cats) { if (c.re && c.re.test(post.title || '')) return c; }
+  const tagText = tagNorms.join(' ');
+  for (const c of cats) { if (c.re && c.re.test(tagText)) return c; }
+  return cats.find(c => c.key === 'series');
+};
+
 // 일반 방문자에게 노출할 게시물만 필터링 (비공개 제외)
 window.filterPublicPosts = function (posts) {
   if (!Array.isArray(posts)) return [];

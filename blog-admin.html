@@ -116,9 +116,16 @@
             <input type="date" id="fDate" />
           </div>
           <div class="admin-form-group">
-            <label>태그 (쉼표로 구분)</label>
-            <input type="text" id="fTags" placeholder="예: AI, 연구, SocialTwin" />
+            <label>카테고리</label>
+            <select id="fCategory">
+              <option value="">자동 분류 (제목·태그 키워드)</option>
+            </select>
           </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label>태그 (쉼표로 구분)</label>
+          <input type="text" id="fTags" placeholder="예: AI, 연구, SocialTwin" />
         </div>
 
         <div class="admin-form-group">
@@ -189,7 +196,7 @@
 <div id="adminToast" class="admin-toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
+<script src="supabase-config.js?v=2"></script>
 <script src="blog-posts.js"></script>
 <script>
 // ── Theme toggle (minimal, no main.js needed) ────────────
@@ -284,6 +291,36 @@ document.getElementById('logoutBtn').addEventListener('click', async ()=>{
   setPreviewMarker(false);
   showGate();
 });
+
+// ============================================================
+//  CATEGORY
+// ============================================================
+// 별도 DB 컬럼 없이 태그로 저장한다: 카테고리명과 같은 태그(예: "회사소식")가 있으면
+// blog.html(blogCategoryOf)이 해당 카테고리로 강제 분류한다.
+// 셀렉트 박스는 그 카테고리 태그를 넣고 빼는 역할만 한다.
+const normCatTag = s => (s||'').replace(/^#/,'').replace(/[\s·]/g,'');
+const CATEGORY_TAGS = window.BLOG_CATEGORIES.map(c=>normCatTag(c.label));
+
+// 셀렉트 옵션 채우기 (공용 정의 사용)
+(function(){
+  const sel=document.getElementById('fCategory');
+  window.BLOG_CATEGORIES.forEach(c=>{
+    const o=document.createElement('option');
+    o.value=normCatTag(c.label); o.textContent=c.label;
+    sel.appendChild(o);
+  });
+})();
+
+// tags 배열에서 카테고리 태그와 일반 태그를 분리
+function splitCategory(tags){
+  const rest=[]; let category='';
+  (tags||[]).forEach(t=>{
+    const n=normCatTag(t);
+    if(CATEGORY_TAGS.includes(n)){ if(!category) category=n; }
+    else rest.push(t);
+  });
+  return { category, rest };
+}
 
 // ============================================================
 //  DATA
@@ -386,11 +423,14 @@ function renderPostList(posts){
       ? `<span style="display:inline-block;padding:2px 8px;border-radius:10px;background:rgba(34,197,94,0.15);color:#16a34a;font-size:11px;font-weight:700;margin-left:6px;">공개</span>`
       : `<span style="display:inline-block;padding:2px 8px;border-radius:10px;background:rgba(239,68,68,0.15);color:#dc2626;font-size:11px;font-weight:700;margin-left:6px;">비공개</span>`;
     const toggleLabel = isPublished ? '🔒 비공개로' : '🌐 공개로';
+    const cat = window.blogCategoryOf(post);
+    const isExplicit = splitCategory(post.tags).category !== '';
+    const catBadge = `<span title="${isExplicit?'카테고리 직접 지정':'자동 분류'}" style="display:inline-block;padding:2px 8px;border-radius:10px;background:rgba(220,109,38,0.12);color:var(--orange);font-size:11px;font-weight:700;margin-left:6px;">${cat.label}${isExplicit?'':' (자동)'}</span>`;
     return `
     <div class="admin-post-item" style="${isPublished?'':'opacity:0.7;'}">
       <div class="admin-post-featured-dot ${post.featured?'':'hidden'}" title="${post.featured?'Featured':''}"></div>
       <div class="admin-post-info">
-        <div class="admin-post-title">${post.title}${statusBadge}</div>
+        <div class="admin-post-title">${post.title}${statusBadge}${catBadge}</div>
         <div class="admin-post-date">
           ${post.date||'날짜 없음'}
           ${post.author?' · '+post.author:''}
@@ -426,7 +466,9 @@ function openForm(post){
     document.getElementById('fContent').value=post.content||'';
     document.getElementById('fAuthor').value=post.author||'';
     document.getElementById('fDate').value=post.date||'';
-    document.getElementById('fTags').value=(post.tags||[]).join(', ');
+    const {category,rest}=splitCategory(post.tags);
+    document.getElementById('fCategory').value=category;
+    document.getElementById('fTags').value=rest.join(', ');
     document.getElementById('fImageUrl').value=post.imageUrl||'';
     document.getElementById('fFeatured').checked=!!post.featured;
     document.getElementById('fPublished').checked = post.published !== false;
@@ -439,6 +481,7 @@ function openForm(post){
     document.getElementById('fContent').value='';
     document.getElementById('fAuthor').value='OmniNode';
     document.getElementById('fDate').value=new Date().toISOString().slice(0,10);
+    document.getElementById('fCategory').value='';
     document.getElementById('fTags').value='';
     document.getElementById('fImageUrl').value='';
     document.getElementById('fFeatured').checked=false;
@@ -456,7 +499,11 @@ async function savePost(){
   const content=document.getElementById('fContent').value.trim();
   const author=document.getElementById('fAuthor').value.trim();
   const date=document.getElementById('fDate').value;
-  const tags=document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  let tags=document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  // 태그 입력칸에 직접 적은 카테고리 태그는 제거하고, 셀렉트 선택값을 맨 앞에 넣는다
+  tags=tags.filter(t=>!CATEGORY_TAGS.includes(normCatTag(t)));
+  const category=document.getElementById('fCategory').value;
+  if(category) tags.unshift(category);
   const imageUrl=document.getElementById('fImageUrl').value.trim();
   const featured=document.getElementById('fFeatured').checked;
   const published=document.getElementById('fPublished').checked;
