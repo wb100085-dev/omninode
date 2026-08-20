@@ -196,7 +196,9 @@
 <div id="adminToast" class="admin-toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js?v=2"></script>
+<!-- jsdelivr 이 막힌 PC(사내망·광고차단 확장)에서는 unpkg 로 폴백 -->
+<script>if(!window.supabase){document.write('<scr'+'ipt src="https://unpkg.com/@supabase/supabase-js@2"><\/scr'+'ipt>');}</script>
+<script src="supabase-config.js?v=3"></script>
 <script src="blog-posts.js"></script>
 <script>
 // ── Theme toggle (minimal, no main.js needed) ────────────
@@ -325,7 +327,8 @@ function splitCategory(tags){
 // ============================================================
 //  DATA
 // ============================================================
-const STORAGE_KEY = 'omninode_blog_override';
+const STORAGE_KEY = 'omninode_blog_override';        // 공개 페이지(blog.html)의 오프라인 폴백 — 관리자는 더 이상 쓰지 않는다
+const ADMIN_CACHE_KEY = 'omninode_blog_admin_list';  // 관리자 목록 캐시(본문 제외)
 
 function generateId(){
   const now=new Date();
@@ -344,33 +347,106 @@ function toDB(post){
   };
 }
 
+// 현재 화면이 보고 있는 목록(로컬스토리지 대신 이 배열을 신뢰한다)
+let currentPosts = [];
+let lastLoadError = '';
+
+function escAttr(s){ return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+// 액세스 토큰의 iat 와 PC 시계를 비교 → 시계가 어긋나면 JWT 검증이 실패한다
+async function clockSkewSeconds(){
+  try{
+    const { data } = await window.getSupabaseClient().auth.getSession();
+    const t = data && data.session && data.session.access_token; if(!t) return 0;
+    const p = JSON.parse(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    if(!p || !p.iat) return 0;
+    return Math.round(Date.now()/1000 - p.iat);
+  }catch(e){ return 0; }
+}
+
+// 실패 원인을 사람이 읽을 수 있는 한 줄로 (다른 PC에서 원인 파악용)
+async function describeLoadError(e){
+  if(!window.supabase)
+    return 'Supabase 라이브러리 로드 실패 — 광고차단 확장 또는 사내망이 cdn.jsdelivr.net / unpkg.com 을 막고 있습니다.';
+  const msg  = (e && (e.message || e.error_description || e.hint)) || String(e || '');
+  const code = String((e && (e.code || e.status)) || '');
+  if(/Failed to fetch|NetworkError|ERR_|network/i.test(msg))
+    return '네트워크 차단 — 이 PC에서 ' + window.SUPABASE_URL + ' 접속이 막혀 있습니다(방화벽·사내망·광고차단 확장·VPN).';
+  if(/jwt|token|expired|iat|exp/i.test(msg)){
+    const skew = await clockSkewSeconds();
+    if(Math.abs(skew) > 120)
+      return 'PC 시계가 ' + Math.round(skew/60) + '분 어긋나 로그인 토큰이 거부됩니다. 시스템 시간을 자동(인터넷 시간 동기화)으로 맞추세요.';
+    return '로그인 세션 오류 — 로그아웃 후 다시 로그인하세요. (' + msg + ')';
+  }
+  if(code==='401' || code==='403' || code==='42501' || /permission|policy|denied|not allowed/i.test(msg))
+    return '권한(RLS) 오류 — Supabase SQL Editor 에서 blog-admin-rls.sql 을 실행하세요. (' + (code||msg) + ')';
+  return msg || '알 수 없는 오류';
+}
+
 function setSupabaseStatus(state){
   const el=document.getElementById('supabaseStatus'); if(!el) return;
   const map={
     loading:'<span style="color:var(--ink-soft);">● 연결 중...</span>',
     ok:'<span style="color:#22c55e;">● Supabase 연결됨</span>',
-    error:'<span style="color:#ef4444;">● 연결 오류 (로컬 캐시 사용)</span>'
+    error:'<span style="color:#ef4444;cursor:pointer;" title="'+escAttr(lastLoadError)+'\n\n클릭하면 다시 시도합니다.">● 연결 오류 — '+escAttr(lastLoadError.slice(0,60))+' (클릭: 재시도)</span>'
   };
   el.innerHTML=map[state]||map.loading;
+  el.onclick = (state==='error') ? async ()=>{ const posts=await loadPosts(); renderPostList(posts); updateStats(posts); } : null;
+}
+
+// 목록에는 본문(content)이 필요 없다. 본문에 base64 이미지가 들어 있는 글이 있어
+// select('*') 로 받으면 6MB 가까이 되고, 이 때문에 로딩이 느려지고 캐시 저장이 실패한다.
+// 본문은 '수정'을 누를 때 그 글 하나만 따로 받아온다(fetchFullPost).
+const LIST_COLUMNS = 'id,title,excerpt,content_type,author,date,tags,image_url,featured,published';
+
+async function selectAllPosts(){
+  const client=window.getSupabaseClient();
+  let { data, error } = await client.from('blog_posts').select(LIST_COLUMNS).order('date',{ascending:false});
+  // 토큰 문제로 보이면 세션을 갱신하고 딱 한 번 재시도
+  if(error && /jwt|token|expired|401/i.test(String(error.message||'')+String(error.code||''))){
+    try{ await client.auth.refreshSession(); }catch(e){}
+    ({ data, error } = await client.from('blog_posts').select(LIST_COLUMNS).order('date',{ascending:false}));
+  }
+  if(error) throw error;
+  return data||[];
+}
+
+// 수정 화면용 — 글 하나의 전체 행(본문 포함)
+async function fetchFullPost(id){
+  const { data, error } = await window.getSupabaseClient()
+    .from('blog_posts').select('*').eq('id',id).maybeSingle();
+  if(error) throw error;
+  return data ? window.postFromDB(data) : null;
 }
 
 async function loadPosts(){
   setSupabaseStatus('loading');
   try{
-    const {data,error}=await window.getSupabaseClient().from('blog_posts').select('*').order('date',{ascending:false});
-    if(error) throw error;
-    const posts=(data||[]).map(window.postFromDB);
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(posts));
+    if(!window.supabase) throw new Error('supabase-js 라이브러리가 로드되지 않았습니다');
+    const posts=(await selectAllPosts()).map(window.postFromDB);
+    currentPosts=posts; lastLoadError='';
+    // 본문을 뺀 목록만 캐시한다. 예전에는 본문까지 통째로 넣다가 5MB 한도를 넘겨
+    // QuotaExceededError 가 나고, 그게 '연결 오류'로 잘못 표시되었다.
+    try{ localStorage.setItem(ADMIN_CACHE_KEY,JSON.stringify(posts)); }catch(e){ console.warn('목록 캐시 저장 실패:',e); }
     setSupabaseStatus('ok');
     return posts;
   } catch(e){
     console.error('loadPosts 실패:',e);
+    lastLoadError=await describeLoadError(e);
     setSupabaseStatus('error');
-    const s=localStorage.getItem(STORAGE_KEY);
-    if(s){ try{ const p=JSON.parse(s); if(Array.isArray(p)) return p; }catch(e2){} }
-    return JSON.parse(JSON.stringify(window.BLOG_POSTS||[]));
+    showToast('⚠ 온라인 목록을 못 불러왔습니다: '+lastLoadError, 10000);
+    let cached=null;
+    try{
+      const s=localStorage.getItem(ADMIN_CACHE_KEY)||localStorage.getItem(STORAGE_KEY);
+      if(s){ const p=JSON.parse(s); if(Array.isArray(p)) cached=p; }
+    }catch(e2){}
+    currentPosts = cached || JSON.parse(JSON.stringify(window.BLOG_POSTS||[]));
+    return currentPosts;
   }
 }
+
+// 목록에서 글 하나 찾기 — 로컬스토리지가 비어 있는 새 PC에서도 동작해야 한다
+function findPost(id){ return (currentPosts||[]).find(p=>p.id===id); }
 
 async function upsertPost(post){
   const {error}=await window.getSupabaseClient().from('blog_posts').upsert(toDB(post),{onConflict:'id'});
@@ -513,6 +589,8 @@ async function savePost(){
   if(!content){ alert('본문 내용을 입력해주세요.'); return; }
   const post={id:editId||generateId(),title,excerpt,content,author,date,tags,imageUrl,featured,published};
   if(currentContentType==='html') post.contentType='html';
+  // 목록이 로컬 캐시 상태(연결 오류)라면, 오래된 내용으로 온라인을 덮어쓸 위험을 경고
+  if(lastLoadError && !confirm('지금 보이는 목록은 온라인이 아닌 로컬 캐시입니다.\n그대로 저장하면 온라인의 최신 내용을 덮어쓸 수 있습니다.\n\n계속할까요?')) return;
   const btn=document.getElementById('savePostBtn');
   btn.textContent='저장 중...'; btn.disabled=true;
   try{
@@ -525,11 +603,17 @@ async function savePost(){
   finally{ btn.textContent='저장'; btn.disabled=false; }
 }
 
-function editPost(id){
-  const s=localStorage.getItem(STORAGE_KEY); let posts=[];
-  if(s){ try{ posts=JSON.parse(s); }catch(e){} }
-  const post=posts.find(p=>p.id===id);
-  if(post) openForm(post);
+async function editPost(id){
+  const listed=findPost(id);
+  if(!listed){ showToast('⚠ 게시물을 찾을 수 없습니다. 목록을 새로고침하세요.'); return; }
+  try{
+    const full=await fetchFullPost(id);
+    if(!full) throw new Error('DB 에서 글을 찾지 못했습니다');
+    openForm(full);
+  }catch(e){
+    console.error('본문 불러오기 실패:',e);
+    showToast('⚠ 본문을 불러오지 못했습니다: '+(e.message||e));
+  }
 }
 
 async function deletePost(id){
@@ -543,15 +627,17 @@ async function deletePost(id){
 }
 
 async function togglePublished(id){
-  const s=localStorage.getItem(STORAGE_KEY); let posts=[];
-  if(s){ try{ posts=JSON.parse(s); }catch(e){} }
-  const post=posts.find(p=>p.id===id);
+  const post=findPost(id);
   if(!post){ showToast('⚠ 게시물을 찾을 수 없습니다.'); return; }
   const next = !(post.published !== false);
   if(!next && !confirm('이 게시물을 비공개로 전환합니다.\n일반 방문자에게는 더 이상 보이지 않습니다. 계속할까요?')) return;
-  const updated = Object.assign({}, post, { published: next });
   try{
-    await upsertPost(updated);
+    // 목록에는 본문이 없으므로 upsert(행 전체 덮어쓰기)를 쓰면 본문이 지워진다. published 만 갱신.
+    const { error } = await window.getSupabaseClient()
+      .from('blog_posts')
+      .update({ published: next, updated_at: new Date().toISOString() })
+      .eq('id', id);
+    if(error) throw error;
     const all=await loadPosts();
     renderPostList(all); updateStats(all);
     showToast(next ? '🌐 공개로 전환되었습니다.' : '🔒 비공개로 전환되었습니다.');
@@ -559,12 +645,12 @@ async function togglePublished(id){
 }
 
 let toastTimer;
-function showToast(msg){
+function showToast(msg, ms){
   const el=document.getElementById('adminToast');
   el.textContent=msg;
   el.style.opacity='1'; el.style.transform='translateY(0)';
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(20px)'; },4000);
+  toastTimer=setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(20px)'; },ms||4000);
 }
 
 // ============================================================
