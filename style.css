@@ -2214,3 +2214,10 @@ html,body{background:var(--paper);min-height:100vh;}
 .ip-foot{margin-top:28px;text-align:center;font-size:12.5px;color:var(--ink-soft);}
 @media(max-width:900px){.ip-section{padding:110px 0;}.ip-grid{grid-template-columns:1fr;}}
 @media(max-width:560px){.ip-item{flex-direction:column;}.ip-item .cert-card{width:118px;}}
+
+/* ── 모바일 (인증·수상 스트립: 고정 상장 2종 나란히) ── */
+@media (max-width:640px){
+  .cert-strip{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px;}
+  .cert-strip .cert-fixed{flex:1 1 0;width:auto;max-width:188px;min-width:0;align-self:stretch;}
+  .cert-strip .cert-marquee{flex:1 1 100%;}
+}
