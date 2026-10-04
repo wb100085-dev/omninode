@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WLV8LFBR35"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WLV8LFBR35');
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="naver-site-verification" content="79eb2e777cb372b56c9dd1ea676e24f96edfbc06" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<title>OmniNode | Human Behavior Intelligence Lab</title>
+<meta name="description" content="OmniNode is a future-research company that explores human choice, market response and social acceptance with AI — simulating the context of human behavior with data and language models." />
+<link rel="canonical" href="https://www.omninode.kr/en/" />
+<link rel="alternate" hreflang="ko" href="https://www.omninode.kr/" />
+<link rel="alternate" hreflang="en" href="https://www.omninode.kr/en/" />
+<link rel="alternate" hreflang="x-default" href="https://www.omninode.kr/" />
+
+<!-- Open Graph — 카톡·스레드·페북·슬랙 링크 미리보기.
+     미리보기 박스(약 2:1)는 이미지를 cover로 잘라내므로, 로고 원본
+     (이미지/omninode.png, 1192x371 = 3.2:1)을 그대로 쓰면 좌우가 잘린다.
+     og:image는 1200x630(1.91:1) 불투명 카드 /og-image.png 로 고정할 것.
+     경로는 반드시 ASCII 절대 URL — 한글 폴더(이미지/)는 크롤러가 놓친다. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="OmniNode" />
+<meta property="og:url" content="https://www.omninode.kr/en/" />
+<meta property="og:title" content="OmniNode | Human Behavior Intelligence Lab" />
+<meta property="og:description" content="OmniNode is a future-research company that explores human choice, market response and social acceptance with AI — simulating the context of human behavior with data and language models." />
+<meta property="og:image" content="https://www.omninode.kr/og-image.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="OmniNode — AI Social Simulation Company" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="ko_KR" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="OmniNode | Human Behavior Intelligence Lab" />
+<meta name="twitter:description" content="OmniNode is a future-research company that explores human choice, market response and social acceptance with AI — simulating the context of human behavior with data and language models." />
+<meta name="twitter:image" content="https://www.omninode.kr/og-image.png" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/style.css" />
+<style>
+  /* 영문 전용 — 영어 단어가 한글보다 길어 기술 카드 제목(예: Representativeness)이 카드 밖으로 넘치는 것을 막는다 */
+  .tech-card .ko{hyphens:manual;-webkit-hyphens:manual;overflow-wrap:break-word;}
+</style>
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+<div class="scroll-prog" id="scrollProg"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/en/">
+      <img src="/이미지/omninode.png" class="logo" alt="OMNINODE" />
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#ss-why">ABOUT</a>
+      <a href="#ss-what">WHAT WE DO</a>
+      <a href="#ss-tech">TECHNOLOGY</a>
+      <a href="#ss-vision">VISION</a>
+      <a href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">SERVICE</a>
+      <a href="/blog.html">BLOG</a>
+      <a href="#ss-footer">CONTACT</a>
+    </div>
+    <div class="nav-cta">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button class="icon-btn mob-btn" id="hamburger" aria-label="Menu">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="btn btn-primary" href="#ss-footer">Contact us <span class="arrow">→</span></a>
+      <!-- 언어 전환 — 상단 맨 오른쪽. 영문 페이지는 /en/ 아래 -->
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <a href="/" lang="ko" hreflang="ko">Korean</a>
+        <a href="#" class="active" lang="en" aria-current="page">English</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="mob-drawer" id="mobDrawer">
+  <a href="#ss-why">ABOUT</a>
+  <a href="#ss-what">WHAT WE DO</a>
+  <a href="#ss-tech">TECHNOLOGY</a>
+  <a href="#ss-vision">VISION</a>
+  <a href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">SERVICE</a>
+  <a href="/blog.html">BLOG</a>
+  <a href="#ss-footer" class="mob-cta-link">Contact us →</a>
+</div>
+
+<!-- Keyboard hint -->
+<div class="kbd-hint" id="kbdHint">
+  <kbd>T</kbd> Toggle theme · <kbd>B</kbd> Blog
+</div>
+
+<!-- ============== HERO ============== -->
+<section class="hero hero-split" id="hero" data-screen-label="01 Hero">
+  <div class="hero-bg">
+    <div class="grid-bg"></div>
+    <canvas class="node-canvas" id="nodeCanvas"></canvas>
+    <div class="particles" id="particles"></div>
+  </div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <!-- LEFT: Text -->
+      <div class="hero-left">
+        <div class="hero-tag reveal"><span class="dot"></span><span>OMNINODE · Human Behavior Intelligence Lab</span></div>
+        <h1 class="hero-title reveal d1">
+          We build <span class="accent">AI</span><br/>
+          <span class="highlight-pen">that understands</span><br/>
+          <span class="accent">people</span> better.
+        </h1>
+        <p class="hero-sub reveal d2">
+          From market choices and social conflict to a single moment of hesitation, <br/>
+          OmniNode simulates the context of human behavior with data and language models.
+        </p>
+        <div class="hero-ctas reveal d3">
+          <a class="btn btn-primary" href="#ss-footer">Work with us <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="/en/socialtwin.html">Explore SocialTwin</a>
+        </div>
+        <p class="hero-def reveal d4">A future-research company exploring human choice, market response and social acceptance with AI</p>
+      </div>
+      <!-- RIGHT: Visual -->
+      <div class="hero-right reveal d2">
+        <div class="hero-visual-wrap">
+          <div class="hero-glow"></div>
+          <div class="hero-nodes" aria-hidden="true">
+            <svg viewBox="0 0 520 520" fill="none">
+              <g class="ng">
+              <g class="node-links" stroke="currentColor" stroke-width="1">
+                <line x1="260" y1="260" x2="120" y2="120"/>
+                <line x1="260" y1="260" x2="400" y2="110"/>
+                <line x1="260" y1="260" x2="430" y2="280"/>
+                <line x1="260" y1="260" x2="370" y2="420"/>
+                <line x1="260" y1="260" x2="150" y2="410"/>
+                <line x1="260" y1="260" x2="70" y2="270"/>
+                <line x1="120" y1="120" x2="400" y2="110"/>
+                <line x1="400" y1="110" x2="430" y2="280"/>
+                <line x1="430" y1="280" x2="370" y2="420"/>
+                <line x1="370" y1="420" x2="150" y2="410"/>
+                <line x1="150" y1="410" x2="70" y2="270"/>
+                <line x1="70" y1="270" x2="120" y2="120"/>
+                <line x1="120" y1="120" x2="190" y2="60" opacity=".5"/>
+                <line x1="400" y1="110" x2="330" y2="50" opacity=".5"/>
+                <line x1="430" y1="280" x2="490" y2="350" opacity=".5"/>
+                <line x1="150" y1="410" x2="80" y2="470" opacity=".5"/>
+              </g>
+              <g class="node-dots">
+                <circle class="nd nd-core" cx="260" cy="260" r="14"/>
+                <circle class="nd" cx="120" cy="120" r="9"/>
+                <circle class="nd" cx="400" cy="110" r="9"/>
+                <circle class="nd" cx="430" cy="280" r="9"/>
+                <circle class="nd" cx="370" cy="420" r="9"/>
+                <circle class="nd" cx="150" cy="410" r="9"/>
+                <circle class="nd" cx="70" cy="270" r="9"/>
+                <circle class="nd nd-sm" cx="190" cy="60" r="5"/>
+                <circle class="nd nd-sm" cx="330" cy="50" r="5"/>
+                <circle class="nd nd-sm" cx="490" cy="350" r="5"/>
+                <circle class="nd nd-sm" cx="80" cy="470" r="5"/>
+              </g>
+              </g>
+              <g class="node-rings" stroke="currentColor" fill="none">
+                <circle cx="260" cy="260" r="40" opacity=".35"/>
+                <circle cx="260" cy="260" r="80" opacity=".18"/>
+                <circle cx="260" cy="260" r="130" opacity=".08"/>
+              </g>
+            </svg>
+          </div>
+          <div class="hero-float-badge">
+            <span class="dot"></span>Human Behavior Simulation
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <span class="line"></span>
+  </div>
+</section>
+
+<!-- ============== WHY OMNINODE ============== -->
+<section class="vision-section" id="ss-why">
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">01 · ABOUT</span></div>
+    <h2 class="h-section reveal d1">Why understand<br/>human behavior?</h2>
+    <p class="lead reveal d2">Many failures happen not for lack of technology, but because we don't fully understand<br/>why people choose — and why they refuse. OmniNode closes that gap with AI simulation.</p>
+
+    <div class="papers" style="margin-top:72px;">
+      <article class="paper reveal d1" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">MARKET · 01</div>
+        <h4>Market</h4>
+        <p class="desc">We uncover why products people say they like never turn into purchases. You should see the real response before you launch.</p>
+        <span class="tag">MARKET RESPONSE</span>
+      </article>
+
+      <article class="paper reveal d2" data-cursor style="background:rgba(220,109,38,.08);border-color:rgba(220,109,38,.3);">
+        <div class="stars">▲ ▲</div>
+        <div class="ref">POLICY &amp; SOCIETY · 02 · CORE</div>
+        <h4>Policy · Society</h4>
+        <p class="desc">We read policy acceptance and social conflict in advance to reduce decision risk. Society's response should be checked before you act.</p>
+        <span class="tag">SOCIAL ACCEPTANCE</span>
+      </article>
+
+      <article class="paper reveal d3" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">HUMAN CONTEXT · 03</div>
+        <h4>People</h4>
+        <p class="desc">We interpret the context behind the numbers — hesitation, saving face, anxiety, expectation — and find the reasons data alone can't show.</p>
+        <span class="tag">BEHAVIORAL CONTEXT</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== WHAT WE DO ============== -->
+<section class="insight-section" id="ss-what">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">02 · What We Do</span></div>
+    <h2 class="h-section reveal d1">A pre-decision lab<br/>that cuts the cost of failure.</h2>
+    <p class="lead reveal d2">OmniNode tests market, policy and social responses in a virtual society first.<br/>Reality happens only once — a simulation can be run again as many times as you need.</p>
+
+    <div class="papers" style="margin-top:72px;">
+      <article class="paper reveal d1" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">SOCIAL SIMULATION · 01</div>
+        <h4>AI Social<br/>Simulation</h4>
+        <p class="desc">Experiment in a virtual society before acting in the real world. See market response, policy acceptance and shifts in public opinion in advance.</p>
+        <span class="tag">VIRTUAL SOCIETY</span>
+      </article>
+
+      <article class="paper reveal d2" data-cursor style="background:rgba(220,109,38,.08);border-color:rgba(220,109,38,.3);">
+        <div class="stars">▲ ▲</div>
+        <div class="ref">HUMAN BEHAVIOR INTELLIGENCE · 02 · CORE</div>
+        <h4>Human Behavior<br/>Intelligence</h4>
+        <p class="desc">We interpret people's choices and context with data — customer insight, citizen perception, decision drivers — to find the human reasons behind the numbers.</p>
+        <span class="tag">BEHAVIOR DATA</span>
+      </article>
+
+      <article class="paper reveal d3" data-cursor>
+        <div class="stars">▲</div>
+        <div class="ref">DECISION INTELLIGENCE · 03</div>
+        <h4>Decision<br/>Intelligence</h4>
+        <p class="desc">We provide the evidence that makes uncertain decisions safer, supporting early review of PMF, pricing, messaging and policy direction.</p>
+        <span class="tag">DECISION SUPPORT</span>
+      </article>
+    </div>
+
+    <div class="layer-flow reveal d2" aria-label="How a virtual society is built">
+      <span class="lf-step">Real society</span><span class="lf-arrow">→</span>
+      <span class="lf-step">Synthetic population</span><span class="lf-arrow">→</span>
+      <span class="lf-step">Virtual panel</span><span class="lf-arrow">→</span>
+      <span class="lf-step">Simulation</span><span class="lf-arrow">→</span>
+      <span class="lf-step lf-accent">Decision insight</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TECHNOLOGY & TRUST ============== -->
+<section class="tech" id="ss-tech">
+  <div class="wrap">
+    <div class="tech-head">
+      <div>
+        <div class="reveal eyebrow-w"><span class="eyebrow">03 · Technology &amp; Trust</span></div>
+        <h2 class="h-section reveal d1">Four pillars of a<br/>trustworthy virtual society.</h2>
+      </div>
+      <p class="lead reveal d2">Technology is the basis of trust. <br> OmniNode earns trust in its virtual society through <strong style="color:var(--orange);">representativeness · context · validation · quality control</strong>. <br>Our virtual population reaches 95% statistical consistency and over 90% agreement with human responses.</p>
+    </div>
+
+    <div class="tech-grid tg-4">
+      <div class="tech-card reveal d1" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <circle cx="32" cy="32" r="28"/>
+          <circle cx="32" cy="32" r="20"/>
+          <circle cx="32" cy="32" r="12"/>
+          <circle cx="32" cy="32" r="4" fill="currentColor"/>
+        </svg>
+        <div class="num">TRUST · 01</div>
+        <div class="ko">Representa&shy;tiveness</div>
+        <div class="en">CA-IPF</div>
+        <div class="quote">"A virtual society that mirrors the real population as closely as possible"</div>
+        <p class="body">A synthetic population that preserves the correlations between demographic axes recreates the structure of South Korea's real population. We run a nationwide simulated population of 50,000 people (1:1,000 scale).</p>
+        <div class="badge"><span class="dot"></span>#CA-IPF #SyntheticPopulation #StatisticsKorea</div>
+      </div>
+
+      <div class="tech-card reveal d2" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <circle cx="32" cy="22" r="10"/>
+          <path d="M14 52c0-10 8-16 18-16s18 6 18 16"/>
+          <path d="M46 18c4 1 7 4 8 8M18 18c-4 1-7 4-8 8" stroke-dasharray="2 2" opacity=".6"/>
+        </svg>
+        <div class="num">TRUST · 02</div>
+        <div class="ko">Context</div>
+        <div class="en">LLM Persona</div>
+        <div class="quote">"Virtual people with social conditions and everyday context"</div>
+        <p class="body">Beyond age, region and income, we use language models to build virtual people with everyday context, social conditions and values — designed to respond consistently with that context.</p>
+        <div class="badge"><span class="dot"></span>#LLM Persona #Memory Stream</div>
+      </div>
+
+      <div class="tech-card reveal d3" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <path d="M12 32l12 12 28-28"/>
+          <circle cx="32" cy="32" r="28" opacity=".4"/>
+        </svg>
+        <div class="num">TRUST · 03</div>
+        <div class="ko">Validation</div>
+        <div class="en">Validation</div>
+        <div class="quote">"Validated against real-world data"</div>
+        <p class="body">We validate the virtual population's responses against real human responses. <strong style="color:#fff;">94.5% distribution consistency, 89.5% rank consistency</strong></p>
+        <div class="badge"><span class="dot"></span>#MAE #DistributionFit #Spearman ρ #RankFit</div>
+      </div>
+
+      <div class="tech-card reveal d4" data-cursor>
+        <svg class="tech-viz" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--orange);">
+          <path d="M16 16h32v32H16z"/>
+          <path d="M22 22h20v20H22z" opacity=".7"/>
+          <path d="M28 28h8v8h-8z" opacity=".5"/>
+          <path d="M16 16l-6-6M48 16l6-6M16 48l-6 6M48 48l6 6"/>
+        </svg>
+        <div class="num">TRUST · 04</div>
+        <div class="ko">Quality control</div>
+        <div class="en">Quality Management</div>
+        <div class="quote">"Managing the quality of surveys and responses together"</div>
+        <p class="body">We continuously check that AI-generated surveys and virtual-panel responses can be trusted, managing instrument reliability and validity, response consistency, bias and variance.</p>
+        <div class="badge"><span class="dot"></span>#Reliability·Validity #BiasChecks</div>
+      </div>
+    </div>
+
+    <!-- 인증 & 수상: 좌측 수상 상장 2종 고정 + 나머지 인증서 무한 마퀴 -->
+    <div class="cert-block reveal">
+      <div class="cert-label">CERTIFICATIONS &amp; AWARDS</div>
+      <div class="cert-strip">
+        <figure class="cert-card cert-fixed" data-cursor>
+          <div class="cert-imgw"><img src="/이미지/certs/cert-award-thumb.jpg" data-full="/이미지/certs/cert-award.jpg" alt="Top Excellence Award certificate — 2026 Public Data &amp; AI Startup Competition" loading="lazy" /></div>
+          <figcaption>Top Excellence Award<span>2026 Public Data &amp; AI Startup Competition</span></figcaption>
+        </figure>
+        <figure class="cert-card cert-fixed" data-cursor>
+          <div class="cert-imgw"><img src="/이미지/certs/cert-award2-thumb.jpg" data-full="/이미지/certs/cert-award2.jpg" alt="Special Award certificate — 6th Daegu Women's Startup Star Competition" loading="lazy" /></div>
+          <figcaption>Special Award<span>6th Daegu Women's Startup Star Competition</span></figcaption>
+        </figure>
+        <div class="cert-marquee">
+          <div class="cert-track">
+            <div class="cert-group">
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-women-thumb.jpg" data-full="/이미지/certs/cert-women.jpg" alt="Women-owned Business Certificate" loading="lazy" /></div>
+                <figcaption>Women-owned Business Certificate<span>Daegu-Gyeongbuk Regional SMEs and Startups Administration</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-startup-thumb.jpg" data-full="/이미지/certs/cert-startup.jpg" alt="Startup Business Certificate" loading="lazy" /></div>
+                <figcaption>Startup Business Certificate<span>Daegu-Gyeongbuk Regional SMEs and Startups Administration</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-sme-thumb.jpg" data-full="/이미지/certs/cert-sme.jpg" alt="SME Certificate" loading="lazy" /></div>
+                <figcaption>SME Certificate<span>Ministry of SMEs and Startups</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-direct-thumb.jpg" data-full="/이미지/certs/cert-direct.jpg" alt="Direct Production Certificate" loading="lazy" /></div>
+                <figcaption>Direct Production Certificate<span>Korea SMEs and Startups Agency for Distribution</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-sw-thumb.jpg" data-full="/이미지/certs/cert-sw.jpg" alt="Software Business Registration Certificate" loading="lazy" /></div>
+                <figcaption>Software Business Certificate<span>Korea Artificial Intelligence &amp; Software Industry Association</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-copyright-thumb.jpg" data-full="/이미지/certs/cert-copyright.jpg" alt="Simulation Software Copyright Registration" loading="lazy" /></div>
+                <figcaption>Simulation Software Copyright Registration<span>Korea Copyright Commission</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-db-thumb.jpg" data-full="/이미지/certs/cert-db.jpg" alt="Virtual Population Database Producer Rights Registration" loading="lazy" /></div>
+                <figcaption>Virtual Population DB Producer Rights Registration<span>Korea Copyright Commission</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-data-thumb.jpg" data-full="/이미지/certs/cert-data.jpg" alt="Data Business Registration Certificate" loading="lazy" /></div>
+                <figcaption>Data Business Registration<span>Data analysis provider · Ministry of Science and ICT</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-mailorder-thumb.jpg" data-full="/이미지/certs/cert-mailorder.jpg" alt="Mail-order Business Registration" loading="lazy" /></div>
+                <figcaption>Mail-order Business Registration<span>Buk-gu District Office, Daegu</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-escrow-thumb.jpg" data-full="/이미지/certs/cert-escrow.jpg" alt="Escrow (Purchase Safety) Service Certificate" loading="lazy" /></div>
+                <figcaption>Escrow Service Certificate<span>KB Kookmin Bank Escrow</span></figcaption>
+              </figure>
+            </div>
+            <div class="cert-group" aria-hidden="true">
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-women-thumb.jpg" data-full="/이미지/certs/cert-women.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Women-owned Business Certificate<span>Daegu-Gyeongbuk Regional SMEs and Startups Administration</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-startup-thumb.jpg" data-full="/이미지/certs/cert-startup.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Startup Business Certificate<span>Daegu-Gyeongbuk Regional SMEs and Startups Administration</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-sme-thumb.jpg" data-full="/이미지/certs/cert-sme.jpg" alt="" loading="lazy" /></div>
+                <figcaption>SME Certificate<span>Ministry of SMEs and Startups</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-direct-thumb.jpg" data-full="/이미지/certs/cert-direct.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Direct Production Certificate<span>Korea SMEs and Startups Agency for Distribution</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-sw-thumb.jpg" data-full="/이미지/certs/cert-sw.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Software Business Certificate<span>Korea Artificial Intelligence &amp; Software Industry Association</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-copyright-thumb.jpg" data-full="/이미지/certs/cert-copyright.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Simulation Software Copyright Registration<span>Korea Copyright Commission</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-db-thumb.jpg" data-full="/이미지/certs/cert-db.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Virtual Population DB Producer Rights Registration<span>Korea Copyright Commission</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-data-thumb.jpg" data-full="/이미지/certs/cert-data.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Data Business Registration<span>Data analysis provider · Ministry of Science and ICT</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-mailorder-thumb.jpg" data-full="/이미지/certs/cert-mailorder.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Mail-order Business Registration<span>Buk-gu District Office, Daegu</span></figcaption>
+              </figure>
+              <figure class="cert-card">
+                <div class="cert-imgw"><img src="/이미지/certs/cert-escrow-thumb.jpg" data-full="/이미지/certs/cert-escrow.jpg" alt="" loading="lazy" /></div>
+                <figcaption>Escrow Service Certificate<span>KB Kookmin Bank Escrow</span></figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== VISION & PRINCIPLES ============== -->
+<section class="insight-section" id="ss-vision">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">04 · Vision &amp; Principles</span></div>
+    <h2 class="h-section reveal d1">Building decisions<br/>that AI and people make together.</h2>
+    <p class="lead reveal d2">Four principles that shape how OmniNode sees the relationship between AI and people.</p>
+
+    <div class="principles">
+      <article class="principle reveal d1" data-cursor>
+        <div class="p-num">PRINCIPLE · 01</div>
+        <h4>AI and people</h4>
+        <p>AI does not replace people. It is a tool that helps people ask deeper questions.</p>
+      </article>
+      <article class="principle reveal d2" data-cursor>
+        <div class="p-num">PRINCIPLE · 02</div>
+        <h4>Data and people</h4>
+        <p>Data is not a way to simplify people — it is the starting point for understanding their context more precisely.</p>
+      </article>
+      <article class="principle reveal d3" data-cursor>
+        <div class="p-num">PRINCIPLE · 03</div>
+        <h4>The role of simulation</h4>
+        <p>Simulation does not make real-world decisions for you. It is an advance experiment that lowers the cost of real-world failure.</p>
+      </article>
+      <article class="principle reveal d4" data-cursor>
+        <div class="p-num">PRINCIPLE · 04</div>
+        <h4>Social responsibility</h4>
+        <p>AI-based predictions must be verifiable, and used with respect for people and society.</p>
+      </article>
+    </div>
+
+    <div class="credentials reveal" style="margin-top:64px;">
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        Trademark filed · <strong style="color:var(--navy);margin-left:4px;">SocialTwin</strong>
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Patent pending
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+        Resident company, Daegu Center for Creative Economy &amp; Innovation
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7L9 18l-5-5"/></svg>
+        Certified women-owned business (public-sector direct contracts)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SOCIALTWIN ============== -->
+<section class="st-banner" id="ss-socialtwin">
+  <div class="wrap">
+    <div class="st-card reveal" data-cursor>
+      <div class="st-card-body">
+        <div class="st-label"><span class="dot"></span>05 · First Service</div>
+        <h2>OmniNode's first service:<br/>AI customer research, <span class="accent">SocialTwin</span></h2>
+        <p>SocialTwin is the first service to apply OmniNode's trustworthy virtual-society technology to customer research. It lets you review how products, policies and messages will land with a virtual panel before you act — and, for international businesses, how Korean consumers will respond before you enter the market. OmniNode will extend simulation to markets, policy, local communities and public decision-making.</p>
+      </div>
+      <div class="st-card-actions">
+        <a class="btn btn-primary" href="/en/socialtwin.html">Explore SocialTwin <span class="arrow">→</span></a>
+        <a class="btn btn-ghost st-ghost" href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">Try the free demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CONTACT CTA ============== -->
+<section class="idx-cta" id="ss-footer">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <div class="cta-grid">
+        <div>
+          <h2>Bring AI simulation to your<br/><span class="accent">market, policy and social decisions.</span></h2>
+          <p>SocialTwin adoption, PoC pilots, research and policy partnerships — the OmniNode team will design a collaboration plan with you.</p>
+          <div class="cta-meta">
+            <div class="item"><span class="l">EMAIL</span><span class="v">hys@omninode.kr</span></div>
+            <div class="item"><span class="l">RESPONSE</span><span class="v">Within 24 hours (business days)</span></div>
+          </div>
+        </div>
+        <form class="form" id="contactForm" action="https://formspree.io/f/xwvwokke" method="POST" style="position:relative;">
+          <!-- 영문 페이지에서 온 문의 — 담당자가 영어로 회신하도록 표시 -->
+          <input type="hidden" name="language" value="English" />
+          <div class="form-row">
+            <div class="field"><label for="f-name">Name</label><input id="f-name" type="text" name="name" placeholder="Jane Doe" required /></div>
+            <div class="field"><label for="f-company">Organization / Company</label><input id="f-company" type="text" name="company" placeholder="Your company" required /></div>
+          </div>
+          <div class="form-row">
+            <div class="field"><label for="f-email">Email</label><input id="f-email" type="email" name="email" placeholder="you@company.com" required /></div>
+            <div class="field"><label for="f-type">Collaboration type</label>
+              <select id="f-type" name="collaboration_type" required>
+                <option value="" disabled selected>Please select</option>
+                <option value="SocialTwin 도입 문의">SocialTwin adoption</option>
+                <option value="PoC · 파일럿 프로젝트">PoC / pilot project</option>
+                <option value="연구 · 정책 제휴">Research / policy partnership</option>
+                <option value="기타">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label for="f-msg">Message</label>
+            <textarea id="f-msg" name="message" placeholder="Tell us about your project or the hypothesis you'd like to test." rows="4"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit" id="contactSubmit" style="width:100%;justify-content:center;padding:14px;font-size:15px;" data-cursor>
+            Send message <span class="arrow">→</span>
+          </button>
+          <p class="form-note">By submitting, you agree to our <a href="/privacy.html" style="text-decoration:underline;">Privacy Policy (Korean)</a>.</p>
+          <div class="form-success" id="formSuccess">
+            <div style="text-align:center;">
+              <div class="check">✓</div>
+              <div style="margin-top:18px;font-weight:700;font-size:18px;color:var(--navy);">Message received</div>
+              <div style="margin-top:8px;font-size:14px;color:var(--ink-soft);">We'll reply within 24 hours on business days.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="/en/">
+            <img src="/이미지/omninode.png" class="logo" alt="OMNINODE" />
+          </a>
+          <p class="desc">A research company exploring human choice, market response and social acceptance with AI.</p>
+          <p class="biz-info">
+            <span class="biz-k">Company</span><span class="biz-v">Omninode Inc.</span><br/><span class="biz-k">CEO</span><span class="biz-v">Youngsoon Hwang</span><br/>
+            <span class="biz-k">Business reg. no.</span><span class="biz-v">366-86-04216</span><br/>
+            <span class="biz-k">Mail-order reg. no.</span><span class="biz-v">2026-Daegu Buk-gu-0639</span><br/>
+            <span class="biz-k">Address</span><span class="biz-v">(HQ) AX Startup Office, 4F, 51 Hoam-ro, Buk-gu, Daegu, Republic of Korea<br/>(R&amp;D Center) Room 410, Dongseo Cultural Center, 104 Myeongdeok-ro, Nam-gu, Daegu, Republic of Korea</span><br/>
+            T. 010-9969-0406<br/>
+            E. hys@omninode.kr / cwb@omninode.kr
+          </p>
+        </div>
+        <div>
+          <h5>COMPANY</h5>
+          <ul>
+            <li><a href="#ss-why">Why OmniNode</a></li>
+            <li><a href="#ss-what">What We Do</a></li>
+            <li><a href="#ss-tech">Technology &amp; Trust</a></li>
+            <li><a href="#ss-vision">Vision &amp; Principles</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>SERVICE</h5>
+          <ul>
+            <li><a href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">SocialTwin</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>RESOURCES</h5>
+          <ul>
+            <li><a href="#ss-footer">Contact</a></li>
+            <li><a href="/blog.html">Blog (Korean)</a></li>
+            <li><a href="/en/business-info.html">Business information</a></li>
+            <li><a href="/privacy.html">Privacy Policy (Korean)</a></li>
+            <li><a href="/terms.html">Terms of Use (Korean)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 OMNINODE Inc. All rights reserved.</div>
+        <div>Made with statistical rigor in Seoul.</div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<div class="toast-msg" id="contactToast">✓ Your message has been sent!</div>
+
+<!-- 인증서 라이트박스: 카드 클릭 시 고해상도 원본 확대 -->
+<div class="cert-lightbox" id="certLightbox" hidden>
+  <button type="button" class="cert-lb-close" id="certLbClose" aria-label="Close">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <figure class="cert-lb-figure">
+    <img id="certLbImg" src="" alt="" />
+    <figcaption id="certLbCap"></figcaption>
+  </figure>
+</div>
+
+<script src="/main.js"></script>
+<script>
+// ── Mobile menu ──────────────────────────────
+(function(){
+  const btn = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobDrawer');
+  if(!btn||!drawer) return;
+  btn.addEventListener('click', ()=> drawer.classList.toggle('open'));
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> drawer.classList.remove('open')));
+  document.addEventListener('click', e=>{
+    if(!drawer.contains(e.target) && !btn.contains(e.target)) drawer.classList.remove('open');
+  });
+})();
+
+// ── Vision card mouse glow ───────────────────
+document.querySelectorAll('.vision-card').forEach(card=>{
+  card.addEventListener('mousemove', e=>{
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', ((e.clientX-r.left)/r.width)*100+'%');
+    card.style.setProperty('--my', ((e.clientY-r.top)/r.height)*100+'%');
+  });
+});
+
+// ── Contact form (formspree) ─────────────────
+(function(){
+  const form = document.getElementById('contactForm');
+  const toast = document.getElementById('contactToast');
+  const success = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('contactSubmit');
+  if(!form) return;
+  form.addEventListener('submit', async e=>{
+    e.preventDefault();
+    const prev = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...'; submitBtn.disabled = true;
+    try{
+      const res = await fetch(form.action, {method:'POST', body:new FormData(form), headers:{Accept:'application/json'}});
+      if(res.ok){
+        success.classList.add('show');
+        setTimeout(()=>{ success.classList.remove('show'); form.reset(); }, 3500);
+      } else {
+        toast.textContent = '⚠ Failed to send. Please try again in a moment.';
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'),3500);
+      }
+    } catch {
+      toast.textContent = '⚠ Could not send because of a network error.';
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),3500);
+    } finally { submitBtn.textContent = prev; submitBtn.disabled = false; }
+  });
+
+  // live validate
+  form.querySelectorAll('input, select').forEach(inp=>{
+    const check = ()=>{
+      const f = inp.closest('.field'); if(!f) return;
+      let ok = false;
+      if(inp.type==='email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value);
+      else ok = inp.value.trim().length >= 2;
+      f.classList.toggle('valid', ok);
+    };
+    inp.addEventListener('input', check);
+  });
+})();
+
+</script>
+<script>
+// ── 인증서 라이트박스 ──────────────────────────
+(function(){
+  const lb = document.getElementById('certLightbox');
+  const lbImg = document.getElementById('certLbImg');
+  const lbCap = document.getElementById('certLbCap');
+  const closeBtn = document.getElementById('certLbClose');
+  if(!lb) return;
+
+  function open(card){
+    const img = card.querySelector('img');
+    const cap = card.querySelector('figcaption');
+    lbImg.src = img.dataset.full || img.src;
+    lbImg.alt = img.alt || '';
+    lbCap.innerHTML = cap ? cap.innerHTML : '';
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    lb.hidden = true;
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.cert-card').forEach(card=>{
+    card.addEventListener('click', ()=>open(card));
+  });
+  lb.addEventListener('click', e=>{ if(e.target === lb || e.target === lbImg) close(); });
+  closeBtn.addEventListener('click', close);
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && !lb.hidden) close(); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<title>SocialTwin — AI Customer Research Service | Omninode Inc.</title>
+<link rel="canonical" href="https://www.omninode.kr/en/socialtwin.html" />
+<link rel="alternate" hreflang="ko" href="https://www.omninode.kr/socialtwin-detail.html" />
+<link rel="alternate" hreflang="en" href="https://www.omninode.kr/en/socialtwin.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.omninode.kr/socialtwin-detail.html" />
+
+<!-- Open Graph — 카톡·스레드·페북·슬랙 링크 미리보기.
+     미리보기 박스(약 2:1)가 이미지를 cover로 잘라내므로 og:image는
+     1200x630(1.91:1) 카드 /og-image.png 로 고정. 절대 URL 필수. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="OmniNode" />
+<meta property="og:url" content="https://www.omninode.kr/en/socialtwin.html" />
+<meta property="og:title" content="SocialTwin — AI Customer Research Service | Omninode Inc." />
+<meta property="og:description" content="Faster, more accurate, more affordable — SocialTwin's AI virtual panel, built on Korean national statistics, simulates how Korean consumers will react before you launch. OmniNode's first service." />
+<meta property="og:image" content="https://www.omninode.kr/og-image.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="OmniNode — AI Social Simulation Company" />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SocialTwin — AI Customer Research Service | Omninode Inc." />
+<meta name="twitter:description" content="Faster, more accurate, more affordable — SocialTwin's AI virtual panel, built on Korean national statistics, simulates how Korean consumers will react before you launch. OmniNode's first service." />
+<meta name="twitter:image" content="https://www.omninode.kr/og-image.png" />
+<meta name="description" content="Faster, more accurate, more affordable — SocialTwin's AI virtual panel, built on Korean national statistics, simulates how Korean consumers will react before you launch. OmniNode's first service." />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+<div class="scroll-prog" id="scrollProg"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/en/">
+      <img src="/이미지/omninode.png" class="logo" alt="OMNINODE" />
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="/en/#ss-why">ABOUT</a>
+      <a href="/en/#ss-what">WHAT WE DO</a>
+      <a href="/en/#ss-tech">TECHNOLOGY</a>
+      <a href="/en/#ss-vision">VISION</a>
+      <a href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">SERVICE</a>
+      <a href="/blog.html">BLOG</a>
+      <a href="/en/#ss-footer">CONTACT</a>
+    </div>
+    <div class="nav-cta">
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button class="icon-btn mob-btn" id="hamburger" aria-label="Menu">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a class="btn btn-primary" href="/en/#ss-footer">Contact us <span class="arrow">→</span></a>
+      <!-- 언어 전환 — 상단 맨 오른쪽. 영문 페이지는 /en/ 아래 -->
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <a href="/socialtwin-detail.html" lang="ko" hreflang="ko">Korean</a>
+        <a href="#" class="active" lang="en" aria-current="page">English</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="mob-drawer" id="mobDrawer">
+  <a href="/en/#ss-why">ABOUT</a>
+  <a href="/en/#ss-what">WHAT WE DO</a>
+  <a href="/en/#ss-tech">TECHNOLOGY</a>
+  <a href="/en/#ss-vision">VISION</a>
+  <a href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">SERVICE</a>
+  <a href="/blog.html">BLOG</a>
+  <a href="/en/#ss-footer" class="mob-cta-link">Contact us →</a>
+</div>
+
+<!-- ============== HERO ============== -->
+<section class="blog-hero st-hero">
+  <div class="blog-hero-inner wrap">
+    <div class="blog-hero-left">
+      <p class="blog-hero-eye reveal">OMNINODE FIRST SERVICE · SocialTwin</p>
+      <h1 class="blog-hero-title reveal d1"><span class="st-word">Faster,</span> <span class="st-word">more accurate,</span> <span class="st-word">more affordable</span><br/>A new standard for consumer simulation</h1>
+      <p class="blog-hero-desc reveal d2">An AI virtual panel built on Korean national statistics simulates tens of thousands of respondents.<br/>Reality happens only once; a simulation can run tens of thousands of times — see how Korean consumers react before you launch.</p>
+      <div class="hero-ctas reveal d3">
+        <a class="btn btn-primary" href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">Try the free demo <span class="arrow">→</span></a>
+        <a class="btn btn-ghost st-hero-ghost" href="/en/#ss-footer">Talk to sales</a>
+      </div>
+      <div class="hero-stats reveal d4">
+        <div class="hero-stat"><div class="num">50<span class="sym">K</span></div><div class="lbl">Simulated virtual population</div></div>
+        <div class="hero-stat"><div class="num">95<span class="sym">%</span></div><div class="lbl">Statistical consistency (Spearman)</div></div>
+        <div class="hero-stat"><div class="num">95<span class="sym">%</span></div><div class="lbl">Agreement with human responses (SSR)</div></div>
+      </div>
+
+      <!-- 서비스 소개 영상 (영상 파일은 socialtwin.site CDN에서 로드) -->
+      <!-- 영문 페이지: socialtwin.site 영문 모드와 같은 영상 — 해외 기업 대상 '한국 진출 전 시장조사' 티저(37초) -->
+      <div class="st-video reveal d4">
+        <div class="st-video-frame">
+          <div class="st-video-bar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 7l5 3-5 3V7z"/></svg>
+            <span class="t">Korea market entry teaser</span>
+            <span class="dur">00:37</span>
+          </div>
+          <div class="st-video-body">
+            <video id="stIntroVideo" src="https://www.socialtwin.site/videos/teaser-en.mp4" poster="https://www.socialtwin.site/videos/teaser-en-poster.jpg" preload="none" playsinline></video>
+            <button type="button" class="st-video-play" id="stVideoPlay" aria-label="Play the SocialTwin Korea market entry teaser video" data-cursor>
+              <span class="pbtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
+              <span class="ptxt">Click to play</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TECHNOLOGY ============== -->
+<section class="tech" id="technology">
+  <div class="wrap">
+    <div class="tech-head">
+      <div>
+        <div class="reveal"><span class="eyebrow">01 · Market Testing</span></div>
+        <h2 class="h-section reveal d1">3 ways to test new<br/>products &amp; services</h2>
+      </div>
+      <p class="lead reveal d2">Cost, speed, accuracy. An AI virtual panel breaks through the three problems traditional surveys have never solved.</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card reveal d1">
+        <div class="num">01 · MARKET TESTING</div>
+        <p class="ko">Virtual market<br/>reaction research</p>
+        <p class="en">Market Reaction Simulation</p>
+        <blockquote class="quote">"See how tens of thousands of people react — before you actually launch"</blockquote>
+        <p class="body">AI panelists with the personas of your potential customers give you vivid, realistic feedback. Validate everything from product concepts to ad copy before you go to market.</p>
+        <div class="badge"><span class="dot"></span>PMF validation · Early marketability check</div>
+      </div>
+      <div class="tech-card reveal d2">
+        <div class="num">02 · PRICE &amp; DEMAND</div>
+        <p class="ko">Price acceptance &amp;<br/>purchase intent</p>
+        <p class="en">Price Sensitivity Analysis</p>
+        <blockquote class="quote">"Pinpoint the optimal price threshold and the point of maximum revenue"</blockquote>
+        <p class="body">AI simulation based on the PSM (Price Sensitivity Measurement) model scientifically calculates the optimal price range your customers are willing to pay.</p>
+        <div class="badge"><span class="dot"></span>PSM model · Revenue maximization</div>
+      </div>
+      <div class="tech-card reveal d3">
+        <div class="num">03 · PRODUCT-MARKET FIT</div>
+        <p class="ko">PMF validation &amp;<br/>pivot simulation</p>
+        <p class="en">Product-Market Fit Validation</p>
+        <blockquote class="quote">"Predict how your metrics will shift when you change strategy"</blockquote>
+        <p class="body">Quantify your product-market fit and simulate what happens when you adjust your strategy. Design a pivot that doesn't fail.</p>
+        <div class="badge"><span class="dot"></span>Spearman 90%+ · RSS methodology</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== USE CASES ============== -->
+<section class="biz-section" id="business">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="reveal eyebrow-w"><span class="eyebrow">02 · Use Cases</span></div>
+    <h2 class="h-section reveal d1">4 ways to<br/>validate a market.</h2>
+    <p class="lead reveal d2">From startups to government agencies, we deliver simulation solutions optimized for every decision-making context.</p>
+
+    <!-- 함께한 공공기관 로고 마퀴 — 두 벌을 이어 붙여 -50% 이동으로 무한 루프 -->
+    <div class="partner-marquee reveal d3" aria-label="Institutions we have worked with">
+      <div class="partner-clip">
+        <div class="partner-track">
+          <div class="partner-group">
+            <img src="/이미지/logos/dip.svg" alt="Daegu Digital Innovation Promotion Agency (DIP)" class="plh24" loading="lazy" />
+            <img src="/이미지/logos/kspo.svg" alt="Korea Sports Promotion Foundation (KSPO)" class="plh32" loading="lazy" />
+            <img src="/이미지/logos/daegu-ccei.png" alt="Daegu Center for Creative Economy &amp; Innovation" class="plh36" loading="lazy" />
+            <img src="/이미지/logos/daegu-tp.png" alt="Daegu Technopark" class="plh28" loading="lazy" />
+            <img src="/이미지/logos/kmedihub.png" alt="Daegu-Gyeongbuk Medical Innovation Foundation (K-MEDI hub)" class="plh40" loading="lazy" />
+            <img src="/이미지/logos/innopolis.svg" alt="Innopolis Foundation" class="plh36" loading="lazy" />
+          </div>
+          <div class="partner-group" aria-hidden="true">
+            <img src="/이미지/logos/dip.svg" alt="" class="plh24" loading="lazy" />
+            <img src="/이미지/logos/kspo.svg" alt="" class="plh32" loading="lazy" />
+            <img src="/이미지/logos/daegu-ccei.png" alt="" class="plh36" loading="lazy" />
+            <img src="/이미지/logos/daegu-tp.png" alt="" class="plh28" loading="lazy" />
+            <img src="/이미지/logos/kmedihub.png" alt="" class="plh40" loading="lazy" />
+            <img src="/이미지/logos/innopolis.svg" alt="" class="plh36" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="biz-grid">
+      <div class="biz-card reveal d1" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(8,12,20,0.72) 0%,rgba(8,12,20,0.08) 100%),url('/이미지/1. B2B.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">01 · B2B</div>
+          <div class="biz-title">Startups · SMEs</div>
+          <p class="biz-desc">Market reaction analysis before you commit budget<br/>PMF (Product-Market Fit) validation</p>
+          <a href="#technology" class="biz-link">View More →</a>
+        </div>
+      </div>
+
+      <div class="biz-card reveal d2" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(13,22,40,0.72) 0%,rgba(13,22,40,0.08) 100%),url('/이미지/2. B2G.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">02 · B2G</div>
+          <div class="biz-title">Startup Incubation <span class="biz-badge">Coming soon</span></div>
+          <p class="biz-desc">AI-based technical &amp; financial company diagnostics<br/>Automated performance management for all resident companies</p>
+          <a href="/service-coming-soon.html?service=corp" class="biz-link" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+
+      <div class="biz-card reveal d3" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(29,48,96,0.72) 0%,rgba(29,48,96,0.08) 100%),url('/이미지/3. B2G.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">03 · B2G</div>
+          <div class="biz-title">Local &amp; Central Government <span class="biz-badge">Coming soon</span></div>
+          <p class="biz-desc">Policy feasibility simulation in advance<br/>Regional cohort analysis &amp; reporting</p>
+          <a href="/service-coming-soon.html?service=policy" class="biz-link" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+
+      <div class="biz-card reveal d4" data-cursor>
+        <div class="biz-card-bg" style="background:linear-gradient(to top,rgba(180,70,20,0.45) 0%,rgba(220,109,38,0.0) 100%),url('/이미지/4. B2P.png') center/cover no-repeat;"></div>
+        <div class="biz-card-body">
+          <div class="biz-num">04 · B2P</div>
+          <div class="biz-title">Elections · Politics <span class="biz-badge wh">Coming soon</span></div>
+          <p class="biz-desc">Virtual voting probability simulation<br/>In-depth sentiment analysis by voter segment</p>
+          <a href="/service-coming-soon.html?service=election" class="biz-link" style="border-color:rgba(255,255,255,.3);" target="_blank" rel="noopener">View More →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PROCESS ============== -->
+<section class="how" id="process">
+  <div class="wrap">
+    <div class="how-head">
+      <div>
+        <div class="reveal"><span class="eyebrow">03 · Process</span></div>
+        <h2 class="h-section reveal d1">A 4-step process</h2>
+      </div>
+      <p class="lead reveal d2">From designing a virtual society to generating the report automatically — a fully automated AI market research pipeline.</p>
+    </div>
+    <div class="how-steps reveal" id="howSteps">
+      <div class="step">
+        <div class="pin">01</div>
+        <h4>Design a virtual society</h4>
+        <p class="d">Replicate the population structure using IPF and define your target cohort.</p>
+        <span class="tag">VIRTUAL SOCIETY</span>
+      </div>
+      <div class="step">
+        <div class="pin">02</div>
+        <h4>Generate the virtual panel</h4>
+        <p class="d">Instantly generate thousands to tens of thousands of digital-twin personas.</p>
+        <span class="tag">DIGITAL TWIN</span>
+      </div>
+      <div class="step">
+        <div class="pin">03</div>
+        <h4>Run the simulation</h4>
+        <p class="d">Repeat qualitative and quantitative surveys tens of thousands of times to secure statistical certainty.</p>
+        <span class="tag">SIMULATION × 10K</span>
+      </div>
+      <div class="step">
+        <div class="pin">04</div>
+        <h4>Auto-generate the report</h4>
+        <p class="d">Automatically produce a professional, LLM-powered consulting report.</p>
+        <span class="tag">AI REPORT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ABOUT OMNINODE ============== -->
+<section class="research" id="about">
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">04 · About OmniNode</span></div>
+    <h2 class="h-section reveal d1">AI innovation built on<br/>20 years of experience.</h2>
+    <p class="lead reveal d2">"Reality can't be replayed — but in a virtual world, you can run tens of thousands of scenarios in advance."</p>
+    <div class="papers">
+      <article class="paper reveal d1">
+        <div class="stars">▲</div>
+        <div class="ref">EXPERTISE · 01</div>
+        <h4>Expertise</h4>
+        <p class="desc">We analyze markets with proven methodologies built by a team of experts with 20 years of experience in R&amp;D, technology commercialization, and social research strategy.</p>
+        <span class="tag">20 years in the field</span>
+      </article>
+      <article class="paper reveal d2">
+        <div class="stars">▲ ▲</div>
+        <div class="ref">TRACK RECORD · 02 · CORE</div>
+        <h4>Proven track record</h4>
+        <p class="desc">In-depth marketability validation for 40+ public and private organizations. Our <strong style="color:#fff;">95% agreement rate with human responses</strong> demonstrates our reliability.</p>
+        <span class="tag">40+ companies validated</span>
+      </article>
+      <article class="paper reveal d3">
+        <div class="stars">▲</div>
+        <div class="ref">GLOBAL VISION · 03</div>
+        <h4>Global expansion</h4>
+        <p class="desc">Our vision reaches beyond a Korean digital twin to a global-scale risk simulator, expanding on internationally standard statistical methodologies.</p>
+        <span class="tag">Global risk simulator</span>
+      </article>
+    </div>
+    <div class="credentials reveal">
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        Trademark application filed · <strong style="color:var(--orange-soft);margin-left:4px;">SocialTwin</strong>
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        Patent application in progress
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Copyright registered · <strong style="color:var(--orange-soft);margin-left:4px;">Simulation software</strong>
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Database producer rights registered · <strong style="color:var(--orange-soft);margin-left:4px;">Virtual population DB</strong>
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"/></svg>
+        Resident company, Daegu Center for Creative Economy &amp; Innovation
+      </div>
+      <div class="cred">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7L9 18l-5-5"/></svg>
+        Certified women-owned business (public sole-source contracts)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== IP · 저작권 등록 ============== -->
+<!-- 문구 원칙: 주인공은 "국가통계 기반 초정밀 합성데이터"이고 등록증은 그 근거다.
+     "권리를 보유한 자산" 처럼 소유권을 앞세우면 홍보가 아니라 경고로 읽힌다.
+     또한 저작권·DB제작자권리 등록은 '권리 등록'이지 성능 심사·인증이 아니므로
+     "국가가 성능을 인정" 류의 표현은 쓰지 않는다. 등록증 기재사항만 쓴다. -->
+<section class="ip-section" id="ip">
+  <div class="wrap">
+    <div class="reveal"><span class="eyebrow">05 · Intellectual Property</span></div>
+    <h2 class="h-section reveal d1">Not people imagined by AI.<br/><span class="accent">South Korea, rebuilt from national statistics.</span></h2>
+    <p class="lead reveal d2">SocialTwin's virtual population is not a set of made-up AI profiles. It is high-precision synthetic data that reproduces the demographic, social and lifestyle structure of South Korea from official national statistics published by Statistics Korea and other public data sources. Both the database and the simulation software that runs it are registered with the Korea Copyright Commission.</p>
+
+    <div class="ip-grid">
+      <div class="ip-item reveal d1">
+        <figure class="cert-card">
+          <div class="cert-imgw"><img src="/이미지/certs/cert-db-thumb.jpg" data-full="/이미지/certs/cert-db.jpg" alt="Database producer rights registration certificate — Socialtwin Virtual Population Database (in Korean)" loading="lazy" /></div>
+          <figcaption>Virtual Population DB — Database Producer Rights Registration<span>Korea Copyright Commission</span></figcaption>
+        </figure>
+        <div class="ip-info">
+          <div class="ip-kicker">Database producer rights registration</div>
+          <div class="ip-title">Socialtwin Virtual Population Database</div>
+          <div class="ip-no">No. D-2026-000156</div>
+          <dl class="ip-dl">
+            <div><dt>Produced</dt><dd>2026.06.09</dd></div>
+            <div><dt>Registered</dt><dd>2026.09.03</dd></div>
+            <div><dt>Basis</dt><dd>Copyright Act, Art. 98</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="ip-item reveal d2">
+        <figure class="cert-card">
+          <div class="cert-imgw"><img src="/이미지/certs/cert-copyright-thumb.jpg" data-full="/이미지/certs/cert-copyright.jpg" alt="Copyright registration certificate — Socialtwin computer program (simulation software) (in Korean)" loading="lazy" /></div>
+          <figcaption>Simulation Software — Copyright Registration<span>Korea Copyright Commission</span></figcaption>
+        </figure>
+        <div class="ip-info">
+          <div class="ip-kicker">Copyright registration</div>
+          <div class="ip-title">Socialtwin Simulation Software</div>
+          <div class="ip-no">No. C-2026-042596</div>
+          <dl class="ip-dl">
+            <div><dt>Created</dt><dd>2026.08.20</dd></div>
+            <div><dt>Registered</dt><dd>2026.09.01</dd></div>
+            <div><dt>Basis</dt><dd>Copyright Act, Art. 53</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <p class="ip-foot reveal">Author &amp; database producer: Omninode Inc. · Issued by the Korea Copyright Commission &nbsp;·&nbsp; Click a certificate to view the original (in Korean).</p>
+  </div>
+</section>
+
+<!-- 인증서 라이트박스 (index.html 과 동일 구조 — 같은 style.css / 스크립트 패턴 사용) -->
+<div class="cert-lightbox" id="certLightbox" hidden>
+  <button type="button" class="cert-lb-close" id="certLbClose" aria-label="Close">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <figure class="cert-lb-figure">
+    <img id="certLbImg" src="" alt="" />
+    <figcaption id="certLbCap"></figcaption>
+  </figure>
+</div>
+
+<!-- ============== CTA ============== -->
+<section class="idx-cta st-cta">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <div class="cta-grid">
+        <div>
+          <h2>Without a single wrong decision,<br/><span class="accent">win your market.</span></h2>
+          <p>Try the SocialTwin demo — available in English, with reports in English — and remove market-entry risk before you commit. The OmniNode team will design use-case scenarios tailored to your domain.</p>
+          <div class="cta-meta">
+            <div class="item"><span class="l">SERVICE</span><span class="v">SocialTwin B2B</span></div>
+            <div class="item"><span class="l">EMAIL</span><span class="v">hys@omninode.kr</span></div>
+            <div class="item"><span class="l">RESPONSE</span><span class="v">Within 1 business day</span></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:center;gap:16px;position:relative;z-index:1;">
+          <a class="btn btn-primary" href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener" style="justify-content:center;">Try the free demo <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="/en/#ss-footer" style="justify-content:center;border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.8);">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <a class="brand" href="/en/">
+          <img src="/이미지/omninode.png" class="logo" alt="OMNINODE" />
+        </a>
+        <p class="desc">A research company exploring human choice, market response and social acceptance with AI.</p>
+        <p class="biz-info">
+          <span class="biz-k">Company</span><span class="biz-v">Omninode Inc.</span><br/><span class="biz-k">CEO</span><span class="biz-v">Youngsoon Hwang</span><br/>
+          <span class="biz-k">Business reg. no.</span><span class="biz-v">366-86-04216</span><br/>
+          <span class="biz-k">Address</span><span class="biz-v">(HQ) AX Startup Office, 4F, 51 Hoam-ro, Buk-gu, Daegu, Republic of Korea<br/>(R&amp;D Center) Room 410, Dongseo Cultural Center, 104 Myeongdeok-ro, Nam-gu, Daegu, Republic of Korea</span><br/>
+          T. 010-9969-0406<br/>
+          E. hys@omninode.kr / cwb@omninode.kr
+        </p>
+      </div>
+      <div>
+        <h5>COMPANY</h5>
+        <ul>
+          <li><a href="/en/#ss-why">Why OmniNode</a></li>
+          <li><a href="/en/#ss-what">What We Do</a></li>
+          <li><a href="/en/#ss-tech">Technology &amp; Trust</a></li>
+          <li><a href="/en/#ss-vision">Vision &amp; Principles</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>SERVICE</h5>
+        <ul>
+          <li><a href="https://www.socialtwin.site/?lang=en" target="_blank" rel="noopener">SocialTwin</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>RESOURCES</h5>
+        <ul>
+          <li><a href="/en/#ss-footer">Contact</a></li>
+          <li><a href="/blog.html">Blog (Korean)</a></li>
+          <li><a href="/en/business-info.html">Business information</a></li>
+          <li><a href="/privacy.html">Privacy Policy (Korean)</a></li>
+          <li><a href="/terms.html">Terms of Use (Korean)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 OMNINODE Inc. All rights reserved.</div>
+      <div>Made with statistical rigor in Seoul.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="/main.js"></script>
+<script>
+/* 소개 영상: 클릭 전에는 포스터만 보여주고, 재생 시작 시 네이티브 컨트롤로 전환 */
+(function(){
+  var v = document.getElementById('stIntroVideo');
+  var btn = document.getElementById('stVideoPlay');
+  if(!v || !btn) return;
+  btn.addEventListener('click', function(){
+    btn.style.display = 'none';
+    v.controls = true;
+    v.play();
+  });
+  v.addEventListener('ended', function(){
+    v.controls = false;
+    btn.style.display = '';
+  });
+})();
+</script>
+<script>
+// ── 인증서 라이트박스 ──────────────────────────
+(function(){
+  const lb = document.getElementById('certLightbox');
+  const lbImg = document.getElementById('certLbImg');
+  const lbCap = document.getElementById('certLbCap');
+  const closeBtn = document.getElementById('certLbClose');
+  if(!lb) return;
+
+  function open(card){
+    const img = card.querySelector('img');
+    const cap = card.querySelector('figcaption');
+    lbImg.src = img.dataset.full || img.src;
+    lbImg.alt = img.alt || '';
+    lbCap.innerHTML = cap ? cap.innerHTML : '';
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    lb.hidden = true;
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.cert-card').forEach(card=>{
+    card.addEventListener('click', ()=>open(card));
+  });
+  lb.addEventListener('click', e=>{ if(e.target === lb || e.target === lbImg) close(); });
+  closeBtn.addEventListener('click', close);
+  document.addEventListener('keydown', e=>{ if(e.key === 'Escape' && !lb.hidden) close(); });
+})();
+</script>
+</body>
+</html>

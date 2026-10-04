@@ -739,7 +739,8 @@
   /* 라벨/값 2열 정렬 — 라벨 고정폭으로 값 시작점을 맞춘다. 값(.biz-v)은 inline-block 이라
      주소의 (본사)/(연구소) 두 줄도 값 영역 안에서 같은 위치에 정렬된다. */
   .footer .biz-info .biz-k{width:122px;vertical-align:top;white-space:nowrap;}
-  .footer .biz-info .biz-v{margin-right:0;vertical-align:top;}
+  /* max-width — 영문 주소처럼 긴 값이 라벨 아래로 떨어지지 않고 라벨 옆에서 줄바꿈되게 (라벨 122 + 간격 10) */
+  .footer .biz-info .biz-v{margin-right:0;vertical-align:top;max-width:calc(100% - 132px);}
 
   /* legal pages (개인정보처리방침, 이용약관, 사업자정보) */
   .legal-page{padding:140px 0 80px;background:var(--paper);min-height:100vh;}
@@ -2220,4 +2221,34 @@ html,body{background:var(--paper);min-height:100vh;}
   .cert-strip{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:14px;}
   .cert-strip .cert-fixed{flex:1 1 0;width:auto;max-width:188px;min-width:0;align-self:stretch;}
   .cert-strip .cert-marquee{flex:1 1 100%;}
+}
+
+/* ── 언어 전환 (Korean / English) — 상단 내비 맨 오른쪽 ──
+   한국어 페이지는 루트, 영문 페이지는 /en/ 아래 별도 정적 HTML 이다.
+   버튼은 링크라서 JS 없이 동작하고, 각 페이지가 자기 짝 페이지 주소를 직접 가리킨다. */
+.lang-toggle{
+  display:inline-flex;align-items:center;gap:2px;padding:3px;
+  border:1px solid var(--line-strong);border-radius:999px;flex:0 0 auto;
+}
+.lang-toggle a{
+  font-size:12px;font-weight:600;line-height:1;padding:7px 11px;border-radius:999px;
+  color:var(--ink-soft);transition:color .2s,background .2s;white-space:nowrap;
+}
+.lang-toggle a:hover{color:var(--navy);}
+.lang-toggle a.active{background:var(--navy);color:var(--paper);pointer-events:none;}
+[data-theme="dark"] .lang-toggle a{color:var(--ink);}
+[data-theme="dark"] .lang-toggle a.active{color:var(--paper);}
+/* 데스크톱 — 토글을 내비 맨 오른쪽(화면 끝)에 absolute 로 두어 문의하기 버튼이 원래 자리를 지키게 한다.
+   .wrap(최대 1240px) 바깥 여백이 토글보다 넓은 화면(≥ 약 1526px)은 기본 여백 그대로이고,
+   그보다 좁으면 겹치지 않을 만큼만 컨테이너 오른쪽을 비운다(100vw 의 스크롤바 폭까지 감안해 175px).
+   메뉴·버튼·토글이 한 줄에 다 들어가지 않는 1199px 이하는 햄버거 메뉴로 접고, 토글은 버튼 줄 맨 끝에 둔다. */
+@media(min-width:1200px){
+  .nav .nav-inner{position:static;padding-right:max(32px, min(175px, calc(175px - (100vw - 1240px) / 2)));}
+  .nav .lang-toggle{position:absolute;right:20px;top:50%;transform:translateY(-50%);}
+}
+@media(max-width:1199px){.mob-btn{display:grid;}.nav-links{display:none!important;}}
+/* 좁은 화면 — 문의하기 버튼보다 언어 전환을 남긴다 */
+@media(max-width:640px){
+  .nav-cta .btn-primary{display:none;}
+  .lang-toggle a{padding:6px 9px;font-size:11px;}
 }
